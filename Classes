@@ -1,10 +1,13 @@
 1. Vartotojas. Pagrindas įvairių pareigų įmonės darbuotojų klasėms.
-2. Darbuotojas. Paprasto vartotojo, kuris gali peržiūrėti savo ir dalį kolegų informacijos
-3. Manager. Darbuotojų tvarkytojas, turi dalį admino teisių. Gali sudaryti komandas, keisti darbuotojų darbo laikus. Taip pat gali keisti projektų parametrus (pvz. padidinti projektui reikalingų testuotojų kiekį).
-4. Admin. Įmonės vadovo lygis, gali pridėti, išimti darbuotojus iš sistemos, pridėti ir naikinti projektus.
-5. Projektas (komanda). Turi tam tikrą kiekį skirtingų rolių ir kiekvienai iš jų reikia kažkiek darbuotojų. Projektui gali būti priskiriami žmonės automatiškai.
-6. Filtruoklis. Pagalbinė klasė, reikalinga darbuotojų lentelės rodymo keitimui. Turi funkcijas rodyti tik tam tikros rolės, laisvus, atostogaujančius ar kelis projektus turinčius darbuotojus.
+2. Projektas (komanda). Turi tam tikrą kiekį skirtingų rolių ir kiekvienai iš jų reikia kažkiek darbuotojų. Projektui gali būti priskiriami žmonės automatiškai.
+3. Filtruoklis. Pagalbinė klasė, reikalinga darbuotojų lentelės rodymo keitimui. Turi funkcijas rodyti tik tam tikros rolės, laisvus, atostogaujančius ar kelis projektus turinčius darbuotojus.
+4. Kontroleris. Sąsaja tarp UI ir duomenų bazės bei profilių (galimai).
 
 Keli atvejai:
 a) Turėti universalią vartotojų klasę, kurios teises į informaciją ir metodus apriboja sąsajos: darbuotojas, manager, admin.
 b) Turėti kelias skirtingas klases, kurios paveldi vartotojo klasės. Priėjimas prie metodų nulemiamas pereinant nuo įsijungimo lango prie sistemos. Pavyzdžiui: padaromi kai kurie mygtukai nematomi, eilutė informacijos keitimui nepaspaudžiama, keli tabai nematomi.
+
+Atmestos dėl praktinių sumėtimų klasės:
+1. Darbuotojas. Paprasto vartotojo, kuris gali peržiūrėti savo ir dalį kolegų informacijos
+2. Manager. Darbuotojų tvarkytojas, turi dalį admino teisių. Gali sudaryti komandas, keisti darbuotojų darbo laikus. Taip pat gali keisti projektų parametrus (pvz. padidinti projektui reikalingų testuotojų kiekį).
+3. Admin. Įmonės vadovo lygis, gali pridėti, išimti darbuotojus iš sistemos, pridėti ir naikinti projektus.
