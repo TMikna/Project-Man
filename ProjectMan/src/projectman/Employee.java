@@ -22,7 +22,7 @@ public class Employee {
     private String password;            // I think it's OK here, we dont't need much safety now
     private String position;            // Or Occupation
     private double hourlyRate;          // Money, earned per hour
-    private double dailyHours;          // Average working time every day. TODO later might change in custom every day input
+    private double dailyHours;          // Average working time every day. //TODO later might change in custom every day input
     private double workedHours = 0; 
     //TODO find best data type
     private String[] Teams = new String[FIVE];
@@ -31,7 +31,7 @@ public class Employee {
 
     
 //================================================================================
-// Accessors
+// Accessors                                                   @author Tomas.Mikna   
 //================================================================================
     public String getName() 
     {
