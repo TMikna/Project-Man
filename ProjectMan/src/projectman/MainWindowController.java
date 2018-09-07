@@ -18,7 +18,7 @@ import javafx.scene.control.TableView;
  *
  * @author manfr
  */
-public class FXMLDocumentController implements Initializable {
+public class MainWindowController implements Initializable {
     
     @FXML
     private TableView<Employee> timeTable;

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="projectman.FXMLDocumentController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectman.MainWindowController">
   <tabs>
     <Tab text="Untitled Tab 1">
       <content>
@@ -30,8 +30,7 @@
                      <children>
                         <ChoiceBox fx:id="teamChoiceBox" layoutX="7.0" layoutY="48.0" prefHeight="25.0" prefWidth="100.0" />
                         <Label layoutX="29.0" layoutY="25.0" text="Komandos" />
-                        <Button fx:id="addTeamMember" layoutX="19.0" layoutY="224.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="77.0" text="Pridėti" />
-                        <Button fx:id="deleteTeamMember" layoutX="19.0" layoutY="266.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="77.0" text="Išmesti" />
+                        <Button fx:id="addTeamMember" layoutX="19.0" layoutY="224.0" mnemonicParsing="false" onAction="#TeamMemberWindowInitializer" prefHeight="29.0" prefWidth="77.0" text="Pridėti" />
                         <Label layoutX="29.0" layoutY="200.0" text="Personalas" />
                      </children>
                   </Pane>
