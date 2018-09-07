@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectman.LoginController">
+   <children>
+      <TextField fx:id="auth_User" layoutX="90.0" layoutY="45.0" />
+      <PasswordField fx:id="auth_Password" layoutX="90.0" layoutY="95.0" />
+      <Label layoutX="30.0" layoutY="50.0" text="Username" />
+      <Label layoutX="30.0" layoutY="100.0" text="Password" />
+      <Button layoutX="90.0" layoutY="150.0" mnemonicParsing="false" onAction="#auth_Verify" text="Log In" />
+      <Button layoutX="187.0" layoutY="150.0" mnemonicParsing="false" onAction="#auth_Cancel" text="Cancel" />
+   </children>
+</Pane>
