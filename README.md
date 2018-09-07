@@ -1,2 +1,2 @@
 # Project-Man
-Colleges time management program,
+Colleges time management system
