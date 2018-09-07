@@ -10,5 +10,5 @@ package projectman;
  * @author manfr
  */
 public class Employee {
-    
+    String Role;
 }
