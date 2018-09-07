@@ -11,4 +11,6 @@ package projectman;
  */
 public class Employee {
     
+    private String Name;
+    private String LastName;
 }
