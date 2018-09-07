@@ -1,0 +1,6 @@
+1. Vartotojas. Pagrindas įvairių pareigų įmonės darbuotojų klasėms.
+2. Darbuotojas. Paprasto vartotojo, kuris gali peržiūrėti savo ir dalį kolegų informacijos
+3. Manager. Darbuotojų tvarkytojas, turi dalį admino teisių. Gali sudaryti komandas, keisti darbuotojų darbo laikus. Taip pat gali keisti projektų parametrus (pvz. padidinti projektui reikalingų testuotojų kiekį).
+4. Admin. Įmonės vadovo lygis, gali pridėti, išimti darbuotojus iš sistemos, pridėti ir naikinti projektus.
+5. Projektas (komanda). Turi tam tikrą kiekį skirtingų rolių ir kiekvienai iš jų reikia kažkiek darbuotojų. Projektui gali būti priskiriami žmonės automatiškai.
+6. Filtruoklis. Pagalbinė klasė, reikalinga darbuotojų lentelės rodymo keitimui.
