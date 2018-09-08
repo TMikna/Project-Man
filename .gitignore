@@ -1,5 +1,5 @@
 *
-!ProjectMan/src/projectman
+!ProjectMan/src/projectman/**
 !.gitignore
 !Classes
 !"Kas prie ko dirba"
