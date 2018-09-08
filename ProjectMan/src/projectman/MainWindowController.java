@@ -23,7 +23,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private TableView<Employee> timeTable;
     @FXML
-    private Button addTeamMember, deleteTeamMember;
+    private Button addTeamMember;
     
     @FXML
     public void TeamMemberWindowInitializer()

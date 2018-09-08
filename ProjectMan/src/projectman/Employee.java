@@ -7,6 +7,7 @@ package projectman;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -16,8 +17,8 @@ public class Employee {
     
     private static final int FIVE = 5; // Can't find better name
     
-    private String Name;
-    private String LastName;
+    private SimpleStringProperty Name;       //Pakeiciau duomenu tipa, kad butu lengviau padaryt edittable lentele
+    private SimpleStringProperty LastName;   // @manfr
     private String ID;                  // Unique!
     private String password;            // I think it's OK here, we dont't need much safety now
     private String position;            // Or Occupation
@@ -33,24 +34,24 @@ public class Employee {
 //================================================================================
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
-    public String getName() 
+    public SimpleStringProperty getName() 
     {
         return Name;
     }
 
     public void setName(String Name) 
     {
-        this.Name = Name;
+        this.Name.set(Name);
     }
 
-    public String getLastName() 
+    public SimpleStringProperty getLastName() 
     {
         return LastName;
     }
 
     public void setLastName(String LastName) 
     {
-        this.LastName = LastName;
+        this.LastName.set(LastName);
     }
 
     public String getID() 
