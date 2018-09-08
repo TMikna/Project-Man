@@ -17,8 +17,8 @@ public class Employee {
     
     private static final int FIVE = 5; // Can't find better name
     
-    private SimpleStringProperty Name;       //Pakeiciau duomenu tipa, kad butu lengviau padaryt edittable lentele
-    private SimpleStringProperty LastName;   // @manfr
+    private String Name;
+    private String LastName;
     private String ID;                  // Unique!
     private String password;            // I think it's OK here, we dont't need much safety now
     private String position;            // Or Occupation
@@ -34,31 +34,26 @@ public class Employee {
 //================================================================================
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
-    public Employee(String ID, String LastName, String Name)
-    {
-        this.ID = ID;
-        this.Name = new SimpleStringProperty(Name);
-        this.LastName = new SimpleStringProperty(LastName);
-    }
+
     
     public String getName() 
     {
-        return Name.get();
+        return Name;
     }
 
     public void setName(String Name) 
     {
-        this.Name.set(Name);
+        this.Name = Name;
     }
 
     public String getLastName() 
     {
-        return LastName.get();
+        return LastName;
     }
 
     public void setLastName(String LastName) 
     {
-        this.LastName.set(LastName);
+        this.LastName = LastName;
     }
 
     public String getID() 

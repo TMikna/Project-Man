@@ -29,16 +29,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class MainWindowController implements Initializable {
     
     @FXML
-    private TableView<Employee> timeTable;
+    private TableView<TableItemEmployee> timeTable;
     @FXML
-    private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
+    private TableColumn<TableItemEmployee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
     private Button addTeamMember;
     @FXML
     private MenuButton teamMenuButton;
     
     List<Team> teams;
-    public ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
+    public ObservableList<TableItemEmployee> tableInfo = FXCollections.observableArrayList();
+
     
     @FXML
     public void TeamMemberWindowInitializer(ActionEvent e)
@@ -49,11 +50,12 @@ public class MainWindowController implements Initializable {
     @FXML
     public void TeamSetupWindowInitializer(ActionEvent e)
     {
-         tableInfo.add(new Employee("12345678", "Tomas", "Mikna"));
-        tableInfo.add(new Employee("54621123", "Manfredas", "Šiurkus"));
-        tableInfo.add(new Employee("78954632", "Vilius", "Minkevicius"));
-        tableInfo.add(new Employee("87845163", "Edvinas", "Šmita"));
-        tableInfo.add(new Employee("74451567", "Teodoras", "Šaulys"));
+        //Testavimui skirti duomenys
+        tableInfo.add(new TableItemEmployee("12345678", "Tomas", "Mikna", "Programmer", "Available", "40"));  
+        tableInfo.add(new TableItemEmployee("54621123", "Manfredas", "Šiurkus", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("78954632", "Vilius", "Minkevicius", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("87845163", "Edvinas", "Šmita", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("74451567", "Teodoras", "Šaulys", "Programmer", "Available", "40"));
         timeTable.setItems(tableInfo);
         timeTable.refresh();
     }
@@ -69,8 +71,8 @@ public class MainWindowController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
-        hourColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        accessColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+        hourColumn.setCellValueFactory(new PropertyValueFactory<>("Hours"));
+        accessColumn.setCellValueFactory(new PropertyValueFactory<>("Availability"));
     }    
     
     
