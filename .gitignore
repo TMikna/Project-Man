@@ -1,4 +1,6 @@
-*.idea
-*out
-/ProjectMan/build/
-/ProjectMan/dist/
+*
+!ProjectMan/src/projectman
+!.gitignore
+!Classes
+!"Kas prie ko dirba"
+!"Main goals"
