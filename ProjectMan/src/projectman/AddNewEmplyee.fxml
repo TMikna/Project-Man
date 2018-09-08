@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="621.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="projectman.AddNewEmplyeeController">
+   <children>
+      <Button layoutX="130.0" layoutY="444.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="369.0" layoutY="441.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="119.0" text="Add Employee" />
+      <Label layoutX="67.0" layoutY="72.0" text="Vardas" />
+      <TextField layoutX="345.0" layoutY="67.0" />
+      <Label layoutX="220.0" layoutY="14.0" text="Pridėti naują darbuotoją" />
+      <TextField layoutX="345.0" layoutY="122.0" />
+      <TextField layoutX="345.0" layoutY="282.0" />
+      <Label layoutX="67.0" layoutY="127.0" text="Pavardė" />
+      <Label layoutX="67.0" layoutY="183.0" text="Pargeigų tipas" />
+      <Label layoutX="69.0" layoutY="287.0" text="Laikinas darbuotojo slaptažodis" />
+      <TextField layoutX="345.0" layoutY="236.0" promptText="Naudotojo ID" />
+      <Button layoutX="68.0" layoutY="236.0" mnemonicParsing="false" text="Generuoti ID" />
+      <ChoiceBox layoutX="345.0" layoutY="178.0" prefHeight="31.0" prefWidth="187.0" />
+      <Label layoutX="67.0" layoutY="337.0" text="Etatas" />
+      <TextField layoutX="345.0" layoutY="332.0" promptText="valandos per savaitę" />
+      <Label layoutX="67.0" layoutY="392.0" text="Valandinis atlyginimas" />
+      <TextField layoutX="345.0" layoutY="387.0" promptText="valandos per savaitę" />
+   </children>
+</AnchorPane>
