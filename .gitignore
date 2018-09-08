@@ -1,1 +1,4 @@
 *.idea
+*out
+/ProjectMan/build/
+/ProjectMan/dist/
