@@ -12,15 +12,13 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="timeTable" layoutX="113.0" prefHeight="370.0" prefWidth="487.0">
+                  <TableView fx:id="timeTable" editable="true" layoutX="113.0" prefHeight="370.0" prefWidth="487.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
+                      <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Vardas" />
+                        <TableColumn fx:id="lastNameColumn" prefWidth="79.0" text="Pavarde" />
+                        <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Pareigos" />
+                        <TableColumn fx:id="hourColumn" prefWidth="75.0" text="Valandos" />
+                        <TableColumn fx:id="accessColumn" prefWidth="102.0" text="Prieinamumas" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -28,18 +26,18 @@
                   </TableView>
                   <Pane prefHeight="371.0" prefWidth="115.0">
                      <children>
-                        <ChoiceBox fx:id="teamChoiceBox" layoutX="7.0" layoutY="48.0" prefHeight="25.0" prefWidth="100.0" />
-                        <Label layoutX="29.0" layoutY="25.0" text="Komandos" />
                         <Button fx:id="addTeamMember" layoutX="19.0" layoutY="224.0" mnemonicParsing="false" onAction="#TeamMemberWindowInitializer" prefHeight="29.0" prefWidth="77.0" text="Pridėti" />
                         <Label layoutX="29.0" layoutY="200.0" text="Personalas" />
+                        <Button fx:id="addTeam" layoutX="13.0" layoutY="52.0" mnemonicParsing="false" onAction="#TeamSetupWindowInitializer" text="Sukurti Nauja" />
+                        <MenuButton fx:id="teamMenuButton" layoutX="9.0" layoutY="20.0" mnemonicParsing="false" onAction="#ShowTableInfo" prefHeight="25.0" prefWidth="97.0" text="Komandos">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                            <MenuItem mnemonicParsing="false" text="Action 2" />
+                          </items>
+                        </MenuButton>
                      </children>
                   </Pane>
                </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab text="Untitled Tab 2">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </Tab>
   </tabs>

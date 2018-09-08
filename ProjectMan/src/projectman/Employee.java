@@ -34,9 +34,16 @@ public class Employee {
 //================================================================================
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
-    public SimpleStringProperty getName() 
+    public Employee(String ID, String LastName, String Name)
     {
-        return Name;
+        this.ID = ID;
+        this.Name = new SimpleStringProperty(Name);
+        this.LastName = new SimpleStringProperty(LastName);
+    }
+    
+    public String getName() 
+    {
+        return Name.get();
     }
 
     public void setName(String Name) 
@@ -44,9 +51,9 @@ public class Employee {
         this.Name.set(Name);
     }
 
-    public SimpleStringProperty getLastName() 
+    public String getLastName() 
     {
-        return LastName;
+        return LastName.get();
     }
 
     public void setLastName(String LastName) 
