@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import backend.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +24,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  *
@@ -55,14 +58,19 @@ public class MainWindowController implements Initializable {
     public void TeamMemberWindowInitializer(ActionEvent e)
     {
         FXMLLoader loader = null;
+        Window mainWindow = addTeamMember.getScene().getWindow();
         try
         {
             loader = new FXMLLoader(getClass().getResource("AddNewEmployee.fxml"));
             Parent root = loader.load();
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("Enter employee details");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.showAndWait();     //TODO: make the main window in the background inaccessible
+            Stage newEmployeeWindowStage = new Stage();
+            newEmployeeWindowStage.setTitle("Enter employee details");
+            newEmployeeWindowStage.setScene(new Scene(root));
+            
+            newEmployeeWindowStage.initModality(Modality.WINDOW_MODAL);
+            newEmployeeWindowStage.initOwner(mainWindow);
+            
+            newEmployeeWindowStage.showAndWait();     //TODO: make the main window in the background inaccessible
         } catch (IOException ex)
         {
             ex.printStackTrace();
@@ -70,7 +78,9 @@ public class MainWindowController implements Initializable {
         
         if (loader != null && loader.getController() != null)
         {
-            System.out.println(((AddNewEmployeeController)loader.getController()).returnEmployee());     //get generated employee object through this ((AddNewEmployeeController)loader.getController()).returnEmployee()
+            AddNewEmployeeController newEmployeeController = loader.getController();
+            Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
+            System.out.println(createdEmployee);
         }
     }
     

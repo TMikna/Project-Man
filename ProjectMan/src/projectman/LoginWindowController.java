@@ -1,5 +1,6 @@
 package projectman;
 
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,13 +29,15 @@ public class LoginWindowController
 			{
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
 				Parent root = loader.load();	//sukuria nauja langa is nurodyto FXML
-				Stage primaryStage = new Stage();
-				primaryStage.setScene(new Scene(root));
+				Stage mainWindowStage = new Stage();
+				mainWindowStage.setScene(new Scene(root));
 				
-				((MainWindowController)loader.getController()).setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
-				primaryStage.setTitle("Welcome, admin!");
+				MainWindowController controller = loader.getController();	//instance of the main window controller (currently primary controller)
+				controller.setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
 				
-				primaryStage.show();
+				mainWindowStage.setTitle("Welcome, admin!");
+				
+				mainWindowStage.show();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
