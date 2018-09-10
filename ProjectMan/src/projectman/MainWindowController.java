@@ -5,22 +5,25 @@
  */
 package projectman;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  *
@@ -39,12 +42,36 @@ public class MainWindowController implements Initializable {
     
     List<Team> teams;
     public ObservableList<TableItemEmployee> tableInfo = FXCollections.observableArrayList();
+    
+    
+    private String loggedInUserRights;
+    public void setLoggedInUserRights(String loggedInUserRights)  //TODO: use this to enable or disable features
+    {
+        this.loggedInUserRights = loggedInUserRights;
+    }
 
     
     @FXML
     public void TeamMemberWindowInitializer(ActionEvent e)
     {
+        FXMLLoader loader = null;
+        try
+        {
+            loader = new FXMLLoader(getClass().getResource("AddNewEmployee.fxml"));
+            Parent root = loader.load();
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("Enter employee details");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.showAndWait();     //TODO: make the main window in the background inaccessible
+        } catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
         
+        if (loader != null && loader.getController() != null)
+        {
+            System.out.println(((AddNewEmployeeController)loader.getController()).returnEmployee());     //get generated employee object through this ((AddNewEmployeeController)loader.getController()).returnEmployee()
+        }
     }
     
     @FXML

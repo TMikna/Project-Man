@@ -32,6 +32,30 @@ public class Employee {
     //TODO implement and use this if will be spare time in later steps
     private double workedHoursThisMonth = 0;
 
+    public Employee(String name,
+                    String lastName,
+                    String id,
+                    String password,
+                    String position,
+                    double hourlyRate,
+                    double dailyHours,
+                    String privileges)
+    {
+        this.Name = name;
+        this.LastName = lastName;
+        this.ID = id;
+        this.password = password;
+        this.position = position;
+        this.hourlyRate = hourlyRate;
+        this.dailyHours = dailyHours;
+        this.privileges = privileges;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "Name: " + Name + "; surname: " + LastName + "; ID: " + ID + "; password: " + password + "; position: " + position + "; hourly: " + hourlyRate + "; hrs/day: " + dailyHours + "; worked: " + workedHours + "; privileges: " + privileges + ".";
+    }
     
 //================================================================================
 // Accessors                                                   @author Tomas.Mikna   

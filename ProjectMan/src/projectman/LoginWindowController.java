@@ -26,10 +26,14 @@ public class LoginWindowController
 			
 			try
 			{
-				Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));	//sukuria nauja langa is nurodyto FXML
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+				Parent root = loader.load();	//sukuria nauja langa is nurodyto FXML
 				Stage primaryStage = new Stage();
-				primaryStage.setTitle("Welcome, admin!");
 				primaryStage.setScene(new Scene(root));
+				
+				((MainWindowController)loader.getController()).setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
+				primaryStage.setTitle("Welcome, admin!");
+				
 				primaryStage.show();
 			} catch (IOException e)
 			{
