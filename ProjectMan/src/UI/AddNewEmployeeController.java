@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectman;
+package UI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import backend.Employee;
+import backend.datatypes.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;

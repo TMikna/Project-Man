@@ -3,7 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/projectman/Employee.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/server/DatabaseConnection.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/UI/LoginWindowController.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/UI/MainWindowController.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/server/TeamsAmdEmployessStaysHere.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/UI/AddNewEmployeeController.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/logic/NoName.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/UI/Controller.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/datatypes/TableItemEmployee.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/projectman/ProjectMan.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/datatypes/Team.java</file>
+            <file>file:/C:/Users/TM/Documents/GitHub/Project-Man/ProjectMan/src/backend/datatypes/Employee.java</file>
         </group>
     </open-files>
 </project-private>

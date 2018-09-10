@@ -1,4 +1,4 @@
-package projectman;
+package UI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
