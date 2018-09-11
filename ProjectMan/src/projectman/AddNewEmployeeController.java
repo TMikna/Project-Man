@@ -75,7 +75,6 @@ public class AddNewEmployeeController implements Initializable {
                 }
             });
         };
-    
         addEmptyStringCheckerOnFocusLost.accept(nameField);
         addEmptyStringCheckerOnFocusLost.accept(surnameField);
         addEmptyStringCheckerOnFocusLost.accept(passwordField);

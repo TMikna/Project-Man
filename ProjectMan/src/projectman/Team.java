@@ -6,6 +6,7 @@
 package projectman;
 
 import backend.Employee;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,10 @@ import java.util.List;
  * @author manfr
  */
 class Team {
-    List<Employee> teamPersonel;
+    String Name;
+    int capacity;
+    
+    List<Employee> teamPersonel = new ArrayList();
     
     public Team(List<Employee> chosenPeople)
     {

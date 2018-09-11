@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import backend.Employee;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import sun.security.ssl.Debug;
 
 /**
  *
@@ -35,16 +37,17 @@ import javafx.stage.Window;
 public class MainWindowController implements Initializable {
     
     @FXML
-    private TableView<TableItemEmployee> timeTable;
+    private TableView<Employee> timeTable;
     @FXML
-    private TableColumn<TableItemEmployee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
+    private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
     private Button addTeamMember;
     @FXML
     private MenuButton teamMenuButton;
     
-    List<Team> teams;
-    public ObservableList<TableItemEmployee> tableInfo = FXCollections.observableArrayList();
+    List<Team> teams = new ArrayList();
+    List<Employee> employees = new ArrayList();
+    public ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
     
     
     private String loggedInUserRights;
@@ -63,14 +66,34 @@ public class MainWindowController implements Initializable {
     @FXML
     public void TeamSetupWindowInitializer(ActionEvent e)
     {
-        //Testavimui skirti duomenys
-        tableInfo.add(new TableItemEmployee("12345678", "Tomas", "Mikna", "Programmer", "Available", "40"));  
-        tableInfo.add(new TableItemEmployee("54621123", "Manfredas", "Šiurkus", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("78954632", "Vilius", "Minkevicius", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("87845163", "Edvinas", "Šmita", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("74451567", "Teodoras", "Šaulys", "Programmer", "Available", "40"));
+        FXMLLoader loader = null;
+        Window mainWindow = addTeamMember.getScene().getWindow();
+        try
+        {
+            loader = new FXMLLoader(getClass().getResource("TeamCreationWindow.fxml"));
+            Parent root = loader.load();
+            if (loader != null && loader.getController() != null)
+            {
+            TeamCreationWindowController newTeamCreationWindowController = loader.getController();
+            newTeamCreationWindowController.setAllEmployees(employees);
+            }
+            Stage TeamCreationWindowStage = new Stage();
+            TeamCreationWindowStage.setTitle("Create new team");
+            TeamCreationWindowStage.setScene(new Scene(root));
+            
+            TeamCreationWindowStage.initModality(Modality.WINDOW_MODAL);
+            TeamCreationWindowStage.initOwner(mainWindow);
+            
+            TeamCreationWindowStage.showAndWait();     //TODO: make the main window in the background inaccessible
+        } catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        /*//Testavimui skirti duomenys
+        tableInfo.addAll(employees);
         timeTable.setItems(tableInfo);
-        timeTable.refresh();
+        timeTable.refresh();*/
     }
     
     @FXML
@@ -94,13 +117,15 @@ public class MainWindowController implements Initializable {
         {
             ex.printStackTrace();
         }
-        
         if (loader != null && loader.getController() != null)
         {
             AddNewEmployeeController newEmployeeController = loader.getController();
             Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
+            
+            employees.add(createdEmployee);
             System.out.println(createdEmployee);
         }
+        
     }
     
     @Override

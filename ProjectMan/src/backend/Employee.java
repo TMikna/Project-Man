@@ -27,6 +27,8 @@ public class Employee {
     private double workedHours = 0; 
     private String privileges;
     
+    private List<String> personalTeams = new ArrayList();
+    private List<String> workHoursInTeams = new ArrayList();
     //TODO find best data type
     private String[] Teams = new String[FIVE];
     //TODO implement and use this if will be spare time in later steps
