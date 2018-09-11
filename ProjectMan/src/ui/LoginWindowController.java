@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +12,17 @@ import java.io.IOException;
 
 public class LoginWindowController
 {
+    
+    private MainWindowController main;
+    @FXML
+    MainWindowController mainWin;
 	@FXML
 	TextField auth_User;
 	@FXML
 	PasswordField auth_Password;
 	
 	@FXML
+    
 	public void auth_Verify()
 	{
 		if(true)//"admin".equals(auth_User.getText()) && "admin".equals(auth_Password.getText()))
@@ -40,6 +45,8 @@ public class LoginWindowController
 				e.printStackTrace();
 			}
 		}
+    mainWin.init(this);
+
 	}
 	
 	@FXML
@@ -47,4 +54,9 @@ public class LoginWindowController
 	{
 		((Stage)(auth_User.getScene().getWindow())).close();
 	}
+    
+    public void init (MainWindowController main)
+    {
+        this.main=main;
+    }
 }

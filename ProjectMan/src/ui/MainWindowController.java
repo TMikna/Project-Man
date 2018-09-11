@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package ui;
 import backend.datatypes.Team;
 
 
@@ -33,6 +33,9 @@ import backend.datatypes.TableItemEmployee;
  * @author manfr
  */
 public class MainWindowController implements Initializable {
+    
+    private LoginWindowController main;
+
     
     @FXML
     private TableView<TableItemEmployee> timeTable;
@@ -104,6 +107,11 @@ public class MainWindowController implements Initializable {
         hourColumn.setCellValueFactory(new PropertyValueFactory<>("Hours"));
         accessColumn.setCellValueFactory(new PropertyValueFactory<>("Availability"));
     }    
+    
+    public void init (LoginWindowController main)
+    {
+        this.main=main;
+    }
     
     
 }
