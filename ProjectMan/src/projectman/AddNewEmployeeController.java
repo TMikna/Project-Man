@@ -38,8 +38,9 @@ public class AddNewEmployeeController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        positionChoice.setItems(FXCollections.observableList(List.of("sysadmin", "programmer", "tester", "QnA", "manager")));
+        positionChoice.setItems(FXCollections.observableArrayList("sysadmin","programmer","tester","QnA","manager"));
         // TODO
+       
         
         Consumer<TextField> addEmptyStringCheckerOnFocusLost = field -> {
             field.focusedProperty().addListener((arg, oldVal, newVal) -> {

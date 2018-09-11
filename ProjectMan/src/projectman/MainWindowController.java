@@ -57,6 +57,25 @@ public class MainWindowController implements Initializable {
     @FXML
     public void TeamMemberWindowInitializer(ActionEvent e)
     {
+        
+    }
+    
+    @FXML
+    public void TeamSetupWindowInitializer(ActionEvent e)
+    {
+        //Testavimui skirti duomenys
+        tableInfo.add(new TableItemEmployee("12345678", "Tomas", "Mikna", "Programmer", "Available", "40"));  
+        tableInfo.add(new TableItemEmployee("54621123", "Manfredas", "Šiurkus", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("78954632", "Vilius", "Minkevicius", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("87845163", "Edvinas", "Šmita", "Programmer", "Available", "40"));
+        tableInfo.add(new TableItemEmployee("74451567", "Teodoras", "Šaulys", "Programmer", "Available", "40"));
+        timeTable.setItems(tableInfo);
+        timeTable.refresh();
+    }
+    
+    @FXML
+    public void AddNewWindowInitializer(ActionEvent e)
+    {
         FXMLLoader loader = null;
         Window mainWindow = addTeamMember.getScene().getWindow();
         try
@@ -82,25 +101,6 @@ public class MainWindowController implements Initializable {
             Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
             System.out.println(createdEmployee);
         }
-    }
-    
-    @FXML
-    public void TeamSetupWindowInitializer(ActionEvent e)
-    {
-        //Testavimui skirti duomenys
-        tableInfo.add(new TableItemEmployee("12345678", "Tomas", "Mikna", "Programmer", "Available", "40"));  
-        tableInfo.add(new TableItemEmployee("54621123", "Manfredas", "Šiurkus", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("78954632", "Vilius", "Minkevicius", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("87845163", "Edvinas", "Šmita", "Programmer", "Available", "40"));
-        tableInfo.add(new TableItemEmployee("74451567", "Teodoras", "Šaulys", "Programmer", "Available", "40"));
-        timeTable.setItems(tableInfo);
-        timeTable.refresh();
-    }
-    
-    @FXML
-    public void ShowTableInfo(ActionEvent e)
-    {
-       
     }
     
     @Override
