@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author TM
  */
-public class TeamsAmdEmployessStaysHere {
+//TODO: CONSIDER how to do: Static or usuall class?
 public class Data {
     // TODO: move lists to Data
     private static List<Team> teams = new ArrayList();
