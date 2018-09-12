@@ -74,8 +74,8 @@ public class MainWindowController implements Initializable {
             Parent root = loader.load();
             if (loader != null && loader.getController() != null)
             {
-            TeamCreationWindowController newTeamCreationWindowController = loader.getController();
-            newTeamCreationWindowController.setAllEmployees(employees);
+                TeamCreationWindowController newTeamCreationWindowController = loader.getController();
+                newTeamCreationWindowController.setAllEmployees(employees);
             }
             Stage TeamCreationWindowStage = new Stage();
             TeamCreationWindowStage.setTitle("Create new team");
@@ -89,11 +89,11 @@ public class MainWindowController implements Initializable {
         {
             ex.printStackTrace();
         }
-        
-        /*//Testavimui skirti duomenys
-        tableInfo.addAll(employees);
-        timeTable.setItems(tableInfo);
-        timeTable.refresh();*/
+        if (loader != null && loader.getController() != null)
+        {
+            TeamCreationWindowController newTeamCreationWindowController = loader.getController();
+            teams.add(newTeamCreationWindowController.getTeam());
+        }
     }
     
     @FXML
@@ -121,8 +121,8 @@ public class MainWindowController implements Initializable {
         {
             AddNewEmployeeController newEmployeeController = loader.getController();
             Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
-            
-            employees.add(createdEmployee);
+            if(createdEmployee != null)
+                employees.add(createdEmployee);
             System.out.println(createdEmployee);
         }
         

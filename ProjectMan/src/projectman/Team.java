@@ -19,7 +19,7 @@ class Team {
     
     List<Employee> teamPersonel = new ArrayList();
     
-    public Team(List<Employee> chosenPeople)
+    public Team(List<Employee> chosenPeople, String Name)
     {
         for(Employee e : chosenPeople)
             teamPersonel.add(e);
