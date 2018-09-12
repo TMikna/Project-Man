@@ -47,7 +47,6 @@ public class LoginWindowController
 				e.printStackTrace();
 			}
 		}
-    mainWin.init(this);
 
 	}
 	

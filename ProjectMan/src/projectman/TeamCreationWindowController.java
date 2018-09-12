@@ -5,7 +5,7 @@
  */
 package projectman;
 
-import backend.Employee;
+import backend.datatypes.Employee;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
