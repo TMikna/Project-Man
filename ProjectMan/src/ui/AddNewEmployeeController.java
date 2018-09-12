@@ -8,15 +8,10 @@ package ui;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
-
-<<<<<<< HEAD:ProjectMan/src/ui/AddNewEmployeeController.java
 import backend.datatypes.Employee;
-=======
-import backend.Employee;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
->>>>>>> master:ProjectMan/src/projectman/AddNewEmployeeController.java
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
