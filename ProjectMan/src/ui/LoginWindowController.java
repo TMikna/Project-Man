@@ -33,15 +33,13 @@ public class LoginWindowController
 			{
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
 				Parent root = loader.load();	//sukuria nauja langa is nurodyto FXML
-				Stage mainWindowStage = new Stage();
-				mainWindowStage.setScene(new Scene(root));
+				Stage primaryStage = new Stage();
+				primaryStage.setScene(new Scene(root));
 				
-				MainWindowController controller = loader.getController();	//instance of the main window controller (currently primary controller)
-				controller.setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
+				((MainWindowController)loader.getController()).setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
+				primaryStage.setTitle("Welcome, admin!");
 				
-				mainWindowStage.setTitle("Welcome, admin!");
-				
-				mainWindowStage.show();
+				primaryStage.show();
 			} catch (IOException e)
 			{
 				e.printStackTrace();

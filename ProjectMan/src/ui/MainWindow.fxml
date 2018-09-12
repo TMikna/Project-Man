@@ -6,17 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<<<<<<< HEAD:ProjectMan/src/ui/MainWindow.fxml
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainWindowController">
-=======
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="739.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectman.MainWindowController">
->>>>>>> master:ProjectMan/src/projectman/MainWindow.fxml
   <tabs>
     <Tab text="Untitled Tab 1">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="timeTable" editable="true" layoutX="137.0" layoutY="-2.0" prefHeight="404.0" prefWidth="602.0">
+                  <TableView fx:id="timeTable" editable="true" layoutX="113.0" prefHeight="370.0" prefWidth="487.0">
                     <columns>
                       <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Vardas" />
                         <TableColumn fx:id="lastNameColumn" prefWidth="79.0" text="Pavarde" />
@@ -28,22 +24,17 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Pane prefHeight="400.0" prefWidth="138.0">
+                  <Pane prefHeight="371.0" prefWidth="115.0">
                      <children>
-                        <Button fx:id="addTeamMember" layoutX="31.0" layoutY="293.0" mnemonicParsing="false" onAction="#TeamMemberWindowInitializer" prefHeight="29.0" prefWidth="77.0" text="Pridėti" />
-                        <Label layoutX="41.0" layoutY="268.0" text="Personalas" />
-                        <Button fx:id="addTeam" layoutX="25.0" layoutY="230.0" mnemonicParsing="false" onAction="#TeamSetupWindowInitializer" text="Sukurti Nauja" />
-                        <MenuButton fx:id="teamMenuButton" layoutX="20.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Komandos">
+                        <Button fx:id="addTeamMember" layoutX="19.0" layoutY="224.0" mnemonicParsing="false" onAction="#TeamMemberWindowInitializer" prefHeight="29.0" prefWidth="77.0" text="Pridėti" />
+                        <Label layoutX="29.0" layoutY="200.0" text="Personalas" />
+                        <Button fx:id="addTeam" layoutX="13.0" layoutY="52.0" mnemonicParsing="false" onAction="#TeamSetupWindowInitializer" text="Sukurti Nauja" />
+                        <MenuButton fx:id="teamMenuButton" layoutX="9.0" layoutY="20.0" mnemonicParsing="false" onAction="#ShowTableInfo" prefHeight="25.0" prefWidth="97.0" text="Komandos">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Action 1" />
                             <MenuItem mnemonicParsing="false" text="Action 2" />
                           </items>
                         </MenuButton>
-                        <Pane prefHeight="168.0" prefWidth="137.0" style="-fx-border-color: black;">
-                           <children>
-                              <Button fx:id="addNewWorker" layoutX="23.0" layoutY="59.0" mnemonicParsing="false" onAction="#AddNewWindowInitializer" prefHeight="51.0" prefWidth="92.0" text="Sukurti darbuotoją" textAlignment="CENTER" wrapText="true" />
-                           </children>
-                        </Pane>
                      </children>
                   </Pane>
                </children></AnchorPane>
