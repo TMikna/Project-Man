@@ -8,22 +8,22 @@
 
 <AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AddNewEmployeeController">
    <children>
-      <Button layoutX="130.0" layoutY="444.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="369.0" layoutY="441.0" mnemonicParsing="false" onAction="#onAddAttempt" prefHeight="38.0" prefWidth="119.0" text="Add Employee" />
+      <Label layoutX="220.0" layoutY="14.0" text="Pridėti naują darbuotoją" />
       <Label layoutX="67.0" layoutY="72.0" text="Vardas" />
       <TextField fx:id="nameField" layoutX="345.0" layoutY="67.0" />
-      <Label layoutX="220.0" layoutY="14.0" text="Pridėti naują darbuotoją" />
-      <TextField fx:id="surnameField" layoutX="345.0" layoutY="122.0" />
-      <TextField fx:id="passwordField" layoutX="345.0" layoutY="282.0" />
       <Label layoutX="67.0" layoutY="127.0" text="Pavardė" />
+      <TextField fx:id="surnameField" layoutX="345.0" layoutY="122.0" />
       <Label layoutX="67.0" layoutY="183.0" text="Pargeigų tipas" />
-      <Label layoutX="69.0" layoutY="287.0" text="Laikinas darbuotojo slaptažodis" />
-      <TextField fx:id="idField" layoutX="345.0" layoutY="236.0" promptText="Naudotojo ID" />
-      <Button layoutX="68.0" layoutY="236.0" mnemonicParsing="false" text="Generuoti ID" />
       <ChoiceBox fx:id="positionChoice" layoutX="345.0" layoutY="178.0" prefHeight="31.0" prefWidth="187.0" />
+      <Button layoutX="68.0" layoutY="236.0" mnemonicParsing="false" onAction="#onGenerateID" text="Generuoti ID" />
+      <TextField fx:id="idField" editable="false" layoutX="345.0" layoutY="236.0" promptText="Naudotojo ID" />
+      <Label layoutX="69.0" layoutY="287.0" text="Laikinas darbuotojo slaptažodis" />
+      <TextField fx:id="passwordField" layoutX="345.0" layoutY="282.0" />
       <Label layoutX="67.0" layoutY="337.0" text="Etatas" />
       <TextField fx:id="postField" layoutX="345.0" layoutY="332.0" promptText="valandos per savaitę" />
       <Label layoutX="67.0" layoutY="392.0" text="Valandinis atlyginimas" />
       <TextField fx:id="wageField" layoutX="345.0" layoutY="387.0" promptText="valandos per savaitę" />
+      <Button layoutX="369.0" layoutY="441.0" mnemonicParsing="false" onAction="#onAddAttempt" prefHeight="38.0" prefWidth="119.0" text="Add Employee" />
+      <Button layoutX="130.0" layoutY="444.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
    </children>
 </AnchorPane>
