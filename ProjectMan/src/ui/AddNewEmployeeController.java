@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import backend.logic.Statics;
 
 /**
  * FXML Controller class
@@ -84,7 +85,7 @@ public class AddNewEmployeeController implements Initializable {
     @FXML
     private void onGenerateID()
     {
-        idField.setText(Integer.toString(new Random().nextInt()));  //TODO: generate actually unique ID
+        idField.setText(Statics.generateID());  //TODO: generate actually unique ID
     }
     
     @FXML
@@ -116,6 +117,7 @@ public class AddNewEmployeeController implements Initializable {
     private void onCancel()
     {
         //maybe check if the user entered some data and prompt the exit
+        //TODO: refactor to navigate back to MainWindow
         this.employee = null;
         ((Stage)nameField.getScene().getWindow()).close();
     }

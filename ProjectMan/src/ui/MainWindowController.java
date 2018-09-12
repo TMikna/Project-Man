@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 
 import backend.datatypes.Employee;
 import backend.datatypes.Team;
+import backend.logic.Logic;
+import backend.server.Data;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import projectman.TeamCreationWindowController;
 import sun.security.ssl.Debug;
 
 /**
@@ -128,9 +129,8 @@ public class MainWindowController implements Initializable {
             employees.add(createdEmployee);
             System.out.println(createdEmployee);
         }
-        
     }
-    
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
