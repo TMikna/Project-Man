@@ -62,7 +62,7 @@ public class MainWindowController implements Initializable {
             Stage primaryStage = new Stage();
             primaryStage.setTitle("Enter employee details");
             primaryStage.setScene(new Scene(root));
-            primaryStage.showAndWait();     //TODO: make the main window in the background inaccessible
+            primaryStage.showAndWait();     //TODO: make the main window in the background inaccessible 
         } catch (IOException ex)
         {
             ex.printStackTrace();
