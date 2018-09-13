@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/backend/Employee.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/LoginWindowController.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/Team.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/TeamCreationWindowController.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/ProjectMan.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/TeamCreationWindow.fxml</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/AddNewEmployeeController.java</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/MainWindow.fxml</file>
-            <file>file:/C:/Users/manfr/OneDrive/Documents/GitHub/Project-Man/ProjectMan/src/projectman/MainWindowController.java</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/src/ui/fxml/MainWindow.fxml</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/src/ui/controllers/TeamCreationWindowController.java</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/src/projectman/ProjectMan.java</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/src/ui/fxml/TeamCreationWindow.fxml</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/src/ui/controllers/MainWindowController.java</file>
+            <file>file:/D:/GitHub/Project-Man/ProjectMan/nbproject/build-impl.xml</file>
         </group>
     </open-files>
 </project-private>

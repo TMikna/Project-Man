@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectman;
+package ui.controllers;
 
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
-
-import backend.Employee;
+import backend.datatypes.Employee;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import backend.logic.Statics;
 
 /**
  * FXML Controller class
@@ -32,6 +32,7 @@ public class AddNewEmployeeController implements Initializable {
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
     
     private Employee employee = null;
+    private MainWindowController mainController;
 
     /**
      * Initializes the controller class.
@@ -85,7 +86,7 @@ public class AddNewEmployeeController implements Initializable {
     @FXML
     private void onGenerateID()
     {
-        idField.setText(Integer.toString(new Random().nextInt()));  //TODO: generate actually unique ID
+        idField.setText(Statics.generateID());  //TODO: generate actually unique ID
     }
     
     @FXML
@@ -99,6 +100,7 @@ public class AddNewEmployeeController implements Initializable {
                     && !wageField.getText().isEmpty()
                     && !positionChoice.getSelectionModel().getSelectedItem().isEmpty())
         {
+            // TODO add checks if given data is suitable (now trying parseDouble(...) can cause exception)
             this.employee = new Employee(
                     nameField.getText(),
                     surnameField.getText(),
@@ -111,12 +113,18 @@ public class AddNewEmployeeController implements Initializable {
             //this.employee = new Employee("test", "tester","test123", "xxxtesterxxx", "toilet cleaner", 0.01, 23.45, "banned");
             ((Stage)nameField.getScene().getWindow()).close();
         }
+        if (mainController != null)
+            mainController.add(employee);
+        //TODO not important.
+        //else
+            //throw exception
     }
     
     @FXML
     private void onCancel()
     {
         //maybe check if the user entered some data and prompt the exit
+        //TODO: refactor to navigate back to MainWindow
         this.employee = null;
         ((Stage)nameField.getScene().getWindow()).close();
     }
@@ -125,4 +133,10 @@ public class AddNewEmployeeController implements Initializable {
     {
         return employee;
     }
+
+    // Sets reference to mainColtroller so we can invoke MainController functions from here
+    void setMain(MainWindowController mainController) {
+        this.mainController = mainController;
+    }
+    
 }

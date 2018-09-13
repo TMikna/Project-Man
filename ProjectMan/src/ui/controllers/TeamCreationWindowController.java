@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectman;
+package ui.controllers;
 
-import backend.Employee;
+import backend.datatypes.Employee;
+import backend.datatypes.Team;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
