@@ -128,7 +128,7 @@ public class MainWindowController implements Initializable {
             
             newEmployeeWindowStage.initModality(Modality.WINDOW_MODAL);
             newEmployeeWindowStage.initOwner(mainWindow);
-            
+            //SourceTree bandymai
                         
             if (loader != null && loader.getController() != null)
             {
