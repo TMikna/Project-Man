@@ -126,6 +126,8 @@ public class MainWindowController implements Initializable {
             newEmployeeWindowStage.setTitle("Enter employee details");
             newEmployeeWindowStage.setScene(new Scene(root));
             
+            // Išbandau SourceTree
+            
             newEmployeeWindowStage.initModality(Modality.WINDOW_MODAL);
             newEmployeeWindowStage.initOwner(mainWindow);
             //SourceTree bandymai
