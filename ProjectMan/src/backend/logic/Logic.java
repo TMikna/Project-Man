@@ -20,7 +20,6 @@ public class Logic {
     Data data = new Data();
     
     
-     public void add (Object emp)
     public void add (Object emp)
     {
         if((Team)emp != null)
