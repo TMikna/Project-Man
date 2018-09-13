@@ -16,7 +16,7 @@ public final class Statics {
     
     public static String generateID()                          //TODO: consider if it's better to use integer or string
         {
-        return Integer.toString(new Random().nextInt(0));  //TODO: generate actually unique ID
+        return Integer.toString(new Random().nextInt(99999));  //TODO: generate actually unique ID
         }
     
 }

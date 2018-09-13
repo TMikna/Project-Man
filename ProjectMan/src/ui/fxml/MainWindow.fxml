@@ -94,7 +94,7 @@
                                                 layoutX="23.0" 
                                                 layoutY="59.0" 
                                                 mnemonicParsing="false" 
-                                                onAction="#AddNewWindowInitializer" 
+                                                onAction="#AddNewEmployeeInitializer" 
                                                 prefHeight="51.0" 
                                                 prefWidth="92.0" 
                                                 text="Sukurti darbuotoją" 

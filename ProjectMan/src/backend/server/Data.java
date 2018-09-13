@@ -16,7 +16,7 @@ import java.util.List;
  */
 //TODO: CONSIDER how to do: Static or usuall class?
 public class Data {
-    // TODO: move lists to Data
+    
     private static List<Team> teams = new ArrayList();
     private static List<Employee> employees = new ArrayList();
             
@@ -30,17 +30,19 @@ public class Data {
         teams.add(team);
     }
     
-    public List<Team> getTeams() {
+    public static List<Team> getTeams() {
         return teams;
     }
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    public static void setTeams (List<Team> teams) {
+        //[Tomas] Not sure if works 
+        Data.teams = teams;
     }
-    public List<Employee> getEmployees() {
+    public static List<Employee> getEmployees() {
         return employees;
     }
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public static void setEmployees(List<Employee> employees) {
+        //[Tomas] Not sure if works 
+        Data.employees = employees;
     }
     
     

@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+package ui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,8 +49,8 @@ public class MainWindowController implements Initializable {
     @FXML
     private MenuButton teamMenuButton;
     
-    List<Team> teams = new ArrayList();
-    List<Employee> employees = new ArrayList();
+//    List<Team> teams = new ArrayList();
+//    List<Employee> employees = new ArrayList();
     public ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
     
     
@@ -79,7 +79,7 @@ public class MainWindowController implements Initializable {
             if (loader != null && loader.getController() != null)
             {
             TeamCreationWindowController newTeamCreationWindowController = loader.getController();
-            newTeamCreationWindowController.setAllEmployees(employees);
+            newTeamCreationWindowController.setAllEmployees(Data.getEmployees());
             }
             Stage TeamCreationWindowStage = new Stage();
             TeamCreationWindowStage.setTitle("Create new team");
@@ -101,7 +101,7 @@ public class MainWindowController implements Initializable {
     }
     
     @FXML
-    public void AddNewWindowInitializer(ActionEvent e)
+    public void AddNewEmployeeInitializer(ActionEvent e) 
     {
         FXMLLoader loader = null;
         Window mainWindow = addTeamMember.getScene().getWindow();
@@ -124,11 +124,22 @@ public class MainWindowController implements Initializable {
         if (loader != null && loader.getController() != null)
         {
             AddNewEmployeeController newEmployeeController = loader.getController();
-            Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
+            newEmployeeController.setMain(this);
             
-            employees.add(createdEmployee);
-            System.out.println(createdEmployee);
+//[Tomas] Changed logic, now addEmployee button press adds employee itself
+//            Employee createdEmployee = newEmployeeController.returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
+//            
+//            if (createdEmployee != null)
+//            {
+//                Data.add(createdEmployee);
+//                System.out.println(createdEmployee);
+//            }
         }
+    }
+    
+    protected void add (Employee employee)
+    {
+        Data.add(employee);
     }
      
     @Override
