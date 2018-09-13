@@ -15,32 +15,34 @@ import java.util.List;
  * @author TM
  */
 //TODO: CONSIDER how to do: Static or usuall class?
-public class Data {
+public class DataStatic {
     
-    private List<Team> teams = new ArrayList();
-    private List<Employee> employees = new ArrayList();
+    private static List<Team> teams = new ArrayList();
+    private static List<Employee> employees = new ArrayList();
             
-    public void add (Employee employee)
+    public static void add (Employee employee)
     {
         employees.add(employee);
     }
     
-    public void add (Team team)
+    public static void add (Team team)
     {
         teams.add(team);
     }
     
-    public List<Team> getTeams() {
+    public static List<Team> getTeams() {
         return teams;
     }
-    public  void setTeams (List<Team> teams) {
-        this.teams = teams;
+    public static void setTeams (List<Team> teams) {
+        //[Tomas] Not sure if works 
+        DataStatic.teams = teams;
     }
-    public  List<Employee> getEmployees() {
+    public static List<Employee> getEmployees() {
         return employees;
     }
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public static void setEmployees(List<Employee> employees) {
+        //[Tomas] Not sure if works 
+        DataStatic.employees = employees;
     }
     
     

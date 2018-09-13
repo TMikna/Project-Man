@@ -25,6 +25,12 @@ import backend.logic.Statics;
  *
  * @author TM
  */
+
+/*******************************
+ * ideas TODO show number of selected employees
+ * @author TM
+ */
+
 public class AddNewEmployeeController implements Initializable {
     @FXML
     private TextField nameField, surnameField, idField, passwordField, postField, wageField;
@@ -115,9 +121,11 @@ public class AddNewEmployeeController implements Initializable {
         }
         if (mainController != null)
             mainController.add(employee);
+        System.out.println(" mainController in onAddAttempt method in AddNewEmployeeController class: "+mainController);
         //TODO not important.
         //else
             //throw exception
+        
     }
     
     @FXML
@@ -137,6 +145,8 @@ public class AddNewEmployeeController implements Initializable {
     // Sets reference to mainColtroller so we can invoke MainController functions from here
     void setMain(MainWindowController mainController) {
         this.mainController = mainController;
+        System.out.println("setMainWorks");
+        System.out.println(this.mainController);
     }
     
 }

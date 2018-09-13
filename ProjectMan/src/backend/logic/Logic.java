@@ -8,6 +8,7 @@ package backend.logic;
 import backend.datatypes.Employee;
 import backend.datatypes.Team;
 import backend.server.Data;
+import backend.server.DataStatic;
 import java.io.IOException;
 
 /**
@@ -16,14 +17,25 @@ import java.io.IOException;
  */
 public class Logic {
     
-        //TODO test this!
+    Data data = new Data();
     
     
      public void add (Object emp)
+    public void add (Object emp)
     {
         if((Team)emp != null)
-            Data.add((Team)emp);
+            data.add((Team)emp);
         if((Employee)emp != null)
-            Data.add((Employee)emp);
+            data.add((Employee)emp);
+    }
+    
+    //TODO test this!
+    //For static class
+     public void AddToStatic (Object emp)
+    {
+        if((Team)emp != null)
+            DataStatic.add((Team)emp);
+        if((Employee)emp != null)
+            DataStatic.add((Employee)emp);
     }
 }
