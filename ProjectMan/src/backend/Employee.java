@@ -7,13 +7,19 @@ package backend;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author manfr
  */
 public class Employee {
+    public static final int     //for convenient privilege checking (I.E. if (currentUserRights >= Employee.PROJECT_MANAGER) doSomethingThatOnlyUsersWithHigherPrivilegesCanDo();)
+        ADMIN = Integer.MAX_VALUE,
+        COMPANY_MANAGER = 4,
+        PROJECT_MANAGER = 3,
+        TEAM_MANAGER = 2,   //TODO: probably not right
+        EMPLOYEE = 1,
+        NO_ACCESS = Integer.MIN_VALUE;
     
     private static final int FIVE = 5; // Can't find better name
     
@@ -25,7 +31,7 @@ public class Employee {
     private double hourlyRate;          // Money, earned per hour
     private double dailyHours;          // Average working time every day. //TODO later might change in custom every day input
     private double workedHours = 0; 
-    private String privileges;
+    private int privileges;
     
     private List<String> personalTeams = new ArrayList();
     private List<String> workHoursInTeams = new ArrayList();
@@ -41,7 +47,7 @@ public class Employee {
                     String position,
                     double hourlyRate,
                     double dailyHours,
-                    String privileges)
+                    int privileges)
     {
         this.Name = name;
         this.LastName = lastName;
@@ -162,5 +168,15 @@ public class Employee {
     public void setWorkedHoursThisMonth(double workedHoursThisMonth) 
     {
         this.workedHoursThisMonth = workedHoursThisMonth;
+    }
+    
+    public int getPrivileges()
+    {
+        return privileges;
+    }
+    
+    public void setPrivileges(int privileges)
+    {
+        this.privileges = privileges;
     }
 }

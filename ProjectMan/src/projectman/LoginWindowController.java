@@ -1,14 +1,10 @@
 package projectman;
 
+import backend.Employee;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class LoginWindowController
 {
@@ -24,23 +20,10 @@ public class LoginWindowController
 		{
 			((Stage)(auth_User.getScene().getWindow())).close();	//uzdaro esanti langa
 			
-			try
-			{
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-				Parent root = loader.load();	//sukuria nauja langa is nurodyto FXML
-				Stage mainWindowStage = new Stage();
-				mainWindowStage.setScene(new Scene(root));
-				
-				MainWindowController controller = loader.getController();	//instance of the main window controller (currently primary controller)
-				controller.setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
-				
-				mainWindowStage.setTitle("Welcome, admin!");
-				
-				mainWindowStage.show();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			String user = auth_User.getText();
+			FXMLControllerExtractor<MainWindowController> mainWindow = new FXMLControllerExtractor<>("MainWindow.fxml", "Sveiki, " + user + "!");
+			mainWindow.getController().setLoggedInUser(new Employee(user, user, user, user, user, 9001, 25, user.isEmpty()? Employee.ADMIN : "employee".equals(user) ? Employee.EMPLOYEE : "teamManager".equals(user) ? Employee.TEAM_MANAGER : "projectManager".equals(user) ? Employee.PROJECT_MANAGER : "companyManager".equals(user) ? Employee.COMPANY_MANAGER : Employee.NO_ACCESS)); //TODO: check username & password to get actual object
+			mainWindow.execute();
 		}
 	}
 	
