@@ -1,4 +1,4 @@
-package backend;
+package backend.datatypes;
 
 import java.time.LocalDate;
 import java.util.List;

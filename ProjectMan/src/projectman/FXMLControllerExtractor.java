@@ -15,39 +15,43 @@ public class FXMLControllerExtractor<controllerClass>
     private Stage stage = new Stage();
     private Scene scene = null;
     private Window window = null;
-    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle)
+    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle, controllerClass controller)
     {
+        this.controller = controller;
         try
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLFileName));
+            loader.setController(controller);
             Parent root = loader.load();
             scene = new Scene(root);
-            window = scene.getWindow();
             stage.setScene(scene);
             stage.setTitle(newWindowTitle);
-            controller = ((controllerClass) loader.getController());
+            window = scene.getWindow();
             
             if (controller instanceof SelfAwareController)
             {
                 ((SelfAwareController) controller).whoAmI(stage, scene, window);
             }
+    
+            stage.showAndWait();
         } catch (IOException ex)
         {
             ex.printStackTrace();
         }
     }
     
-    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle, Window owner)
+    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle, Window owner, controllerClass controller)
     {
+        this.controller = controller;
         try
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLFileName));
+            loader.setController(controller);
             Parent root = loader.load();
             scene = new Scene(root);
-            window = scene.getWindow();
             stage.setScene(scene);
             stage.setTitle(newWindowTitle);
-            controller = ((controllerClass) loader.getController());
+            window = scene.getWindow();
     
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(owner);
@@ -56,15 +60,12 @@ public class FXMLControllerExtractor<controllerClass>
             {
                 ((SelfAwareController) controller).whoAmI(stage, scene, window);
             }
+    
+            stage.showAndWait();
         } catch (IOException ex)
         {
             ex.printStackTrace();
         }
-    }
-    
-    public void execute()
-    {
-        stage.showAndWait();
     }
     
     public controllerClass getController()

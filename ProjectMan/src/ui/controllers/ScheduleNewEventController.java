@@ -1,22 +1,26 @@
-package projectman;
+package ui.controllers;
 
-import backend.Employee;
-import backend.Event;
+import backend.datatypes.Employee;
+import backend.datatypes.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
+import projectman.SelfAwareController;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public class ScheduleNewEventController implements SelfAwareController
+public class ScheduleNewEventController implements Initializable, SelfAwareController
 {
     @FXML
     private RadioButton importanceOptional, importanceMandatory, scalePersonal, scaleTeam, scaleProject, scaleCompany, scaleGlobal, scaleOther;  //scaleTeam is for team members; scaleProject - team leaders; scaleCompany - project leaders; global - absolutely everyone
@@ -32,8 +36,8 @@ public class ScheduleNewEventController implements SelfAwareController
     private TextArea eventDescription;
     
     
-    private Employee user = null;
-    private LocalDate startingDate = null;
+    private Employee user;
+    private LocalDate startingDate;
     
     private Stage stage;
     private Scene scene;
@@ -46,19 +50,24 @@ public class ScheduleNewEventController implements SelfAwareController
         this.window = window;
     }
     
-    public void setUp(Employee user, LocalDate startingDate)
+    public ScheduleNewEventController(Employee user, LocalDate startingDate)
     {
         this.user = user;
         this.startingDate = startingDate;
+    }
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
         eventDate.setValue(startingDate);
-        eventDate.setConverter(new StringConverter<LocalDate>()
+        eventDate.setConverter(new StringConverter<>()
         {
             @Override
             public String toString(LocalDate object)
             {
                 return object.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             }
-    
+        
             @Override
             public LocalDate fromString(String string)
             {
@@ -77,7 +86,7 @@ public class ScheduleNewEventController implements SelfAwareController
         fromHr.setItems(hrs);
         toHr.setItems(hrs);
         reminderHr.setItems(hrs);
-        
+    
         Consumer<RadioButton> disableAndUnselect = radioButton -> {
             radioButton.setDisable(true);
             if (radioButton.isSelected())
@@ -95,26 +104,26 @@ public class ScheduleNewEventController implements SelfAwareController
                 disableAndUnselect.accept(scaleCompany);
                 disableAndUnselect.accept(scaleGlobal);
                 scaleOther.setDisable(false);
-                
+            
                 disableReminderForOptional();
-                
+            
                 importanceOptional.setOnAction(event -> {
                     scaleTeam.setDisable(false);
                     disableAndUnselect.accept(scaleProject);
                     disableAndUnselect.accept(scaleCompany);
                     disableAndUnselect.accept(scaleGlobal);
                     scaleOther.setDisable(false);
-                    
+                
                     disableReminderForOptional();
                 });
-                
+            
                 importanceMandatory.setOnAction(event -> {
                     disableAndUnselect.accept(scaleTeam);
                     disableAndUnselect.accept(scaleProject);
                     disableAndUnselect.accept(scaleCompany);
                     disableAndUnselect.accept(scaleGlobal);
                     disableAndUnselect.accept(scaleOther);
-                    
+                
                     enableReminderForMandatory();
                 });
                 return;
@@ -126,26 +135,26 @@ public class ScheduleNewEventController implements SelfAwareController
                 disableAndUnselect.accept(scaleCompany);
                 disableAndUnselect.accept(scaleGlobal);
                 scaleOther.setDisable(false);
-                
+            
                 disableReminderForOptional();
-                
+            
                 importanceOptional.setOnAction(event -> {
                     scaleTeam.setDisable(false);
                     scaleProject.setDisable(false);
                     disableAndUnselect.accept(scaleCompany);
                     disableAndUnselect.accept(scaleGlobal);
                     scaleOther.setDisable(false);
-                    
+                
                     disableReminderForOptional();
                 });
-                
+            
                 importanceMandatory.setOnAction(event -> {
                     scaleTeam.setDisable(false);
                     disableAndUnselect.accept(scaleProject);
                     disableAndUnselect.accept(scaleCompany);
                     disableAndUnselect.accept(scaleGlobal);
                     disableAndUnselect.accept(scaleOther);
-                    
+                
                     enableReminderForMandatory();
                 });
                 return;
@@ -157,26 +166,26 @@ public class ScheduleNewEventController implements SelfAwareController
                 scaleCompany.setDisable(false);
                 disableAndUnselect.accept(scaleGlobal);
                 scaleOther.setDisable(false);
-                
+            
                 disableReminderForOptional();
-                
+            
                 importanceOptional.setOnAction(event -> {
                     scaleTeam.setDisable(false);
                     scaleProject.setDisable(false);
                     scaleCompany.setDisable(false);
                     disableAndUnselect.accept(scaleGlobal);
                     scaleOther.setDisable(false);
-                    
+                
                     disableReminderForOptional();
                 });
-                
+            
                 importanceMandatory.setOnAction(event -> {
                     scaleTeam.setDisable(false);
                     scaleProject.setDisable(false);
                     disableAndUnselect.accept(scaleCompany);
                     disableAndUnselect.accept(scaleGlobal);
                     disableAndUnselect.accept(scaleOther);
-                    
+                
                     enableReminderForMandatory();
                 });
                 return;
@@ -189,11 +198,12 @@ public class ScheduleNewEventController implements SelfAwareController
                 scaleCompany.setDisable(false);
                 scaleGlobal.setDisable(false);
                 scaleOther.setDisable(false);
-                
+            
                 enableReminderForMandatory();
                 return;
             }
         }
+        
     }
     
     private void disableReminderForOptional()
@@ -222,9 +232,40 @@ public class ScheduleNewEventController implements SelfAwareController
     @FXML
     private void onSave()
     {
+        boolean correctInfo = true;
+        if (toHr.getSelectionModel().isEmpty())
+        {
+            toHr.setStyle("-fx-background-color: red");
+            correctInfo = false;
+        }
+        if (fromHr.getSelectionModel().isEmpty())
+        {
+            fromHr.setStyle("-fx-background-color: red");
+            correctInfo = false;
+        }
+        if (eventName.getText().isEmpty())
+        {
+            eventName.setStyle("-fx-background-color: red");
+            correctInfo = false;
+        }
+        
+        if (!correctInfo)
+        {
+            return;
+        }
+        
         if (scalePersonal.isSelected())
         {
-            new Event(importanceMandatory.isSelected(), reminder.isSelected(), List.of(user), startingDate, fromHr.getValue(), toHr.getValue(), reminderHr.getValue(), eventName.getText(), eventDescription.getText());
+            new Event(
+                    importanceMandatory.isSelected(),
+                    reminder.isSelected(),
+                    List.of(user),
+                    startingDate,
+                    fromHr.getValue(),
+                    toHr.getValue(),
+                    reminder.isSelected() ? reminderHr.getValue() : -1,
+                    eventName.getText(),
+                    eventDescription.getText());
         } else if (scaleTeam.isSelected())
         {
             //same but with a list of teammates

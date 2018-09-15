@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package backend;
+package backend.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -178,5 +179,26 @@ public class Employee {
     public void setPrivileges(int privileges)
     {
         this.privileges = privileges;
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        Employee employee = (Employee) o;
+        return Objects.equals(Name, employee.Name) && Objects.equals(LastName, employee.LastName) && Objects.equals(ID, employee.ID);
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(Name, LastName, ID);
     }
 }

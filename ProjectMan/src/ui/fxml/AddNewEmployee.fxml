@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectman.AddNewEmployeeController">
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="220.0" layoutY="14.0" text="Pridėti naują darbuotoją" />
       <Label layoutX="67.0" layoutY="72.0" text="Vardas" />

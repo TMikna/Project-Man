@@ -10,7 +10,7 @@ public class ProjectMan extends Application {
 
     @Override
     public void start(Stage loginWindowStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../ui/fxml/LoginWindow.fxml"));
         loginWindowStage.setTitle("Login");
         loginWindowStage.setScene(new Scene(root));
         loginWindowStage.show();

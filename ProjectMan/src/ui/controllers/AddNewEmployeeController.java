@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectman;
+package ui.controllers;
 
-import backend.Employee;
+import backend.datatypes.Employee;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +14,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import projectman.SelfAwareController;
 
 import java.net.URL;
 import java.util.Random;

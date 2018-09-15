@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projectman;
+package ui.controllers;
 
-import backend.Employee;
+import backend.datatypes.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,8 +33,12 @@ public class TeamCreationWindowController implements Initializable {
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
     
-    List<Employee> allEmployees = new ArrayList();
+    List<Employee> allEmployees;
     
+    public TeamCreationWindowController(List<Employee> allEmployees)
+    {
+        this.allEmployees = allEmployees;
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -44,12 +48,8 @@ public class TeamCreationWindowController implements Initializable {
         HourlyRateColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyRate"));
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-    }    
-        
     
-    public void setAllEmployees(List<Employee> allEmployees)
-    {
-        this.allEmployees = allEmployees;
+    
         System.out.println("Hello");
         ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
         tableInfo.addAll(allEmployees);
