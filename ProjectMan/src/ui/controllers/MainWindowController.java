@@ -53,7 +53,9 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower, teamsEdit;
     @FXML
-    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesHourCount, employeesContacts, employeesAccess;
+    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
+    @FXML
+    private TableColumn<Employee, Double> employeesHourCount;
     @FXML
     private Button addTeamMember;
     @FXML
@@ -93,23 +95,28 @@ public class MainWindowController implements Initializable, SelfAwareController
     public void TeamSetupWindowInitializer()
     {
     // TODO Manfedas fix this, you are creating TeamCreation now
-    //    FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
-    //    Team createdTeam = teamCreationWindow.getController().getTeam();
-//        if (createdTeam != null)
-//        {
-//            DataStatic.getTeams().add(createdTeam);
-//        }
+        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml",
+                "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
+        Team createdTeam = teamCreationWindow.getController().getTeam();
+        if (createdTeam != null)
+        {
+            DataStatic.add(createdTeam);
+        }
     }
     
     @FXML
     public void AddNewEmployeeInitializer()
     {
         FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
-        Employee createdEmployee = employeeCreationWindow.getController().returnEmployee();
-        if (createdEmployee != null)
-        {
-            DataStatic.getEmployees().add(createdEmployee);
-        }
+        //Employee createdEmployee = employeeCreationWindow.getController().returnEmployee();
+       // if (createdEmployee != null)
+        //{
+            //DataStatic.add(createdEmployee);
+            ObservableList<Employee> tempList = FXCollections.observableArrayList();
+            tempList.addAll(DataStatic.getEmployees());
+            employeesTable.setItems(tempList);
+            employeesTable.refresh();
+       // }
     }
     
     @Override
@@ -143,7 +150,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         table.getColumns().clear();
         for (int i = 0; i < count; ++i)
         {
-            table.getColumns().add(new TableColumn<>((from + i > 24 ? from + i - 24 : from + i) + "-" + (from + i + 1 > 24 ? from + i - 23 : from + i + 1)));
+            table.getColumns().add(new TableColumn<>((from + i > 24 ? from + i - 24 : from + i)
+                    + "-" + (from + i + 1 > 24 ? from + i - 23 : from + i + 1)));
         }
     }
     
@@ -154,6 +162,11 @@ public class MainWindowController implements Initializable, SelfAwareController
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
         hourColumn.setCellValueFactory(new PropertyValueFactory<>("Hours"));
         accessColumn.setCellValueFactory(new PropertyValueFactory<>("Availability"));
+        
+        employeesName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        employeesID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        employeesOccupation.setCellValueFactory(new PropertyValueFactory<>("position"));
+        employeesHourCount.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
     }
     
     private void allTeamsTabInit()
@@ -188,17 +201,22 @@ public class MainWindowController implements Initializable, SelfAwareController
     
     private void myDayTab_SettingsTabInit()
     {
-        List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child -> child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList());
+        List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
+                child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList());
         settingsFrom = settingsShared.subList(0, 5);
         settingsTo = settingsShared.subList(5, 10);
-        Button settingsChangeButton = (Button) userSettingsAnchor.getChildren().stream().filter(node -> node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
-        TextField settingsHrsPerWeek = (TextField) userSettingsAnchor.getChildren().stream().filter(node -> node instanceof TextField).collect(Collectors.toList()).get(0);
+        Button settingsChangeButton = (Button) userSettingsAnchor.getChildren().stream().filter(node ->
+                node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
+        TextField settingsHrsPerWeek = (TextField) userSettingsAnchor.getChildren().stream().filter(node ->
+                node instanceof TextField).collect(Collectors.toList()).get(0);
         settingsChangeButton.setOnAction(actionEvent -> {
             boolean illegal = false;
             int countSum = 0;
             for (int i = 0; i < 5; ++i)
             {
-                int fromInt = settingsFrom.get(i).getSelectionModel().getSelectedItem(), toInt = settingsTo.get(i).getSelectionModel().getSelectedItem(), hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
+                int fromInt = settingsFrom.get(i).getSelectionModel().getSelectedItem(), 
+                        toInt = settingsTo.get(i).getSelectionModel().getSelectedItem(),
+                        hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
                 countSum += hrCountInt;
                 if (hrCountInt > 12)
                 {
@@ -249,18 +267,21 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
         
             AnchorPane anchorPane = ((AnchorPane)pane.getContent());
-        
+        //very professional variable assigning probably better not to touch
             TableView<TableColumn<String, String>> table = (TableView) anchorPane.getChildren().get(0);    //very professional variable assigning probably better not to touch
-            List<ChoiceBox<Integer>> choiceBoxes = anchorPane.getChildren().stream().filter(node -> node instanceof ChoiceBox).map(node -> (ChoiceBox<Integer>) node).collect(Collectors.toList());
+            List<ChoiceBox<Integer>> choiceBoxes = anchorPane.getChildren().stream().filter(node -> 
+                    node instanceof ChoiceBox).map(node -> (ChoiceBox<Integer>) node).collect(Collectors.toList());
             ChoiceBox<Integer> fromHr = choiceBoxes.get(0), toHr = choiceBoxes.get(1);
-            List<Button> buttons = anchorPane.getChildren().stream().filter(node -> node instanceof Button).map(node -> (Button) node).collect(Collectors.toList());
+            List<Button> buttons = anchorPane.getChildren().stream().filter(node -> node instanceof Button).map(node -> 
+                    (Button) node).collect(Collectors.toList());
             Button changeButton = buttons.get(0), checkButton = buttons.get(1), newEventButton = buttons.get(2);
         
             fromHr.setItems(hrs);
             fromHr.getSelectionModel().select(settingsFrom.get(i).getSelectionModel().getSelectedItem());
             toHr.setItems(hrs);
             toHr.getSelectionModel().select(settingsTo.get(i).getSelectionModel().getSelectedItem());
-            int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(), hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
+            int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(),
+                    hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
             updatePersonalDayTableColumns(fromInt, hrCountInt, table);
         
             EventHandler<ActionEvent> normalChangeAction = action -> {
@@ -271,7 +292,8 @@ public class MainWindowController implements Initializable, SelfAwareController
             };
             changeButton.setOnAction(normalChangeAction);
             checkButton.setOnAction(action -> {
-                int fromInt1 = fromHr.getSelectionModel().getSelectedItem(), toInt1 = toHr.getSelectionModel().getSelectedItem(), hrCountInt1 = (toInt1 - fromInt1 < 0 ? 24 + toInt1 - fromInt1 : toInt1 - fromInt1);
+                int fromInt1 = fromHr.getSelectionModel().getSelectedItem(), toInt1 = toHr.getSelectionModel().getSelectedItem(),
+                        hrCountInt1 = (toInt1 - fromInt1 < 0 ? 24 + toInt1 - fromInt1 : toInt1 - fromInt1);
                 if (hrCountInt1 > 12)
                 {
                     checkButton.setStyle("-fx-background-color: red");    //not legal to work more than 12h/day
@@ -314,7 +336,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         
             int finalI = i;
             newEventButton.setOnAction(event -> {   //Event scheduling
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
+                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
+                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
             });
         }
     }
@@ -332,7 +355,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
+                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
+                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
     
