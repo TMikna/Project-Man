@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
@@ -29,28 +30,55 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import projectman.SelfAwareController;
+import backend.datatypes.Team;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
  *
  * @author manfr
  */
-public class TeamCreationWindowController implements Initializable {
+public class TeamCreationWindowController implements Initializable, SelfAwareController
+{
 
     @FXML
     TableView<Employee> employeeCatalog, teamPersonelTW;
     @FXML
     TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn, teamPersonelColumn;
+
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
     @FXML
     TextField teamNameTBox;
-    
+
     private List<Employee> allEmployees = new ArrayList();      //Galima perkelti i kita klase, arba jei jau toks listas yra atvesti patha i sita, bet nebutina
     
     private List<Employee> selectedEmployees = new ArrayList(); //Neliesti, vidinis listas
     private List<Employee> changedCellEmployees = new ArrayList();
     private Team newTeam;
+    
+    public TeamCreationWindowController(List<Employee> allEmployees)
+    {
+        this.allEmployees = allEmployees;
+    }
+    
+    private Stage stage;
+    private Scene scene;
+    private Window window;
+    @Override
+    public void whoAmI(Stage stage, Scene scene, Window window)
+    {
+        this.stage = stage;
+        this.scene = scene;
+        this.window = window;
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,9 +133,10 @@ public class TeamCreationWindowController implements Initializable {
         teamPersonelTW.setItems(listOfEmployees);
         teamPersonelTW.refresh();
     }
+        
     
     @FXML
-    public void CloseTheProgram(ActionEvent e)
+    public void CloseTheProgram()
     {
         for(Employee emp : changedCellEmployees)
         {
@@ -117,14 +146,17 @@ public class TeamCreationWindowController implements Initializable {
     }
     
     @FXML
-    public void onTeamCreateAttempt(ActionEvent e)
+    public void onTeamCreateAttempt()
     {
         if(!teamNameTBox.getText().isEmpty()){
-            newTeam = new Team(selectedEmployees, teamNameTBox.getText());
+            newTeam = new Team(teamNameTBox.getText(), selectedEmployees);
         }
         else return;
-        for(Employee emp : selectedEmployees)  //For each visiem employee, kurie yra teame, priskiriamas team pavadinimas ir valandos. (Toliau: Employee klaseje)
+        
+        stage.close();
+        for(Employee emp : selectedEmployees) //For each visiem employee, kurie yra teame, priskiriamas team pavadinimas ir valandos. (Toliau: Employee klaseje)
         {
+        // [Tomas] nežinau kieno kodas ir ar jo reik
             emp.addpersonalTeams(newTeam);
         }
         for(Employee emp : changedCellEmployees)

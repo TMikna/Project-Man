@@ -5,9 +5,8 @@ package backend.datatypes;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import backend.datatypes.Employee;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +14,51 @@ import java.util.List;
  *
  * @author manfr
  */
-public class Team {
-
-    String Name;
-    int capacity;
+public class Team extends ArrayList<Employee>
+{
+    private String teamName;
+    private int manpower;
+    private Project project;
     
-    List<Employee> teamPersonel = new ArrayList();
-    
-    public Team(List<Employee> chosenPeople, String Name)
+    public Team(String teamName, List<Employee> employeeList)
     {
-        for(Employee e : chosenPeople)
-            teamPersonel.add(e);
+        super(employeeList);
+        this.teamName = teamName;
+    }
+    
+    public String getTeamName()
+    {
+        return teamName;
+    }
+    
+    public void setTeamName(String teamName)
+    {
+        this.teamName = teamName;
+    }
+    
+    public int getManpower()
+    {
+        return manpower;
+    }
+    
+    public void setManpower(int manpower)
+    {
+        this.manpower = manpower;
+    }
+    
+    public Project getProject()
+    {
+        return project;
+    }
+    
+    public void setProject(Project project)
+    {
+        this.project = project;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "Komanda: " + teamName + " " + super.toString();
     }
 }

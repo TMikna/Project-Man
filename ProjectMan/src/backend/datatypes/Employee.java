@@ -9,6 +9,8 @@ package backend.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,21 +22,26 @@ import javafx.scene.control.TextField;
  * @author manfr
  */
 public class Employee {
+    public static final int     //for convenient privilege checking (I.E. if (currentUserRights >= Employee.PROJECT_MANAGER) doSomethingThatOnlyUsersWithHigherPrivilegesCanDo();)
+        ADMIN = Integer.MAX_VALUE,
+        COMPANY_MANAGER = 4,
+        PROJECT_MANAGER = 3,
+        TEAM_MANAGER = 2,   //TODO: probably not right
+        EMPLOYEE = 1,
+        NO_ACCESS = Integer.MIN_VALUE;
     
     private static final int FIVE = 5; // Can't find better name
     
     private String Name;
     private String LastName;
-    private String ID;                  // Unique!
+    private UUID ID;                  // Unique!
     private String password;            // I think it's OK here, we dont't need much safety now
     private String position;            // Or Occupation
     private double hourlyRate;          // Money, earned per hour
     private double dailyHours;          // Average working time every day. //TODO later might change in custom every day input
     private double workedHours = 0; 
-    private String privileges;
+    private int privileges;
     
-    private List<Team> personalTeams = new ArrayList();
-    private List<Double> workHoursInTeams = new ArrayList();
     
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
@@ -42,6 +49,8 @@ public class Employee {
     private SimpleStringProperty HOnThisTeam; 
     
     
+    private List<Team> personalTeams = new ArrayList();
+    private List<Double> workHoursInTeams = new ArrayList();
     //TODO find best data type
     private String[] Teams = new String[FIVE];
     //TODO implement and use this if will be spare time in later steps
@@ -49,12 +58,12 @@ public class Employee {
 
     public Employee(String name,
                     String lastName,
-                    String id,
+                    UUID id,
                     String password,
                     String position,
                     double hourlyRate,
                     double dailyHours,
-                    String privileges)
+                    int privileges)
     {
         this.Name = name;
         this.LastName = lastName;
@@ -78,6 +87,7 @@ public class Employee {
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
 
+
     public void addpersonalTeams(Team e)
     {
         this.personalTeams.add(e);
@@ -88,6 +98,7 @@ public class Employee {
             workHoursInTeams.add(0d);
         }
     }
+
     
     public void setHOnthisTeam(String HOnThisTeam)
     {
@@ -120,12 +131,12 @@ public class Employee {
         this.LastName = LastName;
     }
 
-    public String getID() 
+    public UUID getID()
     {
         return ID;
     }
 
-    public void setID(String ID) 
+    public void setID(UUID ID)
     {
         this.ID = ID;
     }
@@ -198,5 +209,36 @@ public class Employee {
     public void setWorkedHoursThisMonth(double workedHoursThisMonth) 
     {
         this.workedHoursThisMonth = workedHoursThisMonth;
+    }
+  
+    public int getPrivileges()
+    {
+        return privileges;
+    }
+    
+    public void setPrivileges(int privileges)
+    {
+        this.privileges = privileges;
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        Employee employee = (Employee) o;
+        return Objects.equals(Name, employee.Name) && Objects.equals(LastName, employee.LastName) && Objects.equals(ID, employee.ID);
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(Name, LastName, ID);
     }
 }
