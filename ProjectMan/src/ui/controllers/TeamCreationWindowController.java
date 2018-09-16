@@ -6,25 +6,31 @@
 package ui.controllers;
 
 import backend.datatypes.Employee;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-
+import backend.datatypes.Team;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author manfr
  */
-public class TeamCreationWindowController implements Initializable, SelfAwareController {
+public class TeamCreationWindowController implements Initializable {
 
     @FXML
     TableView<Employee> employeeCatalog;
@@ -35,25 +41,9 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     @FXML
     TextField teamNameTBox;
     
-    List<Employee> allEmployees;
+    List<Employee> allEmployees = new ArrayList();
     List<Employee> selectedEmployees = new ArrayList();
     Team newTeam;
-    
-    public TeamCreationWindowController(List<Employee> allEmployees)
-    {
-        this.allEmployees = allEmployees;
-    }
-    
-    private Stage stage;
-    private Scene scene;
-    private Window window;
-    @Override
-    public void whoAmI(Stage stage, Scene scene, Window window)
-    {
-        this.stage = stage;
-        this.scene = scene;
-        this.window = window;
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,18 +53,12 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         HourlyRateColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyRate"));
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        
-        System.out.println("Hello");
-        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-        tableInfo.addAll(allEmployees);
-        employeeCatalog.setItems(tableInfo);
-        employeeCatalog.refresh();
-    }
+    }    
         
     @FXML
     public void CloseTheProgram(ActionEvent e)
     {
-        stage.close();
+        ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
     
     @FXML
@@ -85,12 +69,22 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         }
         else return;
         
-        stage.close();
+        ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
     
     @FXML
     public Team getTeam()
     {
         return newTeam;
+    }
+    
+    public void setAllEmployees(List<Employee> allEmployees)
+    {
+        this.allEmployees = allEmployees;
+        System.out.println("Hello");
+        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
+        tableInfo.addAll(allEmployees);
+        employeeCatalog.setItems(tableInfo);
+        employeeCatalog.refresh();
     }
 }

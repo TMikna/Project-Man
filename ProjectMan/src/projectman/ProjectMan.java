@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 public class ProjectMan extends Application {
 
     @Override
-    public void start(Stage loginWindowStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../ui/fxml/LoginWindow.fxml"));
-        loginWindowStage.setTitle("Login");
-        loginWindowStage.setScene(new Scene(root));
-        loginWindowStage.show();
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("/ui/fxml/LoginWindow.fxml"));
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 
 

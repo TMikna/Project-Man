@@ -1,30 +1,53 @@
 package ui.controllers;
 
-import backend.datatypes.Employee;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import projectman.FXMLControllerExtractor;
+
+import java.io.IOException;
 
 public class LoginWindowController
 {
+    
+    private MainWindowController main;
+    @FXML
+    MainWindowController mainWin;
 	@FXML
 	TextField auth_User;
 	@FXML
 	PasswordField auth_Password;
 	
 	@FXML
+    
 	public void auth_Verify()
 	{
 		if(true)//"admin".equals(auth_User.getText()) && "admin".equals(auth_Password.getText()))
 		{
 			((Stage)(auth_User.getScene().getWindow())).close();	//uzdaro esanti langa
 			
-			String userName = auth_User.getText();
-			Employee loggedInUser = new Employee(userName, userName, userName, userName, userName, 9001, 25, userName.isEmpty()? Employee.ADMIN : "employee".equals(userName) ? Employee.EMPLOYEE : "teamManager".equals(userName) ? Employee.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.COMPANY_MANAGER : Employee.NO_ACCESS); //TODO: check username & password to get actual object
-			FXMLControllerExtractor<MainWindowController> mainWindow = new FXMLControllerExtractor<>("MainWindow.fxml", "Sveiki, " + userName + "!", new MainWindowController(loggedInUser));
+			try
+			{
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/MainWindow.fxml"));
+				Parent root = loader.load();	//sukuria nauja langa is nurodyto FXML
+				Stage mainWindowStage = new Stage();
+				mainWindowStage.setScene(new Scene(root));
+				
+				MainWindowController controller = loader.getController();	//instance of the main window controller (currently primary controller)
+				controller.setLoggedInUserRights("admin");	//TODO: check username & password to get access rights
+				
+				mainWindowStage.setTitle("Welcome, admin!");
+				
+				mainWindowStage.show();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
+
 	}
 	
 	@FXML
@@ -32,4 +55,9 @@ public class LoginWindowController
 	{
 		((Stage)(auth_User.getScene().getWindow())).close();
 	}
+    
+    public void init (MainWindowController main)
+    {
+        this.main=main;
+    }
 }
