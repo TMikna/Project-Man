@@ -6,7 +6,10 @@
 package backend.server;
 
 import backend.datatypes.Employee;
+import backend.datatypes.Event;
+import backend.datatypes.Project;
 import backend.datatypes.Team;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +19,11 @@ import java.util.List;
  */
 //TODO: CONSIDER how to do: Static or usuall class?
 public class DataStatic {
+    private static List<Event> events = new ArrayList<>();
+    private static List<Project> projects = new ArrayList<>();
+    private static List<Team> teams = new ArrayList<>();
+    private static List<Employee> employees = new ArrayList<>();
     
-    private static List<Team> teams = new ArrayList();
-    private static List<Employee> employees = new ArrayList();
-            
     public static void add (Employee employee)
     {
         employees.add(employee);
@@ -44,6 +48,4 @@ public class DataStatic {
         //[Tomas] Not sure if works 
         DataStatic.employees = employees;
     }
-    
-    
 }
