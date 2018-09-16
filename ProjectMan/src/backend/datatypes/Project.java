@@ -18,4 +18,14 @@ public class Project extends ArrayList<Team>
     {
         return "Projektas: " + projectName + super.toString();
     }
+    
+    public String getProjectName()
+    {
+        return projectName;
+    }
+    
+    public void setProjectName(String projectName)
+    {
+        this.projectName = projectName;
+    }
 }

@@ -48,4 +48,14 @@ public class DataStatic {
         //[Tomas] Not sure if works 
         DataStatic.employees = employees;
     }
+    
+    public static List<Event> getEvents()
+    {
+        return events;
+    }
+    
+    public static List<Project> getProjects()
+    {
+        return projects;
+    }
 }

@@ -260,8 +260,7 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
             new Event(
                     importanceMandatory.isSelected(),
                     reminder.isSelected(),
-                    //List.of(user),
-                    new ArrayList<Employee>(){{add(user);}},
+                    new ArrayList<Employee>(){{add(user);}},    //List.of(user),    //java 10
                     startingDate,
                     fromHr.getValue(),
                     toHr.getValue(),
