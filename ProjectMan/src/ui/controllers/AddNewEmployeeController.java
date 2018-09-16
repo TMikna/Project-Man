@@ -5,14 +5,20 @@
  */
 package ui.controllers;
 
+import java.net.URL;
+import java.util.*;
+import java.util.function.Consumer;
 import backend.datatypes.Employee;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+<<<<<<< HEAD
 import javafx.stage.Window;
 import projectman.SelfAwareController;
 
@@ -21,12 +27,16 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Consumer;
+=======
+import backend.logic.Statics;
+>>>>>>> master
 
 /**
  * FXML Controller class
  *
  * @author TM
  */
+
 /*******************************
  * ideas TODO show number of selected employees
  * @author TM
@@ -40,6 +50,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
     
     private Employee employee = null;
+<<<<<<< HEAD
     private UUID uuid = null;
     
     private Stage stage;
@@ -53,6 +64,10 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         this.window = window;
     }
     
+=======
+    private MainWindowController mainController;
+
+>>>>>>> master
     /**
      * Initializes the controller class.
      */
@@ -110,8 +125,12 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     @FXML
     private void onGenerateID()
     {
+<<<<<<< HEAD
         uuid = UUID.randomUUID();
         idField.setText(uuid.toString());
+=======
+        idField.setText(Statics.generateID());  //TODO: generate actually unique ID
+>>>>>>> master
     }
     
     @FXML
@@ -143,6 +162,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private void onCancel()
     {
         //maybe check if the user entered some data and prompt the exit
+        //TODO: refactor to navigate back to MainWindow
         this.employee = null;
         stage.close();
     }
@@ -151,4 +171,12 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     {
         return employee;
     }
+
+    // Sets reference to mainColtroller so we can invoke MainController functions from here
+    void setMain(MainWindowController mainController) {
+        this.mainController = mainController;
+        System.out.println("setMainWorks");
+        System.out.println(this.mainController);
+    }
+    
 }

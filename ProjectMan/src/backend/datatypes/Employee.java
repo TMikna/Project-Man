@@ -1,14 +1,21 @@
+package backend.datatypes;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package backend.datatypes;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -35,6 +42,13 @@ public class Employee {
     private double workedHours = 0; 
     private int privileges;
     
+    
+    // @Auth Manfr. Kintamieji skirti lentelei
+    @FXML
+    private CheckBox MemberCB; 
+    private SimpleStringProperty hoursOnThisTeam; 
+    
+    
     private List<String> personalTeams = new ArrayList();
     private List<String> workHoursInTeams = new ArrayList();
     //TODO find best data type
@@ -59,6 +73,8 @@ public class Employee {
         this.hourlyRate = hourlyRate;
         this.dailyHours = dailyHours;
         this.privileges = privileges;
+        this.MemberCB = new CheckBox();
+        this.hoursOnThisTeam = new SimpleStringProperty();
     }
     
     @Override
@@ -71,6 +87,27 @@ public class Employee {
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
 
+    public void addpersonalTeams(Team e)
+    {
+        this.personalTeams.add(e);
+        try{
+            workHoursInTeams.add(Double.parseDouble(gethoursOnThisTeam()));
+        }
+        catch(NumberFormatException c){
+            workHoursInTeams.add(0d);
+        }
+    }
+    
+    public void sethoursOnthisTeam(String hoursOnThisTeam)
+    {
+        this.hoursOnThisTeam.set(hoursOnThisTeam);
+    }
+    
+    public String gethoursOnThisTeam()
+    {
+        return hoursOnThisTeam.toString();
+    }
+    
     
     public String getName() 
     {
