@@ -86,13 +86,13 @@ public class MainWindowController implements Initializable, SelfAwareController
 
     
     @FXML
-    public void TeamMemberWindowInitializer(ActionEvent e)
+    public void TeamMemberWindowInitializer()
     {
         
     }
     
     @FXML
-    public void TeamSetupWindowInitializer(ActionEvent e)
+    public void TeamSetupWindowInitializer()
     {
         FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
         
@@ -106,9 +106,9 @@ public class MainWindowController implements Initializable, SelfAwareController
     }
     
     @FXML
-    public void AddNewEmployeeInitializer(ActionEvent e)
+    public void AddNewEmployeeInitializer()
     {
-        FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
+        FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
         
         Employee createdEmployee = employeeCreationWindow.getController().returnEmployee();     //get your brand shining new generated employee object here! Limited time offer!
         
@@ -274,7 +274,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     
             int finalI = i;
             newEventButton.setOnAction(event -> {   //Event scheduling
-                    FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
+                    FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
             });
         }
     
@@ -291,7 +291,7 @@ public class MainWindowController implements Initializable, SelfAwareController
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
+                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml", "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
     

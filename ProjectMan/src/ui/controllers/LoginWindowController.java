@@ -23,7 +23,7 @@ public class LoginWindowController
 			
 			String userName = auth_User.getText();
 			Employee loggedInUser = new Employee(userName, userName, userName, userName, userName, 9001, 25, userName.isEmpty()? Employee.ADMIN : "employee".equals(userName) ? Employee.EMPLOYEE : "teamManager".equals(userName) ? Employee.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.COMPANY_MANAGER : Employee.NO_ACCESS); //TODO: check username & password to get actual object
-			FXMLControllerExtractor<MainWindowController> mainWindow = new FXMLControllerExtractor<>("MainWindow.fxml", "Sveiki, " + userName + "!", new MainWindowController(loggedInUser));
+			FXMLControllerExtractor<MainWindowController> mainWindow = new FXMLControllerExtractor<>("/ui/fxml/MainWindow.fxml", "Sveiki, " + userName + "!", new MainWindowController(loggedInUser));
 		}
 	}
 	

@@ -10,9 +10,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import projectman.SelfAwareController;
+import backend.datatypes.Team;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,7 +30,8 @@ import java.util.ResourceBundle;
  *
  * @author manfr
  */
-public class TeamCreationWindowController implements Initializable, SelfAwareController {
+public class TeamCreationWindowController implements Initializable, SelfAwareController
+{
 
     @FXML
     TableView<Employee> employeeCatalog;
@@ -72,16 +79,16 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     }
         
     @FXML
-    public void CloseTheProgram(ActionEvent e)
+    public void CloseTheProgram()
     {
         stage.close();
     }
     
     @FXML
-    public void onTeamCreateAttempt(ActionEvent e)
+    public void onTeamCreateAttempt()
     {
         if(!teamNameTBox.getText().isEmpty()){
-            newTeam = new Team(selectedEmployees, teamNameTBox.getText());
+            newTeam = new Team(teamNameTBox.getText(), selectedEmployees);
         }
         else return;
         
