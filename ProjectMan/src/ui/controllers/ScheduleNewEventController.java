@@ -16,6 +16,7 @@ import projectman.SelfAwareController;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -60,7 +61,7 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
     public void initialize(URL location, ResourceBundle resources)
     {
         eventDate.setValue(startingDate);
-        eventDate.setConverter(new StringConverter<>()
+        eventDate.setConverter(new StringConverter<LocalDate>()
         {
             @Override
             public String toString(LocalDate object)
@@ -259,7 +260,8 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
             new Event(
                     importanceMandatory.isSelected(),
                     reminder.isSelected(),
-                    List.of(user),
+                    //List.of(user),
+                    new ArrayList<Employee>(){{add(user);}},
                     startingDate,
                     fromHr.getValue(),
                     toHr.getValue(),

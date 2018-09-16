@@ -8,6 +8,7 @@ package backend.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Employee {
     
     private String Name;
     private String LastName;
-    private String ID;                  // Unique!
+    private UUID ID;                  // Unique!
     private String password;            // I think it's OK here, we dont't need much safety now
     private String position;            // Or Occupation
     private double hourlyRate;          // Money, earned per hour
@@ -43,7 +44,7 @@ public class Employee {
 
     public Employee(String name,
                     String lastName,
-                    String id,
+                    UUID id,
                     String password,
                     String position,
                     double hourlyRate,
@@ -91,12 +92,12 @@ public class Employee {
         this.LastName = LastName;
     }
 
-    public String getID() 
+    public UUID getID()
     {
         return ID;
     }
 
-    public void setID(String ID) 
+    public void setID(UUID ID)
     {
         this.ID = ID;
     }

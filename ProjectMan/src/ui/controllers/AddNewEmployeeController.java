@@ -19,6 +19,7 @@ import projectman.SelfAwareController;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
@@ -39,6 +40,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
     
     private Employee employee = null;
+    private UUID uuid = null;
     
     private Stage stage;
     private Scene scene;
@@ -108,7 +110,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     @FXML
     private void onGenerateID()
     {
-        idField.setText(Integer.toString(new Random().nextInt()));  //TODO: generate actually unique ID
+        uuid = UUID.randomUUID();
+        idField.setText(uuid.toString());
     }
     
     @FXML
@@ -126,7 +129,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
             this.employee = new Employee(
                     nameField.getText(),
                     surnameField.getText(),
-                    idField.getText(),
+                    uuid,
                     passwordField.getText(),
                     positionChoice.getValue(),
                     Double.parseDouble(wageField.getText()),

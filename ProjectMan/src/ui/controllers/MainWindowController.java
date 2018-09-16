@@ -19,7 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.skin.DatePickerSkin;
+//import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -124,16 +124,16 @@ public class MainWindowController implements Initializable, SelfAwareController
         hourColumn.setCellValueFactory(new PropertyValueFactory<>("Hours"));
         accessColumn.setCellValueFactory(new PropertyValueFactory<>("Availability"));
     
-        Team testTeam = new Team("chuliganai", List.of(loggedInUser));
-        Project testProject = new Project("testProject", List.of(testTeam));
-        testTeam.setProject(testProject);
+        //Team testTeam = new Team("chuliganai", List.of(loggedInUser));
+        //Project testProject = new Project("testProject", List.of(testTeam));
+        //testTeam.setProject(testProject);
         
-        teamsTable.getItems().add(testTeam);
+        //teamsTable.getItems().add(testTeam);
         teamsName.setCellValueFactory(new PropertyValueFactory<>("teamName"));
         teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject().toString()));
         teamsEmployeeCount.setCellValueFactory(param -> new SimpleStringProperty(Integer.toString(param.getValue().size())));
         teamsManpower.setCellValueFactory(new PropertyValueFactory<>("manpower"));
-        teamsEdit.setCellFactory(param -> new TableCell<>()
+        teamsEdit.setCellFactory(param -> new TableCell<Team, String>()
         {
             @Override
             protected void updateItem(String item, boolean empty)
@@ -141,7 +141,7 @@ public class MainWindowController implements Initializable, SelfAwareController
                 super.updateItem(item, empty);
                 if (!empty)
                 {
-                    Team toEdit = getTableRow().getItem();
+                    Team toEdit = (Team) getTableRow().getItem();
                     setGraphic(new Button("Redaguoti")
                     {{
                         setOnAction(event -> System.out.println(toEdit));
@@ -280,7 +280,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     
         ///////////////////////////////////////////////^^^WEEK/DAY SCREEN^^^////////////////////////////////////////////
         
-        DatePicker pickerObject = new DatePicker(LocalDate.now());
+        /*DatePicker pickerObject = new DatePicker(LocalDate.now());
         Node dateView = new DatePickerSkin(pickerObject).getPopupContent();
         dateView.setLayoutX(15);
         dateView.setLayoutY(15);
@@ -295,7 +295,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
         });
     
-        monthViewAnchor.getChildren().add(dateView);
+        monthViewAnchor.getChildren().add(dateView);*/
         
         /*TableRowExpanderColumn<Employee> column = new TableRowExpanderColumn<>(param -> {
             HBox editor = new HBox(10);
