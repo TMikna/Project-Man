@@ -19,7 +19,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import projectman.SelfAwareController;
 
 import java.net.URL;
 import java.util.Random;

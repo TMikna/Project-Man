@@ -1,4 +1,4 @@
-package projectman;
+package ui.controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

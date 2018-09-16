@@ -24,15 +24,30 @@ public class DataStatic {
     private static List<Team> teams = new ArrayList<>();
     private static List<Employee> employees = new ArrayList<>();
     
-    public static void add (Employee employee)
+    public static void add (Event event)
     {
-        employees.add(employee);
+        events.add(event);
     }
+    
+    public static void add (Project project)
+    {
+        projects.add(project);
+    }  
     
     public static void add (Team team)
     {
         teams.add(team);
     }
+        
+    public static void add (Employee employee)
+    {
+        employees.add(employee);
+    }
+   
+    
+
+        
+
     
     public static List<Team> getTeams() {
         return teams;

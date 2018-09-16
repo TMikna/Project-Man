@@ -31,7 +31,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import projectman.SelfAwareController;
 import backend.datatypes.Team;
 
 import java.net.URL;

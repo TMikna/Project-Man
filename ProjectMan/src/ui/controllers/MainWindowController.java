@@ -24,8 +24,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import projectman.FXMLControllerExtractor;
-import projectman.SelfAwareController;
 
 import java.net.URL;
 import java.time.DayOfWeek;

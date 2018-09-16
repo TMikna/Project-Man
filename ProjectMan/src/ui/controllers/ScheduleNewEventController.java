@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
-import projectman.SelfAwareController;
 
 import java.net.URL;
 import java.time.LocalDate;
