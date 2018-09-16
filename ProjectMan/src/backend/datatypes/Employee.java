@@ -10,6 +10,10 @@ package backend.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -29,8 +33,15 @@ public class Employee {
     private double workedHours = 0; 
     private String privileges;
     
-    private List<String> personalTeams = new ArrayList();
-    private List<String> workHoursInTeams = new ArrayList();
+    private List<Team> personalTeams = new ArrayList();
+    private List<Double> workHoursInTeams = new ArrayList();
+    
+    // @Auth Manfr. Kintamieji skirti lentelei
+    @FXML
+    private CheckBox MemberCB; 
+    private SimpleStringProperty hoursOnThisTeam; 
+    
+    
     //TODO find best data type
     private String[] Teams = new String[FIVE];
     //TODO implement and use this if will be spare time in later steps
@@ -53,6 +64,8 @@ public class Employee {
         this.hourlyRate = hourlyRate;
         this.dailyHours = dailyHours;
         this.privileges = privileges;
+        this.MemberCB = new CheckBox();
+        this.hoursOnThisTeam = new SimpleStringProperty();
     }
     
     @Override
@@ -65,6 +78,27 @@ public class Employee {
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
 
+    public void addpersonalTeams(Team e)
+    {
+        this.personalTeams.add(e);
+        try{
+            workHoursInTeams.add(Double.parseDouble(gethoursOnThisTeam()));
+        }
+        catch(NumberFormatException c){
+            workHoursInTeams.add(0d);
+        }
+    }
+    
+    public void sethoursOnthisTeam(String hoursOnThisTeam)
+    {
+        this.hoursOnThisTeam.set(hoursOnThisTeam);
+    }
+    
+    public String gethoursOnThisTeam()
+    {
+        return hoursOnThisTeam.toString();
+    }
+    
     
     public String getName() 
     {

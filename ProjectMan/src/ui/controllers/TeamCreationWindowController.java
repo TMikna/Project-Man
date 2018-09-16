@@ -16,6 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -35,7 +37,7 @@ public class TeamCreationWindowController implements Initializable {
     @FXML
     TableView<Employee> employeeCatalog;
     @FXML
-    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn;
+    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn;
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
     @FXML
@@ -53,8 +55,15 @@ public class TeamCreationWindowController implements Initializable {
         HourlyRateColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyRate"));
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        teamWorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("hoursOnThisTeam"));
     }    
         
+    @FXML
+    public void AddToTeam(ActionEvent e)
+    {
+        selectedEmployees.add(employeeCatalog.getSelectionModel().getSelectedItem());
+    }
+    
     @FXML
     public void CloseTheProgram(ActionEvent e)
     {
@@ -68,7 +77,10 @@ public class TeamCreationWindowController implements Initializable {
             newTeam = new Team(selectedEmployees, teamNameTBox.getText());
         }
         else return;
-        
+        for(Employee emp : selectedEmployees)
+        {
+            emp.addpersonalTeams(newTeam);
+        }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
     
@@ -81,7 +93,6 @@ public class TeamCreationWindowController implements Initializable {
     public void setAllEmployees(List<Employee> allEmployees)
     {
         this.allEmployees = allEmployees;
-        System.out.println("Hello");
         ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
         tableInfo.addAll(allEmployees);
         employeeCatalog.setItems(tableInfo);
