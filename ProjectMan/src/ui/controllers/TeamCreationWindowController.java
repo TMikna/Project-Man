@@ -62,6 +62,7 @@ public class TeamCreationWindowController implements Initializable {
     public void AddToTeam(ActionEvent e)
     {
         selectedEmployees.add(employeeCatalog.getSelectionModel().getSelectedItem());
+        employeeCatalog.getItems().remove(employeeCatalog.getSelectionModel().getSelectedItem());
     }
     
     @FXML
