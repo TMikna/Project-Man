@@ -39,7 +39,7 @@ public class Employee {
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
     private CheckBox MemberCB; 
-    private SimpleStringProperty hoursOnThisTeam; 
+    private SimpleStringProperty HOnThisTeam; 
     
     
     //TODO find best data type
@@ -65,7 +65,7 @@ public class Employee {
         this.dailyHours = dailyHours;
         this.privileges = privileges;
         this.MemberCB = new CheckBox();
-        this.hoursOnThisTeam = new SimpleStringProperty();
+        this.HOnThisTeam = new SimpleStringProperty("");
     }
     
     @Override
@@ -82,21 +82,21 @@ public class Employee {
     {
         this.personalTeams.add(e);
         try{
-            workHoursInTeams.add(Double.parseDouble(gethoursOnThisTeam()));
+            workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
         }
         catch(NumberFormatException c){
             workHoursInTeams.add(0d);
         }
     }
     
-    public void sethoursOnthisTeam(String hoursOnThisTeam)
+    public void setHOnthisTeam(String HOnThisTeam)
     {
-        this.hoursOnThisTeam.set(hoursOnThisTeam);
+        this.HOnThisTeam.set(HOnThisTeam);
     }
     
-    public String gethoursOnThisTeam()
+    public String getHOnThisTeam()
     {
-        return hoursOnThisTeam.toString();
+        return HOnThisTeam.get();
     }
     
     

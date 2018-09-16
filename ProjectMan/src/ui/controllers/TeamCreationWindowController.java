@@ -18,12 +18,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,17 +38,19 @@ import javafx.stage.Stage;
 public class TeamCreationWindowController implements Initializable {
 
     @FXML
-    TableView<Employee> employeeCatalog;
+    TableView<Employee> employeeCatalog, teamPersonelTW;
     @FXML
-    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn;
+    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn, teamPersonelColumn;
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
     @FXML
     TextField teamNameTBox;
     
-    List<Employee> allEmployees = new ArrayList();
-    List<Employee> selectedEmployees = new ArrayList();
-    Team newTeam;
+    private List<Employee> allEmployees = new ArrayList();      //Galima perkelti i kita klase, arba jei jau toks listas yra atvesti patha i sita, bet nebutina
+    
+    private List<Employee> selectedEmployees = new ArrayList(); //Neliesti, vidinis listas
+    private List<Employee> changedCellEmployees = new ArrayList();
+    private Team newTeam;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,19 +60,59 @@ public class TeamCreationWindowController implements Initializable {
         HourlyRateColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyRate"));
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        teamWorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("hoursOnThisTeam"));
+        teamWorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("HOnThisTeam"));
+        
+        teamWorkHoursColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        teamPersonelTW.setOnMouseClicked(this::delTeamPersonel);
+        
+        teamPersonelColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
     }    
+    
+    @FXML
+    public void changeHourEvent(CellEditEvent edittedCell)
+    {
+        Employee selected = employeeCatalog.getSelectionModel().getSelectedItem();
+        if(selected == null)
+            return;
+        selected.setHOnthisTeam((String) edittedCell.getNewValue());
+        employeeCatalog.refresh();
+        changedCellEmployees.add(selected);
+    }
+    
+    @FXML
+    public void delTeamPersonel(MouseEvent e)         //Metodas atsakingas uz zmoniu pasalinima is grupes kurimo metu.
+    {
+        System.out.println("Event target::: " + e.getTarget());
+        Employee node = teamPersonelTW.getSelectionModel().getSelectedItem();
+        if(node == null)
+            return;
+        teamPersonelTW.getItems().remove(node);
+        selectedEmployees.remove(node);
+        employeeCatalog.getItems().add(node);
+    }
         
     @FXML
-    public void AddToTeam(ActionEvent e)
+    public void AddToTeam(ActionEvent e)         //Metodas skirtas prideti personeli i teama kurimo metu. Neliesti, nebent zinot ka darot ;D
     {
+        System.out.println("Debug.SelectedIteam:: " + employeeCatalog.getSelectionModel().getSelectedItem());
+        if(employeeCatalog.getSelectionModel().getSelectedItem() == null)
+            return;
         selectedEmployees.add(employeeCatalog.getSelectionModel().getSelectedItem());
         employeeCatalog.getItems().remove(employeeCatalog.getSelectionModel().getSelectedItem());
+        ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
+        listOfEmployees.addAll(selectedEmployees);
+        teamPersonelTW.setItems(listOfEmployees);
+        teamPersonelTW.refresh();
     }
     
     @FXML
     public void CloseTheProgram(ActionEvent e)
     {
+        for(Employee emp : changedCellEmployees)
+        {
+            emp.setHOnthisTeam("");
+        }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
     
@@ -78,9 +123,13 @@ public class TeamCreationWindowController implements Initializable {
             newTeam = new Team(selectedEmployees, teamNameTBox.getText());
         }
         else return;
-        for(Employee emp : selectedEmployees)
+        for(Employee emp : selectedEmployees)  //For each visiem employee, kurie yra teame, priskiriamas team pavadinimas ir valandos. (Toliau: Employee klaseje)
         {
             emp.addpersonalTeams(newTeam);
+        }
+        for(Employee emp : changedCellEmployees)
+        {
+            emp.setHOnthisTeam("");
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
