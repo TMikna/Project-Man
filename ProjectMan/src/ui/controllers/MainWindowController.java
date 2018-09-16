@@ -94,12 +94,13 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     public void TeamSetupWindowInitializer()
     {
-        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
-        Team createdTeam = teamCreationWindow.getController().getTeam();
-        if (createdTeam != null)
-        {
-            DataStatic.getTeams().add(createdTeam);
-        }
+    // TODO Manfedas fix this, you are creating TeamCreation now
+    //    FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
+    //    Team createdTeam = teamCreationWindow.getController().getTeam();
+//        if (createdTeam != null)
+//        {
+//            DataStatic.getTeams().add(createdTeam);
+//        }
     }
     
     @FXML

@@ -87,16 +87,6 @@ public class Employee {
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================
 
-    public void addpersonalTeams(Team e)
-    {
-        this.personalTeams.add(e);
-        try{
-            workHoursInTeams.add(Double.parseDouble(gethoursOnThisTeam()));
-        }
-        catch(NumberFormatException c){
-            workHoursInTeams.add(0d);
-        }
-    }
     
     public void sethoursOnthisTeam(String hoursOnThisTeam)
     {

@@ -8,3 +8,4 @@ public interface SelfAwareController
 {
     void whoAmI(Stage stage, Scene scene, Window window);
 }
+  

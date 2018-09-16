@@ -18,7 +18,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-<<<<<<< HEAD
 import javafx.stage.Window;
 import projectman.SelfAwareController;
 
@@ -27,9 +26,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Consumer;
-=======
 import backend.logic.Statics;
->>>>>>> master
+import javafx.scene.Scene;
 
 /**
  * FXML Controller class
@@ -50,13 +48,12 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
     
     private Employee employee = null;
-<<<<<<< HEAD
     private UUID uuid = null;
     
     private Stage stage;
     private Scene scene;
     private Window window;
-    @Override
+    
     public void whoAmI(Stage stage, Scene scene, Window window)
     {
         this.stage = stage;
@@ -64,10 +61,6 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         this.window = window;
     }
     
-=======
-    private MainWindowController mainController;
-
->>>>>>> master
     /**
      * Initializes the controller class.
      */
@@ -125,12 +118,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     @FXML
     private void onGenerateID()
     {
-<<<<<<< HEAD
-        uuid = UUID.randomUUID();
+        uuid = UUID.randomUUID();  //TODO?
         idField.setText(uuid.toString());
-=======
-        idField.setText(Statics.generateID());  //TODO: generate actually unique ID
->>>>>>> master
     }
     
     @FXML
@@ -173,10 +162,11 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     }
 
     // Sets reference to mainColtroller so we can invoke MainController functions from here
-    void setMain(MainWindowController mainController) {
-        this.mainController = mainController;
-        System.out.println("setMainWorks");
-        System.out.println(this.mainController);
-    }
+//    void setMain(MainWindowController mainController) {
+//        this.mainController = mainController;
+//        System.out.println("setMainWorks");
+//        System.out.println(this.mainController);
+//    }
+
     
 }

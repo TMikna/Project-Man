@@ -16,19 +16,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-<<<<<<< HEAD
 import javafx.scene.Scene;
-=======
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
->>>>>>> master
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-<<<<<<< HEAD
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import projectman.SelfAwareController;
@@ -38,27 +34,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-=======
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
->>>>>>> master
 
 /**
  * FXML Controller class
  *
  * @author manfr
  */
-<<<<<<< HEAD
 public class TeamCreationWindowController implements Initializable, SelfAwareController
 {
-=======
-public class TeamCreationWindowController implements Initializable {
->>>>>>> master
 
     @FXML
     TableView<Employee> employeeCatalog;
     @FXML
-    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn;
+ //   TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn;
     TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn;
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
@@ -96,11 +85,6 @@ public class TeamCreationWindowController implements Initializable {
         teamWorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("hoursOnThisTeam"));
     }    
         
-        System.out.println("Hello");
-        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-        tableInfo.addAll(allEmployees);
-        employeeCatalog.setItems(tableInfo);
-        employeeCatalog.refresh();
     @FXML
     public void AddToTeam(ActionEvent e)
     {
@@ -126,7 +110,8 @@ public class TeamCreationWindowController implements Initializable {
         stage.close();
         for(Employee emp : selectedEmployees)
         {
-            emp.addpersonalTeams(newTeam);
+        // [Tomas] nežinau kieno kodas ir ar jo reik
+        //    emp.addpersonalTeams(newTeam);
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
