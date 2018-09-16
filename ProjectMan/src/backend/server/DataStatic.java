@@ -42,7 +42,7 @@ public class DataStatic {
         DataStatic.teams = teams;
     }
     public static List<Employee> getEmployees() {
-        return employees;
+        return DataStatic.employees;
     }
     public static void setEmployees(List<Employee> employees) {
         //[Tomas] Not sure if works 

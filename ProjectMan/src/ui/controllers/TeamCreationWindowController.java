@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import projectman.SelfAwareController;
 import backend.datatypes.Team;
+import backend.server.DataStatic;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -82,6 +83,11 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        allEmployees = DataStatic.getEmployees();
+        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
+        tableInfo.addAll(allEmployees);
+        employeeCatalog.setItems(tableInfo);
+        employeeCatalog.refresh();
         NameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
         PositionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
@@ -170,14 +176,5 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     public Team getTeam()
     {
         return newTeam;
-    }
-    
-    public void setAllEmployees(List<Employee> allEmployees)
-    {
-        this.allEmployees = allEmployees;
-        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-        tableInfo.addAll(allEmployees);
-        employeeCatalog.setItems(tableInfo);
-        employeeCatalog.refresh();
     }
 }

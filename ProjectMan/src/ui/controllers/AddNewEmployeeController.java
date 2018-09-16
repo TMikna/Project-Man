@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Consumer;
 import backend.logic.Statics;
+import backend.server.DataStatic;
 import javafx.scene.Scene;
 
 /**
@@ -143,6 +144,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                     Double.parseDouble(wageField.getText()),
                     Double.parseDouble(postField.getText()),
                     Employee.ADMIN);
+            System.out.println("DEBUG:: " + employee);
+            DataStatic.add(employee);
             stage.close();
         }
     }
