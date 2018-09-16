@@ -190,7 +190,7 @@
         <content>
           <AnchorPane fx:id="testAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="addNewWorker" mnemonicParsing="false" onAction="#AddNewWindowInitializer" prefHeight="45.0" prefWidth="90.0" text="Pridėti naują darbuotoją" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="addNewWorker" mnemonicParsing="false" onAction="#AddNewEmployeeInitializer" prefHeight="45.0" prefWidth="90.0" text="Pridėti naują darbuotoją" textAlignment="CENTER" wrapText="true" />
                   <TableView fx:id="employeesTable" layoutX="90.0" prefHeight="402.0" prefWidth="649.0">
                     <columns>
                       <TableColumn fx:id="employeesName" prefWidth="75.0" text="Pilnas vardas" />

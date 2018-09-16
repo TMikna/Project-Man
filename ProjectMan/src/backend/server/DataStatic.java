@@ -9,6 +9,7 @@ import backend.datatypes.Employee;
 import backend.datatypes.Event;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,4 @@ public class DataStatic {
         //[Tomas] Not sure if works 
         DataStatic.employees = employees;
     }
-    
-    
 }

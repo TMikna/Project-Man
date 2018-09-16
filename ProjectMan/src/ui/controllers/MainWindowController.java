@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import backend.server.DataStatic;
+import java.util.logging.Logger;
+
 /**
  *
  * @author manfr
@@ -91,8 +94,11 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     public void TeamSetupWindowInitializer(ActionEvent e)
     {
-        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(employees));
+        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml", "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
         
+//TODO: look how it's done with AddNewEmployee      
+//      teams.add(teamCreationWindow.getController().getTeam());
+
         /*//Testavimui skirti duomenys
         tableInfo.addAll(employees);
         timeTable.setItems(tableInfo);
@@ -100,7 +106,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     }
     
     @FXML
-    public void AddNewWindowInitializer(ActionEvent e)
+    public void AddNewEmployeeInitializer(ActionEvent e)
     {
         FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
         

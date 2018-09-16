@@ -48,6 +48,7 @@ public class Employee {
                     String position,
                     double hourlyRate,
                     double dailyHours,
+                    String privileges)
                     int privileges)
     {
         this.Name = name;
@@ -170,7 +171,7 @@ public class Employee {
     {
         this.workedHoursThisMonth = workedHoursThisMonth;
     }
-    
+  
     public int getPrivileges()
     {
         return privileges;

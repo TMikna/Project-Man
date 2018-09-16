@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  *
  * @author manfr
  */
-public class TeamCreationWindowController implements Initializable {
+public class TeamCreationWindowController implements Initializable, SelfAwareController {
 
     @FXML
     TableView<Employee> employeeCatalog;
@@ -32,12 +32,27 @@ public class TeamCreationWindowController implements Initializable {
     TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn;
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
+    @FXML
+    TextField teamNameTBox;
     
     List<Employee> allEmployees;
+    List<Employee> selectedEmployees = new ArrayList();
+    Team newTeam;
     
     public TeamCreationWindowController(List<Employee> allEmployees)
     {
         this.allEmployees = allEmployees;
+    }
+    
+    private Stage stage;
+    private Scene scene;
+    private Window window;
+    @Override
+    public void whoAmI(Stage stage, Scene scene, Window window)
+    {
+        this.stage = stage;
+        this.scene = scene;
+        this.window = window;
     }
     
     @Override
@@ -48,12 +63,34 @@ public class TeamCreationWindowController implements Initializable {
         HourlyRateColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyRate"));
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
-    
-    
+        
         System.out.println("Hello");
         ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
         tableInfo.addAll(allEmployees);
         employeeCatalog.setItems(tableInfo);
         employeeCatalog.refresh();
+    }
+        
+    @FXML
+    public void CloseTheProgram(ActionEvent e)
+    {
+        stage.close();
+    }
+    
+    @FXML
+    public void onTeamCreateAttempt(ActionEvent e)
+    {
+        if(!teamNameTBox.getText().isEmpty()){
+            newTeam = new Team(selectedEmployees, teamNameTBox.getText());
+        }
+        else return;
+        
+        stage.close();
+    }
+    
+    @FXML
+    public Team getTeam()
+    {
+        return newTeam;
     }
 }

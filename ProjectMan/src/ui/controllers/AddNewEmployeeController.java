@@ -26,6 +26,11 @@ import java.util.function.Consumer;
  *
  * @author TM
  */
+/*******************************
+ * ideas TODO show number of selected employees
+ * @author TM
+ */
+
 public class AddNewEmployeeController implements Initializable, SelfAwareController
 {
     @FXML
@@ -109,19 +114,25 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     @FXML
     private void onAddAttempt()
     {
-        if (!nameField.getText()
-                      .isEmpty() && !surnameField.getText()
-                                                 .isEmpty() && !idField.getText()
-                                                                       .isEmpty() && !passwordField.getText()
-                                                                                                   .isEmpty() && !postField.getText()
-                                                                                                                           .isEmpty() && !wageField.getText()
-                                                                                                                                                   .isEmpty() && !positionChoice.getSelectionModel()
-                                                                                                                                                                                .getSelectedItem()
-                                                                                                                                                                                .isEmpty())
+        if (!nameField.getText().isEmpty()
+                    && !surnameField.getText().isEmpty()
+                    && !idField.getText().isEmpty()
+                    && !passwordField.getText().isEmpty()
+                    && !postField.getText().isEmpty()
+                    && !wageField.getText().isEmpty()
+                    && !positionChoice.getSelectionModel().getSelectedItem().isEmpty())
         {
-            this.employee = new Employee(nameField.getText(), surnameField.getText(), idField.getText(), passwordField.getText(), positionChoice.getValue(), Double.parseDouble(wageField.getText()), Double.parseDouble(postField.getText()), Employee.ADMIN);
-            ((Stage) nameField.getScene()
-                              .getWindow()).close();
+            // TODO add checks if given data is suitable (now trying parseDouble(...) can cause exception)
+            this.employee = new Employee(
+                    nameField.getText(),
+                    surnameField.getText(),
+                    idField.getText(),
+                    passwordField.getText(),
+                    positionChoice.getValue(),
+                    Double.parseDouble(wageField.getText()),
+                    Double.parseDouble(postField.getText()),
+                    Employee.ADMIN);
+            stage.close();
         }
     }
     
