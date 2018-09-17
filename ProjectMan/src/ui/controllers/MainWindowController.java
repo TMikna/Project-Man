@@ -193,10 +193,9 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
         });
     
-        Team testTeam = new Team("chuliganai", new ArrayList<Employee>(){{add(loggedInUser);}});          //
-        Project testProject = new Project("testProject", new ArrayList<Team>(){{add(testTeam);}});      //  TEST DATA
-        testTeam.setProject(testProject);                                                                           //
-        teamsTable.getItems().add(testTeam);                                                                        //
+        ObservableList<Team> tableInf = FXCollections.observableArrayList();
+        tableInf.addAll(DataStatic.getTeams());
+        teamsTable.setItems(tableInf);                                                                        //
     }
     
     private void myDayTab_SettingsTabInit()
