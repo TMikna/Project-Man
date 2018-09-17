@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  *
@@ -83,7 +84,11 @@ public class DBUtilities {
     }
  
     public Employee getAllEmployees() throws SQLException {       
-            Employee employee;
+            String name, surname, password, occupation;
+            UUID id;
+            double hourlyrate, dailyhours, workedhours;
+            int privileges;
+            
             statement = connection.createStatement();
             //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");

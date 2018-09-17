@@ -16,6 +16,7 @@ import java.util.List;
  */
 //TODO: CONSIDER how to do: Static or usuall class?
 public class Data {
+// UNUSED, all data stays in DataStatic class
     
     private List<Team> teams = new ArrayList();
     private List<Employee> employees = new ArrayList();
