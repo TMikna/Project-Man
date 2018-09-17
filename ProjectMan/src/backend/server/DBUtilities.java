@@ -28,7 +28,7 @@ import java.util.UUID;
  */
 
 enum Column {
-    ZERO, NAME, SURNAME, UUID, PASSWORD, OCCUPATION, HOURLYRATE, DAILYHOURS, WORKEDHOURS, PRIVILEGES
+    ZERO, NAME, SURNAME, UUID, PASSWORD, OCCUPATION, HOURLYRATE, DAILYHOURS, WORKEDHOURS, PRIVILEGES, END
 }
 public class DBUtilities {
     //the following three variables are required for connecting a database, designed for the project manager
@@ -41,7 +41,21 @@ public class DBUtilities {
     private ResultSet results;
 
     
-    private Connection connection = null;
+    private static Connection connection = null;
+    private static DBUtilities dbutil;
+    
+    public static void getInstance()
+    {
+        if(dbutil != null)
+            dbutil = new DBUtilities();
+    }
+    
+    public static void getInstance(String url, String user, String password)
+    {
+        if(dbutil != null)
+            dbutil = new DBUtilities(url, user, password);
+    }
+
     
     Boolean active = true; //set false if you don't want database utilities, if let's say they don't work
     
@@ -83,7 +97,7 @@ public class DBUtilities {
             connection.close();
     }
  
-    public Employee getAllEmployees() throws SQLException {       
+    public void getAllEmployees() throws SQLException {       
             String name, surname, password, occupation;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
@@ -93,24 +107,27 @@ public class DBUtilities {
             //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");
             
+            DataStatic.getEmployees().clear();
+            
             while(results.next())
             {
-                
+                name = results.getString("name");
+                surname = results.getString("surname");
+                id = new UUID(0, 0); // this is temporary, not really sure how to parse thus for now
+                password = results.getString("password");
+                occupation = results.getString("occupation");
+                hourlyrate = results.getDouble("hourlyrate");
+                dailyhours = results.getDouble("dailyhours");
+                workedhours = results.getDouble("workedhours");
+                privileges = results.getInt("privileges");
+                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, privileges));
             }
-            
-            
-            
-            return null;
     }
     //add employee to the database
     void addEmployee (Employee newCommer) throws SQLException {
-        try (
-            Connection conn = DriverManager.getConnection(url, user, password);
-            Statement stmt = conn.createStatement();
-        ) {
-            String strUpdate = "INSERT INTO APP.STAFF VALUES " + newCommer.toUpdateString();
-            if (stmt.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
-        }
+            statement = connection.createStatement();
+            String strUpdate = "INSERT INTO projectman.employees VALUES " + newCommer.toUpdateString();
+            if (statement.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
     }
     /**
      * prints rows from a result set, until all or a specified amount is printed, 
