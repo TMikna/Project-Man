@@ -16,6 +16,7 @@ public class LoginWindowController
 	PasswordField auth_Password;
 	
 	@FXML
+    
 	public void auth_Verify()
 	{
 		if(true)//"admin".equals(auth_User.getText()) && "admin".equals(auth_Password.getText()))

@@ -200,6 +200,11 @@ public class MainWindowController implements Initializable, SelfAwareController
         teamsTable.getItems().add(testTeam);                                                                        //
     }
     
+    /*********************************************
+     * myDayTabs initializers       @auth Edvinas
+     * TODO crete new Controller class for myDayTab
+     ********************************************/
+ 
     private void myDayTab_SettingsTabInit()
     {
         List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
@@ -210,7 +215,8 @@ public class MainWindowController implements Initializable, SelfAwareController
                 node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
         TextField settingsHrsPerWeek = (TextField) userSettingsAnchor.getChildren().stream().filter(node ->
                 node instanceof TextField).collect(Collectors.toList()).get(0);
-        settingsChangeButton.setOnAction(actionEvent -> {
+        settingsChangeButton.setOnAction(actionEvent -> 
+            {
             boolean illegal = false;
             int countSum = 0;
             for (int i = 0; i < 5; ++i)
@@ -270,7 +276,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
         
             AnchorPane anchorPane = ((AnchorPane)pane.getContent());
-        //very professional variable assigning probably better not to touch
+            //very professional variable assigning probably better not to touch
             TableView<TableColumn<String, String>> table = (TableView) anchorPane.getChildren().get(0);    //very professional variable assigning probably better not to touch
             List<ChoiceBox<Integer>> choiceBoxes = anchorPane.getChildren().stream().filter(node -> 
                     node instanceof ChoiceBox).map(node -> (ChoiceBox<Integer>) node).collect(Collectors.toList());
