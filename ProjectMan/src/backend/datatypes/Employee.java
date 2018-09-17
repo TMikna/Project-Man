@@ -43,8 +43,6 @@ public class Employee {
     
     
     // @Auth Manfr. Kintamieji skirti lentelei
-    @FXML
-    private CheckBox MemberCB; 
     private SimpleStringProperty HOnThisTeam; 
     
     
@@ -72,7 +70,6 @@ public class Employee {
         this.hourlyRate = hourlyRate;
         this.dailyHours = dailyHours;
         this.privileges = privileges;
-        this.MemberCB = new CheckBox();
         this.HOnThisTeam = new SimpleStringProperty("");
     }
     
@@ -119,11 +116,13 @@ public class Employee {
 
     
     public void setHOnthisTeam(String HOnThisTeam)
+            //Get hours on this team
     {
         this.HOnThisTeam.set(HOnThisTeam);
     }
     
     public String getHOnThisTeam()
+            //Set hours on this team
     {
         return HOnThisTeam.get();
     }
@@ -238,6 +237,10 @@ public class Employee {
     {
         this.privileges = privileges;
     }
+    
+//================================================================================
+//                                                               @author
+//================================================================================
     
     @Override
     public boolean equals(Object o)
