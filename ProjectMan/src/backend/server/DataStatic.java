@@ -26,6 +26,7 @@ public class DataStatic {
     
     public static void add (Event event)
     {
+        
         events.add(event);
     }
     

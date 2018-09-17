@@ -7,3 +7,5 @@
 !"Main goals"
 ProjectMan/nbproject/private/private.properties
 ProjectMan/src/ui/controllers/Loader.java
+/ProjectMan/dist/
+/ProjectMan/build/
