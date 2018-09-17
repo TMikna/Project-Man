@@ -8,6 +8,7 @@ package ui.controllers;
 import backend.datatypes.Employee;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
+import backend.logic.Statics;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,8 +64,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private AnchorPane userSettingsAnchor, monthViewAnchor, testAnchor;
     
-    public ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-    List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
+    private List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
     
     private Stage stage;
     private Scene scene;
@@ -107,16 +107,14 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     public void AddNewEmployeeInitializer()
     {
-        FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
-        //Employee createdEmployee = employeeCreationWindow.getController().returnEmployee();
-       // if (createdEmployee != null)
-        //{
-            //DataStatic.add(createdEmployee);
-            ObservableList<Employee> tempList = FXCollections.observableArrayList();
-            tempList.addAll(DataStatic.getEmployees());
-            employeesTable.setItems(tempList);
-            employeesTable.refresh();
-       // }
+        new FXMLControllerExtractor<>(
+                "/ui/fxml/AddNewEmployee.fxml",
+                "Enter employee details",
+                window,
+                new AddNewEmployeeController());
+        
+        employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
+        employeesTable.refresh();
     }
     
     @Override
@@ -143,17 +141,6 @@ public class MainWindowController implements Initializable, SelfAwareController
         teamsTable.getItems().add(new Employee("test0", "test0", "test", "test", "test", 2, 2, Employee.ADMIN));
         teamsTable.getItems().add(new Employee("test1", "test1", "test", "test", "test", 2, 2, Employee.ADMIN));
         teamsTable.getItems().add(new Employee("test2", "test2", "test", "test", "test", 2, 2, Employee.ADMIN));*/
-    }
-    
-    private void updatePersonalDayTableColumns(int from, int count, TableView<TableColumn<String, String>> table)
-    {
-        table.getColumns().clear();
-        for (int i = 0; i < count; ++i)
-        {
-            //[Tomas] TODO: maybe put to backend classes?
-            table.getColumns().add(new TableColumn<>((from + i > 24 ? from + i - 24 : from + i)
-                    + "-" + (from + i + 1 > 24 ? from + i - 23 : from + i + 1)));
-        }
     }
     
     private void myTeamTabInit()
@@ -291,7 +278,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             toHr.getSelectionModel().select(settingsTo.get(i).getSelectionModel().getSelectedItem());
             int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(),
                     hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
-            updatePersonalDayTableColumns(fromInt, hrCountInt, table);
+            Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table);
         
             EventHandler<ActionEvent> normalChangeAction = action -> {
                 fromHr.setDisable(false);
@@ -339,16 +326,17 @@ public class MainWindowController implements Initializable, SelfAwareController
                     checkButton.setStyle(null);
                 
                     changeButton.setOnAction(normalChangeAction);
-                    updatePersonalDayTableColumns(fromInt1, hrCountInt1, table);
+                    Statics.updatePersonalDayTableColumns(fromInt1, hrCountInt1, table);
                 });
             });
         
             int finalI = i;
-            newEventButton.setOnAction(event -> {   //Event scheduling
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
-                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
-                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
-            });
+            newEventButton.setOnAction(event -> new FXMLControllerExtractor<>(
+                    "/ui/fxml/ScheduleNewEvent.fxml",
+                    "Naujas ivykis",
+                    window,
+                    new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay))
+            ));
         }
     }
     
@@ -358,16 +346,15 @@ public class MainWindowController implements Initializable, SelfAwareController
         Node dateView = new DatePickerSkin(pickerObject).getPopupContent();
         dateView.setLayoutX(15);
         dateView.setLayoutY(15);
-        pickerObject.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(observable + " " + oldValue + " " + newValue);
-        });
     
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
-                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
-                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
+                new FXMLControllerExtractor<>(
+                        "/ui/fxml/ScheduleNewEvent.fxml",
+                        "Naujas ivykis",
+                        window,
+                        new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
     

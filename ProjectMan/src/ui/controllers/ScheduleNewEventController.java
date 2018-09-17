@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -97,7 +98,12 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
         };
         switch (user.getPrivileges())
         {
-            case Employee.EMPLOYEE:
+            case NO_ACCESS:
+            {
+                //shouldnt event be able to open this window
+                return;
+            }
+            case EMPLOYEE:
             {
                 scaleTeam.setDisable(false);
                 disableAndUnselect.accept(scaleProject);
@@ -126,9 +132,9 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
                 
                     enableReminderForMandatory();
                 });
-                return;
+                break;
             }
-            case Employee.TEAM_MANAGER:
+            case TEAM_MANAGER:
             {
                 scaleTeam.setDisable(false);
                 scaleProject.setDisable(false);
@@ -157,9 +163,9 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
                 
                     enableReminderForMandatory();
                 });
-                return;
+                break;
             }
-            case Employee.PROJECT_MANAGER:
+            case PROJECT_MANAGER:
             {
                 scaleTeam.setDisable(false);
                 scaleProject.setDisable(false);
@@ -188,10 +194,10 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
                 
                     enableReminderForMandatory();
                 });
-                return;
+                break;
             }
-            case Employee.COMPANY_MANAGER:
-            case Employee.ADMIN:
+            case COMPANY_MANAGER:
+            case ADMIN:
             {
                 scaleTeam.setDisable(false);
                 scaleProject.setDisable(false);
@@ -200,10 +206,9 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
                 scaleOther.setDisable(false);
             
                 enableReminderForMandatory();
-                return;
+                break;
             }
         }
-        
     }
     
     private void disableReminderForOptional()
@@ -248,18 +253,18 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
             eventName.setStyle("-fx-background-color: red");
             correctInfo = false;
         }
-        
         if (!correctInfo)
         {
             return;
         }
+        
         
         if (scalePersonal.isSelected())
         {
             new Event(
                     importanceMandatory.isSelected(),
                     reminder.isSelected(),
-                    new ArrayList<Employee>(){{add(user);}},    //List.of(user),    //java 10
+                    Arrays.asList(user),    //List.of(user),    //java 10
                     startingDate,
                     fromHr.getValue(),
                     toHr.getValue(),

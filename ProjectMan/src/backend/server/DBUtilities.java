@@ -98,10 +98,9 @@ public class DBUtilities {
     }
  
     public void getAllEmployees() throws SQLException {       
-            String name, surname, password, occupation;
+            String name, surname, password, occupation, privileges;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
-            int privileges;
             
             statement = connection.createStatement();
             //String strSelect = "select * from projectman.employees";
@@ -113,14 +112,14 @@ public class DBUtilities {
             {
                 name = results.getString("name");
                 surname = results.getString("surname");
-                id = new UUID(0, 0); // this is temporary, not really sure how to parse thus for now
+                id = UUID.fromString(results.getString("ID"));
                 password = results.getString("password");
                 occupation = results.getString("occupation");
                 hourlyrate = results.getDouble("hourlyrate");
                 dailyhours = results.getDouble("dailyhours");
                 workedhours = results.getDouble("workedhours");
-                privileges = results.getInt("privileges");
-                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, privileges));
+                privileges = results.getString("privileges");
+                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, Employee.AccessRights.valueOf(privileges)));
             }
     }
     //add employee to the database

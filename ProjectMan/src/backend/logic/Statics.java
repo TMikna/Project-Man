@@ -5,18 +5,26 @@
  */
 package backend.logic;
 
-import java.util.Random;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 /**
- *
  * @author TM
  */
-public final class Statics { 
-        
-    
-    public static String generateID()                          //TODO: consider if it's better to use integer or string
+public final class Statics
+{
+    public static void updatePersonalDayTableColumns(int from, int count, TableView<TableColumn<String, String>> table)
+    {
+        table.getColumns()
+             .clear();
+        for (int i = 0; i < count; ++i)
         {
-        return Integer.toString(new Random().nextInt(99999));  //TODO: generate actually unique ID
+            table.getColumns()
+                 .add(new TableColumn<>((from + i > 24
+                                         ? from + i - 24
+                                         : from + i) + "-" + (from + i + 1 > 24
+                                                              ? from + i - 23
+                                                              : from + i + 1)));
         }
-    
+    }
 }
