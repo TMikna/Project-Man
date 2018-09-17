@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
  *
@@ -24,29 +25,82 @@ import java.sql.Statement;
  * 2) select suitable lengt for varchar types: ID is UUID, but stored as a String will require 40 char space
  * Decide on whether to make many unique selects, inserts, updates and deletes or make generic ones
  */
+
+enum Column {
+    ZERO, NAME, SURNAME, UUID, PASSWORD, OCCUPATION, HOURLYRATE, DAILYHOURS, WORKEDHOURS, PRIVILEGES
+}
 public class DBUtilities {
     //the following three variables are required for connecting a database, designed for the project manager
-    final String DBURL = "jdbc:derby://localhost:1527/ProjectManDB";
-    final String user = "psadmin"; //should be set in a constructor in case of several users, same for pass
-    final String password = "TOP2018"; 
-    final String[] employeeColumns = {"NAME", "LASTNAME", "ID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "USERMODE"};
+    private String url;
+    private String user;
+    private String password; 
+    private String[] employeeColumns = {"NAME", "LASTNAME", "ID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "USERMODE"};
+    private Properties properties;
+    private Statement statement;
+    private ResultSet results;
+
+    
+    private Connection connection = null;
     
     Boolean active = true; //set false if you don't want database utilities, if let's say they don't work
     
-    //Selects all values from the table STAFF from scheme APP and retunrs them in a Result Set
-    ResultSet selectStaff() throws SQLException {
-        try (
-            Connection conn = DriverManager.getConnection(DBURL, user, password);
-            Statement stmt = conn.createStatement();
-        ) {
-            String strSelect = "SELECT id, name, lastname, password, hourlyrate, dailyhours, usermode from APP.STAFF";
-            return stmt.executeQuery(strSelect);
-        }
+    private DBUtilities() //hardcoded argmenents, they probably will stay as they are
+    {
+        this.url = "jdbc:mysql://localhost:1527/projectman";
+        this.user = "user";
+        this.password = "pass";
+        
+        properties.put("url", this.url);
+        properties.put("user", this.user);
+        properties.put("password", this.password);
+    }
+    
+    private DBUtilities(String url, String user, String password)
+    {
+        properties.put("url", url);
+        properties.put("user", user);
+        properties.put("password", password);
+ 
+    }
+    
+    public void connect() throws SQLException
+    {
+        connection = DriverManager.getConnection(url, user, password);
+    }
+    public void connect(String DBURL, String user, String password) throws SQLException
+    {
+        connection = DriverManager.getConnection(DBURL, user, password);
+    }
+    
+    public void disconnect() throws SQLException
+    {
+        if(results != null)
+            results.close();
+        if (statement != null)
+            statement.close();
+        if(connection != null)
+            connection.close();
+    }
+ 
+    public Employee getAllEmployees() throws SQLException {       
+            Employee employee;
+            statement = connection.createStatement();
+            //String strSelect = "select * from projectman.employees";
+            results = statement.executeQuery("select * from projectman.employees");
+            
+            while(results.next())
+            {
+                
+            }
+            
+            
+            
+            return null;
     }
     //add employee to the database
     void addEmployee (Employee newCommer) throws SQLException {
         try (
-            Connection conn = DriverManager.getConnection(DBURL, user, password);
+            Connection conn = DriverManager.getConnection(url, user, password);
             Statement stmt = conn.createStatement();
         ) {
             String strUpdate = "INSERT INTO APP.STAFF VALUES " + newCommer.toUpdateString();
