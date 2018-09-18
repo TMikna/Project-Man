@@ -111,7 +111,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         Employee selected = employeeCatalog.getSelectionModel().getSelectedItem();
         if(selected == null)
             return;
-        selected.setHOnthisTeam((String) edittedCell.getNewValue());
+       // selected.setHOnthisTeam((String) edittedCell.getNewValue());
         employeeCatalog.refresh();
         changedCellEmployees.add(selected);
     }
@@ -122,7 +122,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         Employee selected = teamPersonelTW.getSelectionModel().getSelectedItem();
         if(selected == null)
             return;
-        selected.setHOnthisTeam((String) edittedCell.getNewValue());
+        //selected.setHOnthisTeam((String) edittedCell.getNewValue());
         teamPersonelTW.refresh();
         changedCellEmployees.add(selected);
     }
@@ -159,7 +159,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     {
         for(Employee emp : changedCellEmployees)
         {
-            emp.setHOnthisTeam("");
+            //emp.setHOnthisTeam("");
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }
@@ -179,7 +179,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         }
         for(Employee emp : changedCellEmployees)
         {
-            emp.setHOnthisTeam("");
+            //emp.setHOnthisTeam("");
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
     }

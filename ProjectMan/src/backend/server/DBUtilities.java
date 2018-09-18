@@ -6,8 +6,15 @@
 package backend.server;
 
 import backend.datatypes.Employee;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -63,13 +70,9 @@ public class DBUtilities {
     
     private DBUtilities() //hardcoded argmenents, they probably will stay as they are
     {
-        this.url = "jdbc:mysql://localhost/projectman?"
-                + "useUnicode=true&"
-                + "useJDBCCompliantTimezoneShift=true&"
-                + "useLegacyDatetimeCode=false&"
-                + "serverTimezone=UTC";
-        this.user = "projectman";
-        this.password = "projectman";
+        this.url = "jdbc:derby://localhost:1527/ImonesDB";
+        this.user = "klientas";
+        this.password = "password";
         properties = new Properties();
         
         properties.put("url", this.url);
@@ -136,8 +139,29 @@ public class DBUtilities {
                 DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, email, phonenumber, Employee.AccessRights.valueOf(privileges)));
             }
     }
+    //experimental add using serialization
+    public void addObject (Employee newCommer) throws SQLException, FileNotFoundException, IOException 
+    {
+        connection = DriverManager.getConnection(url, user, password);
+        File file = new File("students.txt");
+        FileOutputStream fo = new FileOutputStream(file);
+        ObjectOutputStream output = new ObjectOutputStream(fo);
+        output.writeObject(newCommer);
+        output.close();
+        fo.close();
+        String strUpdate = "INSERT INTO projectman.employees (ID, serialization) VALUES " + "(?, ?);";
+        PreparedStatement stmt = connection.prepareStatement(strUpdate);
+        stmt.setInt(1, DataStatic.getEmployees().size()+1);
+        FileInputStream fi = new FileInputStream(file);
+        stmt.setBlob(2, fi);
+        if (stmt.execute() == false) System.out.println("Employee was not added");
+        connection.commit();
+        fi.close();
+        
+    }
     //add employee to the database
-    void addEmployee (Employee newCommer) throws SQLException {
+    public void addEmployee (Employee newCommer) throws SQLException 
+    {
             statement = connection.createStatement();
             String strUpdate = "INSERT INTO projectman.employees VALUES " + newCommer.toUpdateString();
             if (statement.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
@@ -150,7 +174,7 @@ public class DBUtilities {
      * @param rows - integer, how many rows to print, negative means all.
      * @throws SQLException 
      */ 
-    void printResultSet(ResultSet rset, String[] names, Boolean[] toPrint, int rows) throws SQLException
+    public void printResultSet(ResultSet rset, String[] names, Boolean[] toPrint, int rows) throws SQLException
     {
         System.out.println("The records selected are:");
          int rowCount = 0;

@@ -9,6 +9,7 @@ import backend.datatypes.Employee;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
 import backend.logic.Statics;
+import backend.server.DBUtilities;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import backend.server.DataStatic;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
@@ -141,10 +143,10 @@ public class MainWindowController implements Initializable, SelfAwareController
             System.out.println(e.getMessage());
         }
         try {
-            backend.server.DBUtilities.getInstance().getAllEmployees();
+            //backend.server.DBUtilities.getInstance().getAllEmployees();
             employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
             employeesTable.refresh();
-        } catch (SQLException e)
+        } catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
@@ -176,7 +178,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     }
     
     @FXML
-    public void AddNewEmployeeInitializer()
+    public void AddNewEmployeeInitializer() throws SQLException, IOException
     {
         AddNewEmployeeController addNewEmployeeController = new AddNewEmployeeController();
             new FxmlLoader<>(
@@ -187,6 +189,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         
         if (addNewEmployeeController.getEmployee() != null)
             DataStatic.add(addNewEmployeeController.getEmployee());
+        DBUtilities.getInstance().addObject(DataStatic.getEmployees().get(DataStatic.getEmployees().size() - 1));
+                
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
     }

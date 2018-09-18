@@ -7,6 +7,7 @@ package backend.datatypes;
  */
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import javafx.scene.control.TextField;
  *
  * @author manfr
  */
-public class Employee {
+public class Employee implements Serializable {
     public enum AccessRights
     {
         NO_ACCESS, EMPLOYEE, TEAM_MANAGER, PROJECT_MANAGER, COMPANY_MANAGER, ADMIN
@@ -41,9 +42,9 @@ public class Employee {
     private String phoneNumber;
     
     // @Auth Manfr. Kintamieji skirti lentelei
-    @FXML
-    private CheckBox MemberCB; 
-    private SimpleStringProperty HOnThisTeam; 
+    //@FXML
+    //private CheckBox MemberCB; 
+    //private SimpleStringProperty HOnThisTeam; 
     
     
     private List<Team> personalTeams = new ArrayList();
@@ -75,8 +76,8 @@ public class Employee {
         this.privileges = privileges;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.MemberCB = new CheckBox();
-        this.HOnThisTeam = new SimpleStringProperty("");
+        //this.MemberCB = new CheckBox();
+        //this.HOnThisTeam = new SimpleStringProperty("");
     }
     
     @Override
@@ -113,17 +114,17 @@ public class Employee {
 
     public void addpersonalTeams(Team e)
     {
-        this.getPersonalTeams().add(e);
+        /*this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
         }
         catch(NumberFormatException c){
             workHoursInTeams.add(0d);
-        }
+        }*/
     }
 
     
-    public void setHOnthisTeam(String HOnThisTeam)
+    /*public void setHOnthisTeam(String HOnThisTeam)
     {
         this.HOnThisTeam.set(HOnThisTeam);
     }
@@ -132,7 +133,7 @@ public class Employee {
     {
         return HOnThisTeam.get();
     }
-    
+    */
     
     public String getName() 
     {
