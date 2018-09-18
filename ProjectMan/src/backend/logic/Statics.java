@@ -13,6 +13,20 @@ import javafx.scene.control.TableView;
  */
 public final class Statics
 {
+/*****************************************************************************************
+ * Constants
+ *****************************************************************************************/
+    
+public static final String COMPANY = "Projct Man";
+public static final String COMPANYDOMAIN = "projctman.com"; //[Tomas] Not sure if name is good, also could be a method for tht but since name is declared here this way avoids unessecary coding
+
+    
+    
+    
+/******************************************************************************************
+ * Static methods
+ *****************************************************************************************/
+
     public static void updatePersonalDayTableColumns(int from, int count, TableView<TableColumn<String, String>> table)
     {
         table.getColumns()
