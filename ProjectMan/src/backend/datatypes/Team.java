@@ -25,6 +25,13 @@ public class Team extends ArrayList<Employee>
         super(employeeList);
         this.teamName = teamName;
     }
+            
+    public Team(String teamName, List<Employee> employeeList, Project project)
+    {
+        super(employeeList);
+        this.teamName = teamName;
+        this.project = project;
+    }
     
     public String getTeamName()
     {

@@ -6,6 +6,7 @@
 package ui.controllers;
 
 import backend.datatypes.Employee;
+import backend.datatypes.Project;
 import backend.datatypes.Team;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,12 +52,12 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     @FXML
     TableView<Employee> employeeCatalog, teamPersonelTW;
     @FXML
-    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn, teamPersonelColumn;
+    TableColumn<Employee, String>  NameColumn, LastNameColumn, PositionColumn, teamWorkHoursColumn, teamPersonelColumn, assignedHoursColumn;
 
     @FXML
     TableColumn<Employee, Double> HourlyRateColumn, WorkHoursColumn, IDColumn;
     @FXML
-    TextField teamNameTBox;
+    TextField teamNameTBox, projectTextBox;
 
     private List<Employee> allEmployees = new ArrayList();      //Galima perkelti i kita klase, arba jei jau toks listas yra atvesti patha i sita, bet nebutina
     
@@ -94,8 +95,10 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         WorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         teamWorkHoursColumn.setCellValueFactory(new PropertyValueFactory<>("HOnThisTeam"));
+        assignedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("HOnThisTeam"));
         
         teamWorkHoursColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        assignedHoursColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         
         teamPersonelTW.setOnMouseClicked(this::delTeamPersonel);
         
@@ -114,9 +117,20 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     }
     
     @FXML
+    public void changeHourEvent2(CellEditEvent edittedCell)
+    {
+        Employee selected = teamPersonelTW.getSelectionModel().getSelectedItem();
+        if(selected == null)
+            return;
+        selected.setHOnthisTeam((String) edittedCell.getNewValue());
+        teamPersonelTW.refresh();
+        changedCellEmployees.add(selected);
+    }
+    
+    @FXML
     public void delTeamPersonel(MouseEvent e)         //Metodas atsakingas uz zmoniu pasalinima is grupes kurimo metu.
     {
-        System.out.println("Event target::: " + e.getTarget());
+        System.out.println("Event target::: " + e.getTarget().toString());
         Employee node = teamPersonelTW.getSelectionModel().getSelectedItem();
         if(node == null)
             return;
@@ -153,15 +167,14 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     @FXML
     public void onTeamCreateAttempt()
     {
-        if(!teamNameTBox.getText().isEmpty()){
-            newTeam = new Team(teamNameTBox.getText(), selectedEmployees);
+        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty()){
+            newTeam = new Team(teamNameTBox.getText(), selectedEmployees, new Project(projectTextBox.getText()));
         }
         else return;
         
         stage.close();
         for(Employee emp : selectedEmployees) //For each visiem employee, kurie yra teame, priskiriamas team pavadinimas ir valandos. (Toliau: Employee klaseje)
         {
-        // [Tomas] nežinau kieno kodas ir ar jo reik
             emp.addpersonalTeams(newTeam);
         }
         for(Employee emp : changedCellEmployees)
