@@ -5,8 +5,15 @@
  */
 package backend.logic;
 
+import backend.datatypes.Employee;
+import backend.datatypes.MutablePair;
+import backend.datatypes.Team;
+import backend.server.DataStatic;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author TM
@@ -25,6 +32,27 @@ public final class Statics
                                          : from + i) + "-" + (from + i + 1 > 24
                                                               ? from + i - 23
                                                               : from + i + 1)));
+        }
+    }
+    
+    public static List<Team> getAllTeamsOfAnEmployee(Employee employee)
+    {
+        return DataStatic.getTeams()
+                         .stream()
+                         .filter(team -> team.getEmployeeList().contains(employee))
+                         .collect(Collectors.toList());
+    }
+    
+    public static MutablePair<Employee, Double> getMutablePair(Team team, Employee employee)
+    {
+        List<MutablePair<Employee, Double>> possiblePairs = team.stream().filter(pair -> pair.getKey().equals(employee)).collect(Collectors.toList());
+        if (possiblePairs == null || possiblePairs.isEmpty() || possiblePairs.size() > 1)
+        {
+            return null;
+        }
+        else
+        {
+            return possiblePairs.get(0);
         }
     }
 }

@@ -9,6 +9,8 @@ import backend.datatypes.Employee;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
 import backend.logic.Statics;
+import backend.server.DataStatic;
+import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,13 +23,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.sun.javafx.scene.control.skin.DatePickerSkin;    //import javafx.scene.control.skin.DatePickerSkin;  //java 10
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,10 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
-import backend.server.DataStatic;
-import java.sql.SQLException;
-import java.util.logging.Logger;
 
 /**
  *
@@ -54,19 +52,23 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
+    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
+    @FXML
     private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower;//, teamsEdit;
     @FXML
     private TableColumn<Team, Button> teamsEdit;
     @FXML
-    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
-    @FXML
     private TableColumn<Employee, Double> employeesHourCount;
+    @FXML
+    private ChoiceBox<Team> myTeamSelect;
     @FXML
     private Button addTeamMember;
     @FXML
     private Accordion weekView;
     @FXML
     private AnchorPane userSettingsAnchor, monthViewAnchor, testAnchor;
+    @FXML
+    private TextField myTeamWeekHrs, myTeamTotalHrs;
     
     private List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
     
@@ -75,6 +77,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     private Window window;
     
     private Employee loggedInUser;  //TODO: use this to enable or disable features
+    private Team selectedTeam;
     
     public MainWindowController(Employee loggedInUser)
     {
@@ -188,13 +191,58 @@ public class MainWindowController implements Initializable, SelfAwareController
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
-        hourColumn.setCellValueFactory(new PropertyValueFactory<>("Hours"));
+        hourColumn.setCellValueFactory(param -> new SimpleStringProperty(Double.toString(Statics.getMutablePair(selectedTeam, param.getValue()).getValue())));  //TODO check for null
         accessColumn.setCellValueFactory(new PropertyValueFactory<>("Availability"));
         
         employeesName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         employeesID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         employeesOccupation.setCellValueFactory(new PropertyValueFactory<>("position"));
         employeesHourCount.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
+        
+        myTeamSelect.setItems(FXCollections.observableArrayList(Statics.getAllTeamsOfAnEmployee(loggedInUser)));
+    
+        myTeamSelect.setOnAction(event -> {
+            selectedTeam = myTeamSelect.getSelectionModel().getSelectedItem();
+            myTeamWeekHrs.setText(null);
+            timeTable.getItems().clear();
+            if (selectedTeam != null)
+            {
+                timeTable.setItems(FXCollections.observableArrayList(selectedTeam.getEmployeeList()));
+                myTeamWeekHrs.setDisable(false);
+            }
+            else
+            {
+                myTeamWeekHrs.setText(null);
+                myTeamWeekHrs.setDisable(true);
+            }
+        });
+        
+        myTeamWeekHrs.setOnAction(event -> {
+            if (myTeamWeekHrs.getText().isEmpty())
+            {
+                myTeamWeekHrs.setText("0");
+                myTeamWeekHrs.setStyle(null);
+            }
+            else
+            {
+                try
+                {
+                    double hours = Double.parseDouble(myTeamWeekHrs.getText());
+                    Statics.getMutablePair(selectedTeam, loggedInUser).setValue(hours);
+                    timeTable.getItems().clear();
+                    timeTable.setItems(FXCollections.observableArrayList(selectedTeam.getEmployeeList()));
+                } catch (NumberFormatException e)
+                {
+                    //e.printStackTrace();
+                }
+            }
+        });
+    
+        myTeamTotalHrs.setText(Double.toString(Statics.getAllTeamsOfAnEmployee(loggedInUser)    //TODO: call this when updates happen
+                                                      .stream()
+                                                      .mapToDouble(team -> Statics.getMutablePair(team, loggedInUser)
+                                                                                  .getValue())
+                                                      .sum()) + " | " + loggedInUser.getDailyHours());  //TODO: add weekly hour count variables in employee class (along with the weekly settings)
     }
     
     private void allTeamsTabInit()
@@ -213,7 +261,7 @@ public class MainWindowController implements Initializable, SelfAwareController
      * myDayTabs initializers       @auth Edvinas
      * TODO crete new Controller class for myDayTab
      ********************************************/
- 
+    
     private void myDayTab_SettingsTabInit()
     {
         List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
