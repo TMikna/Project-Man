@@ -43,11 +43,6 @@ public class DataStatic {
     {
         employees.add(employee);
     }
-   
-    
-
-        
-
     
     public static List<Team> getTeams() {
         return teams;
