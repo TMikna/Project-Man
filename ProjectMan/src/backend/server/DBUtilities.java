@@ -28,14 +28,14 @@ import java.util.UUID;
  */
 
 enum Column {
-    ZERO, NAME, SURNAME, UUID, PASSWORD, OCCUPATION, HOURLYRATE, DAILYHOURS, WORKEDHOURS, PRIVILEGES, END
+    ZERO, NAME, SURNAME, UUID, PASSWORD, OCCUPATION, HOURLYRATE, DAILYHOURS, WORKEDHOURS, EMAIL, PHONENUMBER, PRIVILEGES, END
 }
 public class DBUtilities {
     //the following three variables are required for connecting a database, designed for the project manager
     private String url;
     private String user;
     private String password; 
-    private String[] employeeColumns = {"NAME", "LASTNAME", "UUID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "USERMODE"};
+    private String[] employeeColumns = {"NAME", "LASTNAME", "UUID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "EMAIL", "PHONENUMBER", "USERMODE"};
     private Properties properties;
     private Statement statement;
     private ResultSet results;
@@ -106,7 +106,7 @@ public class DBUtilities {
     }
  
     public void getAllEmployees() throws SQLException { // this uses DataStatic
-            String name, surname, password, occupation, privileges;
+            String name, surname, password, occupation, privileges, email, phonenumber;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
             
@@ -127,9 +127,13 @@ public class DBUtilities {
                 hourlyrate = results.getDouble("hourlyrate");
                 dailyhours = results.getDouble("dailyhours");
                 workedhours = results.getDouble("workedhours");
+                email = results.getString("email");
+                phonenumber = results.getString("phonenumber");
+                
+                
                 //privileges = results.getString("privileges");
                 privileges = "ADMIN";
-                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, Employee.AccessRights.valueOf(privileges)));
+                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, email, phonenumber, Employee.AccessRights.valueOf(privileges)));
             }
     }
     //add employee to the database

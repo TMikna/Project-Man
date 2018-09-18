@@ -24,8 +24,14 @@ public class LoginWindowController
 			((Stage)(auth_User.getScene().getWindow())).close();	//uzdaro esanti langa
 			
 			String userName = auth_User.getText();
-			Employee loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, userName.isEmpty() ? Employee.AccessRights.ADMIN : "Employee.AccessRights".equals(userName) ? Employee.AccessRights.EMPLOYEE : "teamManager".equals(userName) ? Employee.AccessRights.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.AccessRights.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.AccessRights.COMPANY_MANAGER : Employee.AccessRights.NO_ACCESS); //TODO: check username & password to get actual object
-			FxmlLoader<MainWindowController> mainWindow = new FxmlLoader<>("/ui/fxml/MainWindow.fxml", "Sveiki, " + userName + "!", new MainWindowController(loggedInUser));
+			Employee loggedInUser; //TODO: check username & password to get actual object
+                    loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, "something@projectman.com", "+370",
+                            userName.isEmpty() ? Employee.AccessRights.ADMIN : "Employee.AccessRights".equals(userName) ?
+                                    Employee.AccessRights.EMPLOYEE : "teamManager".equals(userName) ?
+                                            Employee.AccessRights.TEAM_MANAGER : "projectManager".equals(userName) ?
+                                                    Employee.AccessRights.PROJECT_MANAGER : "companyManager".equals(userName) ?
+                                                            Employee.AccessRights.COMPANY_MANAGER : Employee.AccessRights.NO_ACCESS);
+			FxmlLoader<MainWindowController> mainWindow = new FxmlLoader<>("/ui/fxml/MainWindow.fxml", "Project Man" , new MainWindowController(loggedInUser));
 		}
 	}
 	

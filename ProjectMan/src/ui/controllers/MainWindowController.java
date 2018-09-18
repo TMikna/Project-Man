@@ -58,7 +58,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Team, Button> teamsEdit;
     @FXML
-    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
+    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesEmail, employeesPhoneNumber;
     @FXML
     private TableColumn<Employee, Double> employeesHourCount;
     @FXML
@@ -178,16 +178,20 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     public void AddNewEmployeeInitializer()
     {
-        new FxmlLoader<>(
-                "/ui/fxml/AddNewEmployee.fxml",
-                "Enter employee details",
-                window,
-                new AddNewEmployeeController());
+        AddNewEmployeeController addNewEmployeeController = new AddNewEmployeeController();
+            new FxmlLoader<>(
+                    "/ui/fxml/AddNewEmployee.fxml",
+                    "Enter employee details",
+                    window,
+                    addNewEmployeeController);
         
+        if (addNewEmployeeController.getEmployee() != null)
+            DataStatic.add(addNewEmployeeController.getEmployee());
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
     }
     
+    //TODO Wtf?
     private int tempTestNotFinalJustForTesting = 0;
     
     private void myTeamTabInit()
@@ -202,6 +206,9 @@ public class MainWindowController implements Initializable, SelfAwareController
         employeesID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         employeesOccupation.setCellValueFactory(new PropertyValueFactory<>("position"));
         employeesHourCount.setCellValueFactory(new PropertyValueFactory<>("dailyHours"));
+        employeesEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeesPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+
     }
     
     private void allTeamsTabInit()
