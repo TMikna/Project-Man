@@ -36,6 +36,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import backend.server.DataStatic;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 /**
@@ -115,6 +116,35 @@ public class MainWindowController implements Initializable, SelfAwareController
         
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
+    }
+    
+    @FXML
+    public void updateEmployeeList()
+    {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("no driver");
+            return;
+        }
+        
+        backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
+        try {
+            backend.server.DBUtilities.getInstance().connect();
+        } catch (SQLException e)
+        {
+            System.out.println("cant connect");
+            System.out.println(e.getMessage());
+        }
+        try {
+            backend.server.DBUtilities.getInstance().getAllEmployees();
+            employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
+            employeesTable.refresh();
+        } catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
     }
     
     @Override
