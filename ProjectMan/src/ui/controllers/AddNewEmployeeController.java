@@ -172,8 +172,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                     phoneNumberField.getText(),
                     Employee.AccessRights.ADMIN
             );
-            System.out.println("DEBUG:: " + employee);
-            DataStatic.add(employee);
+            System.out.println("DEBUG:: Created new employee: " + employee);
+            //DataStatic.add(employee);
             stage.close();
         }
     }
@@ -185,6 +185,11 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         //TODO: refactor to navigate back to MainWindow <- ??? it always gave control back to main window after closing [Edvinas]
         this.employee = null;
         stage.close();
+    }
+    
+    public Employee getEmployee()
+    {
+        return this.employee;
     }
     
     /***********************************
