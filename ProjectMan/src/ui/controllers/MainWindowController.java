@@ -81,6 +81,18 @@ public class MainWindowController implements Initializable, SelfAwareController
         this.loggedInUser = loggedInUser;
     }
     
+     @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        myTeamTabInit();
+        
+        allTeamsTabInit();
+    
+        myDayTab_SettingsTabInit(); //  For now order is important
+        myDayTab_WeekTabInit();     //
+        
+        myDayTab_MonthTabInit();
+    }
+    
     @Override
     public void whoAmI(Stage stage, Scene scene, Window window)
     {
@@ -88,6 +100,61 @@ public class MainWindowController implements Initializable, SelfAwareController
         this.scene = scene;
         this.window = window;
     }
+    @FXML
+    private void updateTeamTable()
+    {
+        Team testTeam = new Team("chuliganai" + Integer.toString(tempTestNotFinalJustForTesting), new ArrayList<Employee>()
+        {{
+            add(loggedInUser);
+        }});
+        DataStatic.getTeams()
+                  .add(testTeam);
+        Project testProject = new Project("testProject" + Integer.toString(tempTestNotFinalJustForTesting++), new ArrayList<Team>()
+        {{
+            add(testTeam);
+        }});
+        testTeam.setProject(testProject);
+        DataStatic.getProjects()
+                  .add(testProject);
+    
+        teamsTable.getItems()
+                  .clear();
+        teamsTable.setItems(FXCollections.observableArrayList(DataStatic.getTeams()));
+    }
+    
+    @FXML
+    public void updateEmployeeList()
+    {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("no driver");
+            return;
+        }
+        
+        backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
+        try {
+            backend.server.DBUtilities.getInstance().connect();
+        } catch (SQLException e)
+        {
+            System.out.println("cant connect");
+            System.out.println(e.getMessage());
+        }
+        try {
+            backend.server.DBUtilities.getInstance().getAllEmployees();
+            employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
+            employeesTable.refresh();
+        } catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
+    /**********************************************************
+     *New windows Initializers
+     *********************************************************/
     
     @FXML
     public void TeamMemberWindowInitializer()
@@ -122,66 +189,6 @@ public class MainWindowController implements Initializable, SelfAwareController
     }
     
     private int tempTestNotFinalJustForTesting = 0;
-    @FXML
-    private void updateTeamTable()
-    {
-        Team testTeam = new Team("chuliganai" + Integer.toString(tempTestNotFinalJustForTesting), new ArrayList<Employee>()
-        {{
-            add(loggedInUser);
-        }});
-        DataStatic.getTeams()
-                  .add(testTeam);
-        Project testProject = new Project("testProject" + Integer.toString(tempTestNotFinalJustForTesting++), new ArrayList<Team>()
-        {{
-            add(testTeam);
-        }});
-        testTeam.setProject(testProject);
-        DataStatic.getProjects()
-                  .add(testProject);
-    
-        teamsTable.getItems()
-                  .clear();
-        teamsTable.setItems(FXCollections.observableArrayList(DataStatic.getTeams()));
-    }
-    @FXML
-    public void updateEmployeeList()
-    {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("no driver");
-            return;
-        }
-        
-        backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
-        try {
-            backend.server.DBUtilities.getInstance().connect();
-        } catch (SQLException e)
-        {
-            System.out.println("cant connect");
-            System.out.println(e.getMessage());
-        }
-        try {
-            backend.server.DBUtilities.getInstance().getAllEmployees();
-            employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
-            employeesTable.refresh();
-        } catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        myTeamTabInit();
-        
-        allTeamsTabInit();
-    
-        myDayTab_SettingsTabInit(); //  For now order is important
-        myDayTab_WeekTabInit();     //
-        
-        myDayTab_MonthTabInit();
-    }
     
     private void myTeamTabInit()
     {
@@ -211,7 +218,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     
     /*********************************************
      * myDayTabs initializers       @auth Edvinas
-     * TODO crete new Controller class for myDayTab
+     * TODO mnaybe crete new Controller class for myDayTab
      ********************************************/
  
     private void myDayTab_SettingsTabInit()

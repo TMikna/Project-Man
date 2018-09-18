@@ -38,7 +38,6 @@ public class Employee {
     private double workedHours = 0; 
     private AccessRights privileges;
     
-    
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
     private CheckBox MemberCB; 
