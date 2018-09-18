@@ -9,6 +9,7 @@ import backend.datatypes.Employee;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
 import backend.logic.Statics;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,7 +53,9 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
-    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower, teamsEdit;
+    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower;//, teamsEdit;
+    @FXML
+    private TableColumn<Team, Button> teamsEdit;
     @FXML
     private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
     @FXML
@@ -117,6 +120,20 @@ public class MainWindowController implements Initializable, SelfAwareController
         employeesTable.refresh();
     }
     
+    private int tempTestNotFinalJustForTesting = 0;
+    @FXML
+    private void updateTeamTable()
+    {
+        Team testTeam = new Team("chuliganai" + Integer.toString(tempTestNotFinalJustForTesting), new ArrayList<Employee>(){{add(loggedInUser);}});
+        DataStatic.getTeams().add(testTeam);
+        Project testProject = new Project("testProject" + Integer.toString(tempTestNotFinalJustForTesting++), new ArrayList<Team>(){{add(testTeam);}});
+        testTeam.setProject(testProject);
+        DataStatic.getProjects().add(testProject);
+        
+        teamsTable.getItems().clear();
+        teamsTable.setItems(FXCollections.observableArrayList(DataStatic.getTeams()));
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         myTeamTabInit();
@@ -127,20 +144,6 @@ public class MainWindowController implements Initializable, SelfAwareController
         myDayTab_WeekTabInit();     //
         
         myDayTab_MonthTabInit();
-        
-        /*TableRowExpanderColumn<Employee> column = new TableRowExpanderColumn<>(param -> {
-            HBox editor = new HBox(10);
-            TextField text = new TextField(param.getValue().getName()), text2 = new TextField(param.getValue().getLastName());  //3rd party library test for easy way to edit table data - may or may not be used - ask Edvinas if interested
-            Button save = new Button("Save employee");
-            editor.getChildren().addAll(text, text2, save);
-            return editor;
-        });
-        column.setText("column");
-        teamsTable.getColumns().add(0, column);
-        teamsTable.getItems().add(loggedInUser);
-        teamsTable.getItems().add(new Employee("test0", "test0", "test", "test", "test", 2, 2, Employee.ADMIN));
-        teamsTable.getItems().add(new Employee("test1", "test1", "test", "test", "test", 2, 2, Employee.ADMIN));
-        teamsTable.getItems().add(new Employee("test2", "test2", "test", "test", "test", 2, 2, Employee.ADMIN));*/
     }
     
     private void myTeamTabInit()
@@ -160,31 +163,13 @@ public class MainWindowController implements Initializable, SelfAwareController
     private void allTeamsTabInit()
     {
         teamsName.setCellValueFactory(new PropertyValueFactory<>("teamName"));
-        teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject().getProjectName()));
+        teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject() == null ? "No project assigned" : param.getValue().getProject().getProjectName()));    //TODO: remove project field from team
         teamsEmployeeCount.setCellValueFactory(param -> new SimpleStringProperty(Integer.toString(param.getValue().size())));
         teamsManpower.setCellValueFactory(new PropertyValueFactory<>("manpower"));
-        teamsEdit.setCellFactory(param -> new TableCell<Team, String>()
-        {
-            @Override
-            protected void updateItem(String item, boolean empty)
-            {
-                super.updateItem(item, empty);
-                if (!empty)
-                {
-                    Team toEdit = (Team) getTableRow().getItem();
-                    setGraphic(new Button("Redaguoti")
-                    {{
-                        setOnAction(event -> System.out.println(toEdit));
-                    }});
-                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                }
-            }
-        });
-    
-        Team testTeam = new Team("chuliganai", new ArrayList<Employee>(){{add(loggedInUser);}});          //
-        Project testProject = new Project("testProject", new ArrayList<Team>(){{add(testTeam);}});      //  TEST DATA
-        testTeam.setProject(testProject);                                                                           //
-        teamsTable.getItems().add(testTeam);                                                                        //
+        teamsEdit.setCellValueFactory(column -> new SimpleObjectProperty<>(new Button("Redaguoti")
+        {{
+            setOnAction(event -> System.out.println(column.getValue()));    //TODO: create a team editing window
+        }}));
     }
     
     /*********************************************

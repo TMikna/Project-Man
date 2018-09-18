@@ -183,6 +183,7 @@
                      </columnResizePolicy>
                   </TableView>
                   <Button fx:id="addTeam" mnemonicParsing="false" onAction="#TeamSetupWindowInitializer" prefHeight="45.0" prefWidth="90.0" text="Sukurti naują komandą" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutY="45.0" mnemonicParsing="false" onAction="#updateTeamTable" prefHeight="45.0" prefWidth="90.0" text="Atnaujinti lentelę" textAlignment="CENTER" wrapText="true" />
                </children></AnchorPane>
         </content>
       </Tab>
