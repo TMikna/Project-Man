@@ -6,6 +6,8 @@
 package ui.controllers;
 
 import backend.datatypes.Employee;
+import backend.logic.Statics;
+import static backend.logic.Statics.COMPANYDOMAIN;
 import backend.server.DataStatic;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,7 +38,7 @@ import java.util.function.Consumer;
 public class AddNewEmployeeController implements Initializable, SelfAwareController
 {
     @FXML
-    private TextField nameField, surnameField, idField, passwordField, postField, wageField;
+    private TextField nameField, surnameField, idField, passwordField, postField, wageField, emailField, phoneNumberField;
     @FXML
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
     
@@ -64,8 +66,6 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     {
         positionChoice.setItems(FXCollections.observableArrayList("sysadmin", "programmer", "tester", "QnA", "manager"));
         // TODO
-    
-    
         Consumer<TextField> addEmptyStringCheckerOnFocusLost = field -> {
             field.focusedProperty()
                  .addListener((arg, oldVal, newVal) -> {
@@ -79,6 +79,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                          else
                          {
                              field.setStyle(null);
+                             if (field == nameField || field == surnameField)
+                                 tryToSetEmail();
                          }
                      }
                  });
@@ -113,6 +115,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         addEmptyStringCheckerOnFocusLost.accept(nameField);
         addEmptyStringCheckerOnFocusLost.accept(surnameField);
         addEmptyStringCheckerOnFocusLost.accept(passwordField);
+        addEmptyStringCheckerOnFocusLost.accept(emailField);        
+        addEmptyStringCheckerOnFocusLost.accept(phoneNumberField);
         addCorrectDoubleCheckerOnFocusLost.accept(postField);
         addCorrectDoubleCheckerOnFocusLost.accept(wageField);
         
@@ -144,14 +148,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private void onAddAttempt()
     {
         correctData = true;
-        
-        nameField.requestFocus();
-        surnameField.requestFocus();
-        positionChoice.requestFocus();
-        passwordField.requestFocus();
-        postField.requestFocus();
-        wageField.requestFocus();
-        nameField.requestFocus();
+        CheckAllFields();
         
         if (idField.getText().isEmpty())
         {
@@ -171,9 +168,12 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                     positionChoice.getValue(),
                     Double.parseDouble(wageField.getText()),
                     Double.parseDouble(postField.getText()),
-                    Employee.AccessRights.ADMIN);
-            System.out.println("DEBUG:: " + employee);
-            DataStatic.add(employee);
+                    emailField.getText(),
+                    phoneNumberField.getText(),
+                    Employee.AccessRights.ADMIN
+            );
+            System.out.println("DEBUG:: Created new employee: " + employee);
+            //DataStatic.add(employee);
             stage.close();
         }
     }
@@ -185,5 +185,34 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         //TODO: refactor to navigate back to MainWindow <- ??? it always gave control back to main window after closing [Edvinas]
         this.employee = null;
         stage.close();
+    }
+    
+    public Employee getEmployee()
+    {
+        return this.employee;
+    }
+    
+    /***********************************
+     * Helper methods
+     **********************************/
+     
+    // Check if there is any empty fields
+    private void CheckAllFields()
+        {
+        nameField.requestFocus();
+        surnameField.requestFocus();
+        positionChoice.requestFocus();
+        passwordField.requestFocus();
+        postField.requestFocus();
+        wageField.requestFocus();
+        emailField.requestFocus();
+        phoneNumberField.requestFocus();
+        }
+
+    //When name and surname are valid create and input email, malso changeb it after ame or surmane change
+    private void tryToSetEmail()
+    {
+        if (!nameField.getText().isEmpty() && !surnameField.getText().isEmpty())
+            emailField.setText(nameField.getText() + "." + surnameField.getText() + "@" + Statics.COMPANYDOMAIN); // In case there will be more places to generete email move move this to Statics.java
     }
 }

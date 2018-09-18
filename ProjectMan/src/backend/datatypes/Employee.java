@@ -37,7 +37,8 @@ public class Employee {
     private double dailyHours;          // Average working time every day. //TODO later might change in custom every day input
     private double workedHours = 0; 
     private AccessRights privileges;
-    
+    private String email;
+    private String phoneNumber;
     
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
@@ -59,7 +60,10 @@ public class Employee {
                     String position,
                     double hourlyRate,
                     double dailyHours,
-                    AccessRights privileges)
+                    String email,
+                    String phoneNumber,
+                    AccessRights privileges
+                    )
     {
         this.Name = name;
         this.LastName = lastName;
@@ -69,6 +73,8 @@ public class Employee {
         this.hourlyRate = hourlyRate;
         this.dailyHours = dailyHours;
         this.privileges = privileges;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.MemberCB = new CheckBox();
         this.HOnThisTeam = new SimpleStringProperty("");
     }
@@ -76,13 +82,15 @@ public class Employee {
     @Override
     public String toString()
     {
-        return "Name: " + Name + "; surname: " + LastName + "; ID: " + ID + "; password: " + password + "; position: " + position + "; hourly: " + hourlyRate + "; hrs/day: " + dailyHours + "; worked: " + workedHours + "; privileges: " + privileges + ".";
+        return "Name: " + Name + "; surname: " + LastName + "; ID: " + ID + "; password: " + password + "; position: " + position + 
+                "; hourly: " + hourlyRate + "; hrs/day: " + dailyHours + "email: " + getEmail() + "phoneNumber: " + getPhoneNumber() +
+                "; worked: " + workedHours + "; privileges: " + privileges + ".";
     }
     //Following Auxilary functions were written by Vilius.
     //concatenates object's fields' values into a string so that it can be added to a database
     public String toUpdateString()
     {
-        return "(" + format(Name) + format(LastName) + format(ID) + format(password) + format(hourlyRate) + format(workedHours) + privileges + ");";
+        return "(" + format(Name) + format(LastName) + format(ID) + format(password) + format(hourlyRate) + format(getEmail()) + format(getPhoneNumber()) + format(workedHours) + privileges + ");";
     }
     //format fields for easier Update query String formation
     public String format(String value)
@@ -105,7 +113,7 @@ public class Employee {
 
     public void addpersonalTeams(Team e)
     {
-        this.personalTeams.add(e);
+        this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
         }
@@ -234,6 +242,30 @@ public class Employee {
     public void setPrivileges(AccessRights privileges)
     {
         this.privileges = privileges;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public List<Team> getPersonalTeams() {
+        return personalTeams;
+    }
+
+    public void setPersonalTeams(List<Team> personalTeams) {
+        this.personalTeams = personalTeams;
     }
     
     @Override

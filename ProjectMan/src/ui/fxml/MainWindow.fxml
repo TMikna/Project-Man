@@ -212,8 +212,8 @@
                       <TableColumn fx:id="employeesID" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="employeesOccupation" prefWidth="75.0" text="Pareigos" />
                         <TableColumn fx:id="employeesHourCount" prefWidth="75.0" text="Darbo kiekis" />
-                        <TableColumn fx:id="employeesContacts" prefWidth="75.0" text="Kontaktai" />
-                        <TableColumn fx:id="employeesAccess" prefWidth="75.0" text="Teisės" />
+                        <TableColumn fx:id="employeesEmail" prefWidth="75.0" text="El. paštas" />
+                        <TableColumn fx:id="employeesPhoneNumber" prefWidth="75.0" text="Tel. nr." />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

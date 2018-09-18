@@ -13,6 +13,11 @@ public class Project extends ArrayList<Team>
         this.projectName = projectName;
     }
     
+    public Project(String projectName) // Jei kils klausimu del sito parasykit man. @Manfredas
+    {
+        this.projectName = projectName;
+    }
+    
     @Override
     public String toString()
     {

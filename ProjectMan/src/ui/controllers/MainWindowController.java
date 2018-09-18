@@ -52,9 +52,9 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
-    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
+    private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesEmail, employeesPhoneNumber;
     @FXML
-    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower;//, teamsEdit;
+    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower;
     @FXML
     private TableColumn<Team, Button> teamsEdit;
     @FXML
@@ -84,6 +84,18 @@ public class MainWindowController implements Initializable, SelfAwareController
         this.loggedInUser = loggedInUser;
     }
     
+     @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        myTeamTabInit();
+        
+        allTeamsTabInit();
+    
+        myDayTab_SettingsTabInit(); //  For now order is important
+        myDayTab_WeekTabInit();     //
+        
+        myDayTab_MonthTabInit();
+    }
+    
     @Override
     public void whoAmI(Stage stage, Scene scene, Window window)
     {
@@ -91,40 +103,6 @@ public class MainWindowController implements Initializable, SelfAwareController
         this.scene = scene;
         this.window = window;
     }
-    
-    @FXML
-    public void TeamMemberWindowInitializer()
-    {
-        
-    }
-    
-    @FXML
-    public void TeamSetupWindowInitializer()
-    {
-    // TODO Manfedas fix this, you are creating TeamCreation now
-        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml",
-                "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
-        Team createdTeam = teamCreationWindow.getController().getTeam();
-        if (createdTeam != null)
-        {
-            DataStatic.add(createdTeam);
-        }
-    }
-    
-    @FXML
-    public void AddNewEmployeeInitializer()
-    {
-        new FXMLControllerExtractor<>(
-                "/ui/fxml/AddNewEmployee.fxml",
-                "Enter employee details",
-                window,
-                new AddNewEmployeeController());
-        
-        employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
-        employeesTable.refresh();
-    }
-    
-    private int tempTestNotFinalJustForTesting = 0;
     @FXML
     private void updateTeamTable()
     {
@@ -146,6 +124,7 @@ public class MainWindowController implements Initializable, SelfAwareController
                   .clear();
         teamsTable.setItems(FXCollections.observableArrayList(DataStatic.getTeams()));
     }
+    
     @FXML
     public void updateEmployeeList()
     {
@@ -173,18 +152,50 @@ public class MainWindowController implements Initializable, SelfAwareController
             System.out.println(e.getMessage());
         }
     }
+
+
+
+    /**********************************************************
+     *New windows Initializers
+     *********************************************************/
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        myTeamTabInit();
+    @FXML
+    public void TeamMemberWindowInitializer()
+    {
         
-        allTeamsTabInit();
-    
-        myDayTab_SettingsTabInit(); //  For now order is important
-        myDayTab_WeekTabInit();     //
-        
-        myDayTab_MonthTabInit();
     }
+    
+    @FXML
+    public void TeamSetupWindowInitializer()
+    {
+    // TODO Manfedas fix this, you are creating TeamCreation now
+        FxmlLoader<TeamCreationWindowController> teamCreationWindow = new FxmlLoader<>("/ui/fxml/TeamCreationWindow.fxml",
+                "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
+        Team createdTeam = teamCreationWindow.getController().getTeam();
+        if (createdTeam != null)
+        {
+            DataStatic.add(createdTeam);
+        }
+    }
+    
+    @FXML
+    public void AddNewEmployeeInitializer()
+    {
+        AddNewEmployeeController addNewEmployeeController = new AddNewEmployeeController();
+            new FxmlLoader<>(
+                    "/ui/fxml/AddNewEmployee.fxml",
+                    "Enter employee details",
+                    window,
+                    addNewEmployeeController);
+        
+        if (addNewEmployeeController.getEmployee() != null)
+            DataStatic.add(addNewEmployeeController.getEmployee());
+        employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
+        employeesTable.refresh();
+    }
+    
+    //TODO Wtf?
+    private int tempTestNotFinalJustForTesting = 0;
     
     private void myTeamTabInit()
     {
@@ -243,6 +254,9 @@ public class MainWindowController implements Initializable, SelfAwareController
                                                       .mapToDouble(team -> Statics.getMutablePair(team, loggedInUser)
                                                                                   .getValue())
                                                       .sum()) + " | " + loggedInUser.getDailyHours());  //TODO: add weekly hour count variables in employee class (along with the weekly settings)
+        
+        employeesEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        employeesPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
     }
     
     private void allTeamsTabInit()
@@ -259,7 +273,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     
     /*********************************************
      * myDayTabs initializers       @auth Edvinas
-     * TODO crete new Controller class for myDayTab
+     * TODO mnaybe crete new Controller class for myDayTab
      ********************************************/
     
     private void myDayTab_SettingsTabInit()
@@ -401,7 +415,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             });
         
             int finalI = i;
-            newEventButton.setOnAction(event -> new FXMLControllerExtractor<>(
+            newEventButton.setOnAction(event -> new FxmlLoader<>(
                     "/ui/fxml/ScheduleNewEvent.fxml",
                     "Naujas ivykis",
                     window,
@@ -420,7 +434,7 @@ public class MainWindowController implements Initializable, SelfAwareController
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                new FXMLControllerExtractor<>(
+                new FxmlLoader<>(
                         "/ui/fxml/ScheduleNewEvent.fxml",
                         "Naujas ivykis",
                         window,

@@ -25,6 +25,13 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
         super(employeeList.stream().map(employee -> new MutablePair<>(employee, 0.0)).collect(Collectors.toList()));
         this.teamName = teamName;
     }
+            
+    public Team(String teamName, List<Employee> employeeList, Project project)
+    {
+        super(employeeList);
+        this.teamName = teamName;
+        this.project = project;
+    }
     
     public List<Employee> getEmployeeList()
     {

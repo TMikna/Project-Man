@@ -29,10 +29,15 @@ public class LoginWindowController
 			((Stage)(auth_User.getScene().getWindow())).close();	//uzdaro esanti langa
 			
 			String userName = auth_User.getText();
-			
-			Employee loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, userName.isEmpty() ? Employee.AccessRights.ADMIN : "employee".equals(userName) ? Employee.AccessRights.EMPLOYEE : "teamManager".equals(userName) ? Employee.AccessRights.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.AccessRights.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.AccessRights.COMPANY_MANAGER : Employee.AccessRights.NO_ACCESS); //TODO: check username & password to get actual object
-			Employee user1 = new Employee("test1", "testtest1", UUID.randomUUID(), "testPW1", "sysadmin", 9001, 25, Employee.AccessRights.ADMIN);
-			Employee user2 = new Employee("test2", "testtest2", UUID.randomUUID(), "testPW2", "sysadmin", 9001, 25, Employee.AccessRights.ADMIN);
+			Employee loggedInUser; //TODO: check username & password to get actual object
+                    loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, "something@projectman.com", "+370",
+                            userName.isEmpty() ? Employee.AccessRights.ADMIN : "Employee.AccessRights".equals(userName) ?
+                                    Employee.AccessRights.EMPLOYEE : "teamManager".equals(userName) ?
+                                            Employee.AccessRights.TEAM_MANAGER : "projectManager".equals(userName) ?
+                                                    Employee.AccessRights.PROJECT_MANAGER : "companyManager".equals(userName) ?
+                                                            Employee.AccessRights.COMPANY_MANAGER : Employee.AccessRights.NO_ACCESS);
+			Employee user1 = new Employee("test1", "testtest1", UUID.randomUUID(), "testPW1", "sysadmin", 9001, 25, "draugas@draugas.lt", "1337", Employee.AccessRights.ADMIN);
+			Employee user2 = new Employee("test2", "testtest2", UUID.randomUUID(), "testPW2", "sysadmin", 9001, 25, "h4X0r@nezinau", "42069", Employee.AccessRights.ADMIN);
 			Team team1 = new Team("testTeam1", Arrays.asList(loggedInUser, user1));
 			Team team2 = new Team("testTeam2", Arrays.asList(loggedInUser, user2));
 			Project project = new Project("testProject", Arrays.asList(team1, team2));
@@ -43,7 +48,7 @@ public class LoginWindowController
 			DataStatic.getTeams().addAll(Arrays.asList(team1, team2));
 			DataStatic.getProjects().add(project);
 			
-			new FXMLControllerExtractor<>(
+			new FxmlLoader<>(
 					"/ui/fxml/MainWindow.fxml",
 					"Sveiki, " + userName + "!",
 					new MainWindowController(loggedInUser));
