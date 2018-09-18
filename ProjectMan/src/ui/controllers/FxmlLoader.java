@@ -9,13 +9,13 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
-public class FXMLControllerExtractor<controllerClass>
+public class FxmlLoader<controllerClass>
 {
     private controllerClass controller;
     private Stage stage = new Stage();
     private Scene scene = null;
     private Window window = null;
-    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle, controllerClass controller)
+    public FxmlLoader(String FXMLFileName, String newWindowTitle, controllerClass controller)
     {
         this.controller = controller;
         try
@@ -40,7 +40,7 @@ public class FXMLControllerExtractor<controllerClass>
         }
     }
     
-    public FXMLControllerExtractor(String FXMLFileName, String newWindowTitle, Window owner, controllerClass controller)
+    public FxmlLoader(String FXMLFileName, String newWindowTitle, Window owner, controllerClass controller)
     {
         this.controller = controller;
         try

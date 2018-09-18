@@ -166,7 +166,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     public void TeamSetupWindowInitializer()
     {
     // TODO Manfedas fix this, you are creating TeamCreation now
-        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml",
+        FxmlLoader<TeamCreationWindowController> teamCreationWindow = new FxmlLoader<>("/ui/fxml/TeamCreationWindow.fxml",
                 "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
         Team createdTeam = teamCreationWindow.getController().getTeam();
         if (createdTeam != null)
@@ -178,7 +178,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     public void AddNewEmployeeInitializer()
     {
-        new FXMLControllerExtractor<>(
+        new FxmlLoader<>(
                 "/ui/fxml/AddNewEmployee.fxml",
                 "Enter employee details",
                 window,
@@ -360,7 +360,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             });
         
             int finalI = i;
-            newEventButton.setOnAction(event -> new FXMLControllerExtractor<>(
+            newEventButton.setOnAction(event -> new FxmlLoader<>(
                     "/ui/fxml/ScheduleNewEvent.fxml",
                     "Naujas ivykis",
                     window,
@@ -379,7 +379,7 @@ public class MainWindowController implements Initializable, SelfAwareController
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                new FXMLControllerExtractor<>(
+                new FxmlLoader<>(
                         "/ui/fxml/ScheduleNewEvent.fxml",
                         "Naujas ivykis",
                         window,
