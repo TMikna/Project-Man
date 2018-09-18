@@ -113,7 +113,7 @@ public class Employee {
 
     public void addpersonalTeams(Team e)
     {
-        this.personalTeams.add(e);
+        this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
         }
