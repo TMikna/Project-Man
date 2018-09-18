@@ -8,6 +8,8 @@ package ui.controllers;
 import backend.datatypes.Employee;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
+import backend.logic.Statics;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,6 +37,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import backend.server.DataStatic;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 /**
@@ -51,7 +54,9 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TableColumn<Employee, String> nameColumn, lastNameColumn, positionColumn, hourColumn, accessColumn;
     @FXML
-    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower, teamsEdit;
+    private TableColumn<Team, String> teamsName, teamsProject, teamsEmployeeCount, teamsManpower;//, teamsEdit;
+    @FXML
+    private TableColumn<Team, Button> teamsEdit;
     @FXML
     private TableColumn<Employee, String> employeesName, employeesID, employeesOccupation, employeesContacts, employeesAccess;
     @FXML
@@ -63,8 +68,7 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private AnchorPane userSettingsAnchor, monthViewAnchor, testAnchor;
     
-    public ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-    List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
+    private List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
     
     private Stage stage;
     private Scene scene;
@@ -96,7 +100,6 @@ public class MainWindowController implements Initializable, SelfAwareController
         this.scene = scene;
         this.window = window;
     }
-<<<<<<< HEAD
     @FXML
     private void updateTeamTable()
     {
@@ -140,41 +143,11 @@ public class MainWindowController implements Initializable, SelfAwareController
         try {
             backend.server.DBUtilities.getInstance().getAllEmployees();
             employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
-=======
-    
-    @FXML
-    public void TeamMemberWindowInitializer()
-    {
-        
-    }
-    
-    @FXML
-    public void TeamSetupWindowInitializer()
-    {
-    // TODO Manfedas fix this, you are creating TeamCreation now
-        FXMLControllerExtractor<TeamCreationWindowController> teamCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/TeamCreationWindow.fxml",
-                "Create new team", window, new TeamCreationWindowController(DataStatic.getEmployees()));
-        Team createdTeam = teamCreationWindow.getController().getTeam();
-        if (createdTeam != null)
-        {
-            DataStatic.add(createdTeam);
-        }
-    }
-    
-    @FXML
-    public void AddNewEmployeeInitializer()
-    {
-        FXMLControllerExtractor<AddNewEmployeeController> employeeCreationWindow = new FXMLControllerExtractor<>("/ui/fxml/AddNewEmployee.fxml", "Enter employee details", window, new AddNewEmployeeController());
-        //Employee createdEmployee = employeeCreationWindow.getController().returnEmployee();
-       // if (createdEmployee != null)
-        //{
-            //DataStatic.add(createdEmployee);
-            ObservableList<Employee> tempList = FXCollections.observableArrayList();
-            tempList.addAll(DataStatic.getEmployees());
-            employeesTable.setItems(tempList);
->>>>>>> da279680d044b80c31e8d58e7b2c4e61637f2995
             employeesTable.refresh();
-       // }
+        } catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -211,37 +184,8 @@ public class MainWindowController implements Initializable, SelfAwareController
                 window,
                 new AddNewEmployeeController());
         
-<<<<<<< HEAD
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
-=======
-        myDayTab_MonthTabInit();
-        
-        /*TableRowExpanderColumn<Employee> column = new TableRowExpanderColumn<>(param -> {
-            HBox editor = new HBox(10);
-            TextField text = new TextField(param.getValue().getName()), text2 = new TextField(param.getValue().getLastName());  //3rd party library test for easy way to edit table data - may or may not be used - ask Edvinas if interested
-            Button save = new Button("Save employee");
-            editor.getChildren().addAll(text, text2, save);
-            return editor;
-        });
-        column.setText("column");
-        teamsTable.getColumns().add(0, column);
-        teamsTable.getItems().add(loggedInUser);
-        teamsTable.getItems().add(new Employee("test0", "test0", "test", "test", "test", 2, 2, Employee.ADMIN));
-        teamsTable.getItems().add(new Employee("test1", "test1", "test", "test", "test", 2, 2, Employee.ADMIN));
-        teamsTable.getItems().add(new Employee("test2", "test2", "test", "test", "test", 2, 2, Employee.ADMIN));*/
-    }
-    
-    private void updatePersonalDayTableColumns(int from, int count, TableView<TableColumn<String, String>> table)
-    {
-        table.getColumns().clear();
-        for (int i = 0; i < count; ++i)
-        {
-            //[Tomas] TODO: maybe put to backend classes?
-            table.getColumns().add(new TableColumn<>((from + i > 24 ? from + i - 24 : from + i)
-                    + "-" + (from + i + 1 > 24 ? from + i - 23 : from + i + 1)));
-        }
->>>>>>> da279680d044b80c31e8d58e7b2c4e61637f2995
     }
     
     private int tempTestNotFinalJustForTesting = 0;
@@ -263,30 +207,13 @@ public class MainWindowController implements Initializable, SelfAwareController
     private void allTeamsTabInit()
     {
         teamsName.setCellValueFactory(new PropertyValueFactory<>("teamName"));
-        teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject().getProjectName()));
+        teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject() == null ? "No project assigned" : param.getValue().getProject().getProjectName()));    //TODO: remove project field from team
         teamsEmployeeCount.setCellValueFactory(param -> new SimpleStringProperty(Integer.toString(param.getValue().size())));
         teamsManpower.setCellValueFactory(new PropertyValueFactory<>("manpower"));
-        teamsEdit.setCellFactory(param -> new TableCell<Team, String>()
-        {
-            @Override
-            protected void updateItem(String item, boolean empty)
-            {
-                super.updateItem(item, empty);
-                if (!empty)
-                {
-                    Team toEdit = (Team) getTableRow().getItem();
-                    setGraphic(new Button("Redaguoti")
-                    {{
-                        setOnAction(event -> System.out.println(toEdit));
-                    }});
-                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                }
-            }
-        });
-    
-        ObservableList<Team> tableInf = FXCollections.observableArrayList();
-        tableInf.addAll(DataStatic.getTeams());
-        teamsTable.setItems(tableInf);                                                                        //
+        teamsEdit.setCellValueFactory(column -> new SimpleObjectProperty<>(new Button("Redaguoti")
+        {{
+            setOnAction(event -> System.out.println(column.getValue()));    //TODO: create a team editing window
+        }}));
     }
     
     /*********************************************
@@ -380,7 +307,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             toHr.getSelectionModel().select(settingsTo.get(i).getSelectionModel().getSelectedItem());
             int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(),
                     hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
-            updatePersonalDayTableColumns(fromInt, hrCountInt, table);
+            Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table);
         
             EventHandler<ActionEvent> normalChangeAction = action -> {
                 fromHr.setDisable(false);
@@ -428,16 +355,17 @@ public class MainWindowController implements Initializable, SelfAwareController
                     checkButton.setStyle(null);
                 
                     changeButton.setOnAction(normalChangeAction);
-                    updatePersonalDayTableColumns(fromInt1, hrCountInt1, table);
+                    Statics.updatePersonalDayTableColumns(fromInt1, hrCountInt1, table);
                 });
             });
         
             int finalI = i;
-            newEventButton.setOnAction(event -> {   //Event scheduling
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
-                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
-                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
-            });
+            newEventButton.setOnAction(event -> new FXMLControllerExtractor<>(
+                    "/ui/fxml/ScheduleNewEvent.fxml",
+                    "Naujas ivykis",
+                    window,
+                    new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay))
+            ));
         }
     }
     
@@ -447,16 +375,15 @@ public class MainWindowController implements Initializable, SelfAwareController
         Node dateView = new DatePickerSkin(pickerObject).getPopupContent();
         dateView.setLayoutX(15);
         dateView.setLayoutY(15);
-        pickerObject.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(observable + " " + oldValue + " " + newValue);
-        });
     
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
-                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
-                        "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
+                new FXMLControllerExtractor<>(
+                        "/ui/fxml/ScheduleNewEvent.fxml",
+                        "Naujas ivykis",
+                        window,
+                        new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
     

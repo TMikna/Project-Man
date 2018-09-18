@@ -87,7 +87,6 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         tableInfo.addAll(allEmployees);
         employeeCatalog.setItems(tableInfo);
         employeeCatalog.refresh();
-        
         NameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
         PositionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
@@ -156,13 +155,13 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     {
         if(!teamNameTBox.getText().isEmpty()){
             newTeam = new Team(teamNameTBox.getText(), selectedEmployees);
-            DataStatic.add(newTeam);
         }
         else return;
         
         stage.close();
         for(Employee emp : selectedEmployees) //For each visiem employee, kurie yra teame, priskiriamas team pavadinimas ir valandos. (Toliau: Employee klaseje)
         {
+        // [Tomas] nežinau kieno kodas ir ar jo reik
             emp.addpersonalTeams(newTeam);
         }
         for(Employee emp : changedCellEmployees)

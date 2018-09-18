@@ -109,7 +109,9 @@ public class DBUtilities {
             String name, surname, password, occupation, privileges;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
+            
             statement = connection.createStatement();
+            //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");
             
             DataStatic.getEmployees().clear();
@@ -125,7 +127,8 @@ public class DBUtilities {
                 hourlyrate = results.getDouble("hourlyrate");
                 dailyhours = results.getDouble("dailyhours");
                 workedhours = results.getDouble("workedhours");
-                privileges = results.getString("privileges"); // TODO change type in database
+                //privileges = results.getString("privileges");
+                privileges = "ADMIN";
                 DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, Employee.AccessRights.valueOf(privileges)));
             }
     }
