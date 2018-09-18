@@ -37,6 +37,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import backend.server.DataStatic;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 /**
@@ -124,14 +125,50 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private void updateTeamTable()
     {
-        Team testTeam = new Team("chuliganai" + Integer.toString(tempTestNotFinalJustForTesting), new ArrayList<Employee>(){{add(loggedInUser);}});
-        DataStatic.getTeams().add(testTeam);
-        Project testProject = new Project("testProject" + Integer.toString(tempTestNotFinalJustForTesting++), new ArrayList<Team>(){{add(testTeam);}});
+        Team testTeam = new Team("chuliganai" + Integer.toString(tempTestNotFinalJustForTesting), new ArrayList<Employee>()
+        {{
+            add(loggedInUser);
+        }});
+        DataStatic.getTeams()
+                  .add(testTeam);
+        Project testProject = new Project("testProject" + Integer.toString(tempTestNotFinalJustForTesting++), new ArrayList<Team>()
+        {{
+            add(testTeam);
+        }});
         testTeam.setProject(testProject);
-        DataStatic.getProjects().add(testProject);
-        
-        teamsTable.getItems().clear();
+        DataStatic.getProjects()
+                  .add(testProject);
+    
+        teamsTable.getItems()
+                  .clear();
         teamsTable.setItems(FXCollections.observableArrayList(DataStatic.getTeams()));
+    }
+    @FXML
+    public void updateEmployeeList()
+    {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("no driver");
+            return;
+        }
+        
+        backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
+        try {
+            backend.server.DBUtilities.getInstance().connect();
+        } catch (SQLException e)
+        {
+            System.out.println("cant connect");
+            System.out.println(e.getMessage());
+        }
+        try {
+            backend.server.DBUtilities.getInstance().getAllEmployees();
+            employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
+            employeesTable.refresh();
+        } catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
     
     @Override
