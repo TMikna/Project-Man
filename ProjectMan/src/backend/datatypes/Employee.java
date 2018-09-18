@@ -28,10 +28,9 @@ public class Employee {
         PROJECT_MANAGER = 3,
         TEAM_MANAGER = 2,   //TODO: probably not right
         EMPLOYEE = 1,
-        NO_ACCESS = Integer.MIN_VALUE;
+        NO_ACCESS = Integer.MIN_VALUE; // TODO: use an enum perhaps?
     
     private static final int FIVE = 5; // Can't find better name
-    
     private String Name;
     private String LastName;
     private UUID ID;                  // Unique!
@@ -82,7 +81,26 @@ public class Employee {
     {
         return "Name: " + Name + "; surname: " + LastName + "; ID: " + ID + "; password: " + password + "; position: " + position + "; hourly: " + hourlyRate + "; hrs/day: " + dailyHours + "; worked: " + workedHours + "; privileges: " + privileges + ".";
     }
-    
+    //Following Auxilary functions were written by Vilius.
+    //concatenates object's fields' values into a string so that it can be added to a database
+    public String toUpdateString()
+    {
+        return "(" + format(Name) + format(LastName) + format(ID) + format(password) + format(hourlyRate) + format(workedHours) + privileges + ");";
+    }
+    //format fields for easier Update query String formation
+    public String format(String value)
+    {
+        return "'" + value + "', ";
+    }
+    public String format(Double value)
+    {
+        return Double.toString(value) + ", ";
+    }
+    //UUID will be stored as a string
+    public String format(UUID value) 
+    {
+        return "'" + value + "', ";
+    }
 //================================================================================
 // Accessors                                                   @author Tomas.Mikna   
 //================================================================================

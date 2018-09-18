@@ -150,6 +150,7 @@ public class MainWindowController implements Initializable, SelfAwareController
         table.getColumns().clear();
         for (int i = 0; i < count; ++i)
         {
+            //[Tomas] TODO: maybe put to backend classes?
             table.getColumns().add(new TableColumn<>((from + i > 24 ? from + i - 24 : from + i)
                     + "-" + (from + i + 1 > 24 ? from + i - 23 : from + i + 1)));
         }
@@ -198,6 +199,11 @@ public class MainWindowController implements Initializable, SelfAwareController
         teamsTable.setItems(tableInf);                                                                        //
     }
     
+    /*********************************************
+     * myDayTabs initializers       @auth Edvinas
+     * TODO crete new Controller class for myDayTab
+     ********************************************/
+ 
     private void myDayTab_SettingsTabInit()
     {
         List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
@@ -208,7 +214,8 @@ public class MainWindowController implements Initializable, SelfAwareController
                 node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
         TextField settingsHrsPerWeek = (TextField) userSettingsAnchor.getChildren().stream().filter(node ->
                 node instanceof TextField).collect(Collectors.toList()).get(0);
-        settingsChangeButton.setOnAction(actionEvent -> {
+        settingsChangeButton.setOnAction(actionEvent -> 
+            {
             boolean illegal = false;
             int countSum = 0;
             for (int i = 0; i < 5; ++i)
@@ -245,7 +252,9 @@ public class MainWindowController implements Initializable, SelfAwareController
             settingsFrom.get(i).getSelectionModel().select((Integer) 8);    //TODO: actually load the settings
             settingsTo.get(i).getSelectionModel().select((Integer) 16);
         }
-        settingsHrsPerWeek.setText(Integer.toString(settingsTo.stream().mapToInt(integerChoiceBox -> integerChoiceBox.getSelectionModel().getSelectedItem()).sum() - settingsFrom.stream().mapToInt(integerChoiceBox -> integerChoiceBox.getSelectionModel().getSelectedItem()).sum()));
+        settingsHrsPerWeek.setText(Integer.toString(settingsTo.stream().mapToInt(integerChoiceBox ->
+            integerChoiceBox.getSelectionModel().getSelectedItem()).sum() - settingsFrom.stream().mapToInt(integerChoiceBox ->
+                integerChoiceBox.getSelectionModel().getSelectedItem()).sum()));
     }
     
     private void myDayTab_WeekTabInit()
@@ -266,7 +275,7 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
         
             AnchorPane anchorPane = ((AnchorPane)pane.getContent());
-        //very professional variable assigning probably better not to touch
+            //very professional variable assigning probably better not to touch
             TableView<TableColumn<String, String>> table = (TableView) anchorPane.getChildren().get(0);    //very professional variable assigning probably better not to touch
             List<ChoiceBox<Integer>> choiceBoxes = anchorPane.getChildren().stream().filter(node -> 
                     node instanceof ChoiceBox).map(node -> (ChoiceBox<Integer>) node).collect(Collectors.toList());
@@ -335,7 +344,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         
             int finalI = i;
             newEventButton.setOnAction(event -> {   //Event scheduling
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
+                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
+                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
                         "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay)));
             });
         }
@@ -354,7 +364,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         dateView.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1)
             {
-                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
+                FXMLControllerExtractor<ScheduleNewEventController> newEventWindow = 
+                        new FXMLControllerExtractor<>("/ui/fxml/ScheduleNewEvent.fxml",
                         "Naujas ivykis", window, new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
