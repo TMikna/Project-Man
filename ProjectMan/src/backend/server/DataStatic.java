@@ -17,7 +17,6 @@ import java.util.List;
  *
  * @author TM
  */
-//TODO: CONSIDER how to do: Static or usuall class?
 public class DataStatic {
     private static List<Event> events = new ArrayList<>();
     private static List<Project> projects = new ArrayList<>();
@@ -44,11 +43,6 @@ public class DataStatic {
     {
         employees.add(employee);
     }
-   
-    
-
-        
-
     
     public static List<Team> getTeams() {
         return teams;

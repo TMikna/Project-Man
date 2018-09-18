@@ -22,13 +22,10 @@ import javafx.scene.control.TextField;
  * @author manfr
  */
 public class Employee {
-    public static final int     //for convenient privilege checking (I.E. if (currentUserRights >= Employee.PROJECT_MANAGER) doSomethingThatOnlyUsersWithHigherPrivilegesCanDo();)
-        ADMIN = Integer.MAX_VALUE,
-        COMPANY_MANAGER = 4,
-        PROJECT_MANAGER = 3,
-        TEAM_MANAGER = 2,   //TODO: probably not right
-        EMPLOYEE = 1,
-        NO_ACCESS = Integer.MIN_VALUE; // TODO: use an enum perhaps?
+    public enum AccessRights
+    {
+        NO_ACCESS, EMPLOYEE, TEAM_MANAGER, PROJECT_MANAGER, COMPANY_MANAGER, ADMIN
+    }
     
     private static final int FIVE = 5; // Can't find better name
     private String Name;
@@ -39,7 +36,7 @@ public class Employee {
     private double hourlyRate;          // Money, earned per hour
     private double dailyHours;          // Average working time every day. //TODO later might change in custom every day input
     private double workedHours = 0; 
-    private int privileges;
+    private AccessRights privileges;
     
     
     // @Auth Manfr. Kintamieji skirti lentelei
@@ -62,7 +59,7 @@ public class Employee {
                     String position,
                     double hourlyRate,
                     double dailyHours,
-                    int privileges)
+                    AccessRights privileges)
     {
         this.Name = name;
         this.LastName = lastName;
@@ -229,12 +226,12 @@ public class Employee {
         this.workedHoursThisMonth = workedHoursThisMonth;
     }
   
-    public int getPrivileges()
+    public AccessRights getPrivileges()
     {
         return privileges;
     }
     
-    public void setPrivileges(int privileges)
+    public void setPrivileges(AccessRights privileges)
     {
         this.privileges = privileges;
     }

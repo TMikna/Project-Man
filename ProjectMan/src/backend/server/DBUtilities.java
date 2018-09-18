@@ -35,25 +35,27 @@ public class DBUtilities {
     private String url;
     private String user;
     private String password; 
-    private String[] employeeColumns = {"NAME", "LASTNAME", "ID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "USERMODE"};
+    private String[] employeeColumns = {"NAME", "LASTNAME", "UUID", "PASSWORD", "HOURLYRATE", "DAILYHOURS", "WORKEDHOURS", "USERMODE"};
     private Properties properties;
     private Statement statement;
     private ResultSet results;
 
     
     private static Connection connection = null;
-    private static DBUtilities dbutil;
+    private static DBUtilities dbutil = null;
     
-    public static void getInstance()
+    public static DBUtilities getInstance()
     {
-        if(dbutil != null)
+        if(dbutil == null)
             dbutil = new DBUtilities();
+        return dbutil;
     }
     
-    public static void getInstance(String url, String user, String password)
+    public static DBUtilities getInstance(String url, String user, String password)
     {
-        if(dbutil != null)
+        if(dbutil == null)
             dbutil = new DBUtilities(url, user, password);
+        return dbutil;
     }
 
     
@@ -61,9 +63,14 @@ public class DBUtilities {
     
     private DBUtilities() //hardcoded argmenents, they probably will stay as they are
     {
-        this.url = "jdbc:mysql://localhost:1527/projectman";
-        this.user = "user";
-        this.password = "pass";
+        this.url = "jdbc:mysql://localhost/projectman?"
+                + "useUnicode=true&"
+                + "useJDBCCompliantTimezoneShift=true&"
+                + "useLegacyDatetimeCode=false&"
+                + "serverTimezone=UTC";
+        this.user = "projectman";
+        this.password = "projectman";
+        properties = new Properties();
         
         properties.put("url", this.url);
         properties.put("user", this.user);
@@ -95,16 +102,14 @@ public class DBUtilities {
             statement.close();
         if(connection != null)
             connection.close();
+        dbutil = null;
     }
  
-    public void getAllEmployees() throws SQLException {       
-            String name, surname, password, occupation;
+    public void getAllEmployees() throws SQLException { // this uses DataStatic
+            String name, surname, password, occupation, privileges;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
-            int privileges;
-            
             statement = connection.createStatement();
-            //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");
             
             DataStatic.getEmployees().clear();
@@ -113,14 +118,15 @@ public class DBUtilities {
             {
                 name = results.getString("name");
                 surname = results.getString("surname");
-                id = new UUID(0, 0); // this is temporary, not really sure how to parse thus for now
+                //id = UUID.fromString(results.getString("UUID")); //TODO fix this
+                id = UUID.randomUUID();
                 password = results.getString("password");
                 occupation = results.getString("occupation");
                 hourlyrate = results.getDouble("hourlyrate");
                 dailyhours = results.getDouble("dailyhours");
                 workedhours = results.getDouble("workedhours");
-                privileges = results.getInt("privileges");
-                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, privileges));
+                privileges = results.getString("privileges"); // TODO change type in database
+                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, Employee.AccessRights.valueOf(privileges)));
             }
     }
     //add employee to the database

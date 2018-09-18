@@ -5,29 +5,22 @@
  */
 package ui.controllers;
 
-import java.net.URL;
-import java.util.*;
-import java.util.function.Consumer;
 import backend.datatypes.Employee;
+import backend.server.DataStatic;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Consumer;
-import backend.logic.Statics;
-import backend.server.DataStatic;
-import javafx.scene.Scene;
 
 /**
  * FXML Controller class
@@ -46,6 +39,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private TextField nameField, surnameField, idField, passwordField, postField, wageField;
     @FXML
     private ChoiceBox<String> positionChoice;   //temporary fx:ids for testing
+    
+    private boolean correctData;
     
     private Employee employee = null;
     private UUID uuid = null;
@@ -69,17 +64,22 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     {
         positionChoice.setItems(FXCollections.observableArrayList("sysadmin", "programmer", "tester", "QnA", "manager"));
         // TODO
-        
-        
+    
+    
         Consumer<TextField> addEmptyStringCheckerOnFocusLost = field -> {
             field.focusedProperty()
                  .addListener((arg, oldVal, newVal) -> {
                      if (oldVal && !newVal)
                      {
-                         field.setStyle("-fx-background-color: " + (field.getText()
-                                                                         .isEmpty()
-                                                                    ? "red"
-                                                                    : "white"));
+                         if (field.getText().isEmpty())
+                         {
+                             field.setStyle("-fx-background-color: red");
+                             correctData = false;
+                         }
+                         else
+                         {
+                             field.setStyle(null);
+                         }
                      }
                  });
         };
@@ -93,16 +93,18 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                                   .isEmpty())
                          {
                              field.setStyle("-fx-background-color: red");
+                             correctData = false;
                          } else
                          {
                              try
                              {
                                  Double.parseDouble(field.getText());
-                                 field.setStyle("-fx-background-color: white");
+                                 field.setStyle(null);
                              } catch (NumberFormatException e)
                              {
-                                 e.printStackTrace();
+                                 e.printStackTrace();   //<---------------------------------------------------------------------------
                                  field.setStyle("-fx-background-color: red");
+                                 correctData = false;
                              }
                          }
                      }
@@ -113,6 +115,21 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
         addEmptyStringCheckerOnFocusLost.accept(passwordField);
         addCorrectDoubleCheckerOnFocusLost.accept(postField);
         addCorrectDoubleCheckerOnFocusLost.accept(wageField);
+        
+        positionChoice.focusedProperty().addListener((arg, oldVal, newVal) -> {
+            if (oldVal && !newVal)
+            {
+                if (positionChoice.getSelectionModel().isEmpty())
+                {
+                    positionChoice.setStyle("-fx-background-color: red");
+                    correctData = false;
+                }
+                else
+                {
+                    positionChoice.setStyle(null);
+                }
+            }
+        });
     }
     
     @FXML
@@ -120,20 +137,32 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     {
         uuid = UUID.randomUUID();  //TODO?
         idField.setText(uuid.toString());
+        idField.setStyle(null);
     }
     
     @FXML
     private void onAddAttempt()
     {
-        if (!nameField.getText().isEmpty()
-                    && !surnameField.getText().isEmpty()
-                    && !idField.getText().isEmpty()
-                    && !passwordField.getText().isEmpty()
-                    && !postField.getText().isEmpty()
-                    && !wageField.getText().isEmpty()
-                    && !positionChoice.getSelectionModel().getSelectedItem().isEmpty())
+        correctData = true;
+        
+        nameField.requestFocus();
+        surnameField.requestFocus();
+        positionChoice.requestFocus();
+        passwordField.requestFocus();
+        postField.requestFocus();
+        wageField.requestFocus();
+        nameField.requestFocus();
+        
+        if (idField.getText().isEmpty())
+        {
+            idField.setStyle("-fx-background-color: red");
+            correctData = false;
+        }
+        
+        if (correctData)
         {
             // TODO add checks if given data is suitable (now trying parseDouble(...) can cause exception)
+            //added better checks for valid data but left the exception it is part of checking and it will always throw the exception, except we can choose not to print it (see the arrow above) [Edvinas]
             this.employee = new Employee(
                     nameField.getText(),
                     surnameField.getText(),
@@ -142,7 +171,7 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                     positionChoice.getValue(),
                     Double.parseDouble(wageField.getText()),
                     Double.parseDouble(postField.getText()),
-                    Employee.ADMIN);
+                    Employee.AccessRights.ADMIN);
             System.out.println("DEBUG:: " + employee);
             DataStatic.add(employee);
             stage.close();
@@ -153,22 +182,8 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
     private void onCancel()
     {
         //maybe check if the user entered some data and prompt the exit
-        //TODO: refactor to navigate back to MainWindow
+        //TODO: refactor to navigate back to MainWindow <- ??? it always gave control back to main window after closing [Edvinas]
         this.employee = null;
         stage.close();
     }
-    
-    public Employee returnEmployee()
-    {
-        return employee;
-    }
-
-    // Sets reference to mainColtroller so we can invoke MainController functions from here
-//    void setMain(MainWindowController mainController) {
-//        this.mainController = mainController;
-//        System.out.println("setMainWorks");
-//        System.out.println(this.mainController);
-//    }
-
-    
 }

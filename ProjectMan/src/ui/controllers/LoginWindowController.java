@@ -24,7 +24,7 @@ public class LoginWindowController
 			((Stage)(auth_User.getScene().getWindow())).close();	//uzdaro esanti langa
 			
 			String userName = auth_User.getText();
-			Employee loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, userName.isEmpty() ? Employee.ADMIN : "employee".equals(userName) ? Employee.EMPLOYEE : "teamManager".equals(userName) ? Employee.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.COMPANY_MANAGER : Employee.NO_ACCESS); //TODO: check username & password to get actual object
+			Employee loggedInUser = new Employee(userName, userName, UUID.randomUUID(), userName, userName, 9001, 25, userName.isEmpty() ? Employee.AccessRights.ADMIN : "Employee.AccessRights".equals(userName) ? Employee.AccessRights.EMPLOYEE : "teamManager".equals(userName) ? Employee.AccessRights.TEAM_MANAGER : "projectManager".equals(userName) ? Employee.AccessRights.PROJECT_MANAGER : "companyManager".equals(userName) ? Employee.AccessRights.COMPANY_MANAGER : Employee.AccessRights.NO_ACCESS); //TODO: check username & password to get actual object
 			FXMLControllerExtractor<MainWindowController> mainWindow = new FXMLControllerExtractor<>("/ui/fxml/MainWindow.fxml", "Sveiki, " + userName + "!", new MainWindowController(loggedInUser));
 		}
 	}
