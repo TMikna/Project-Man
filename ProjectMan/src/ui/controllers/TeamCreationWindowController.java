@@ -114,9 +114,11 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
         tableInfo.addAll(allEmployees);
         if(edit == true)
-        {        
-            teamNameTBox.setText(TeamToEdit.getTeamName());
-            projectTextBox.setText(TeamToEdit.getProject().getProjectName());
+        {      
+            if(TeamToEdit.getTeamName() != null)
+                teamNameTBox.setText(TeamToEdit.getTeamName());
+            if(TeamToEdit.getProject().getProjectName() != null)
+                projectTextBox.setText(TeamToEdit.getProject().getProjectName());
             selectedEmployees = TeamToEdit.getEmployeeList();
             changedCellEmployees = TeamToEdit.getEmployeeList();
             listOfEmployees.addAll(selectedEmployees);
