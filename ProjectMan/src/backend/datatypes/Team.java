@@ -9,6 +9,9 @@ package backend.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import backend.logic.Statics;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,6 +42,15 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
     public List<Employee> getEmployeeList()
     {
         return stream().map(MutablePair::getKey).collect(Collectors.toList());
+    }
+    public Stream<Employee> getEmployeeStream()
+    {
+        return stream().map(MutablePair::getKey);
+    }
+    
+    public void removeEmployeeFromTeam(Employee employee)
+    {
+        remove(Statics.getMutablePair(this, employee));
     }
     
     public String getTeamName()
