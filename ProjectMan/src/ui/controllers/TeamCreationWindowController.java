@@ -6,7 +6,6 @@
 package ui.controllers;
 
 import backend.datatypes.Employee;
-import backend.datatypes.MutablePair;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
 import java.net.URL;
@@ -71,7 +70,6 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     public TeamCreationWindowController(List<Employee> allEmployees)
     {
         this.allEmployees = allEmployees;
-        edit = false;
     }
     
     public TeamCreationWindowController(List<Employee> allEmployees, boolean edit, Team TeamToEdit)
@@ -174,7 +172,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
                 node.getworkHoursInTeams().remove(node.getPersonalTeams().indexOf(TeamToEdit));
                 node.getPersonalTeams().remove(TeamToEdit);
             }
-            TeamToEdit.removeEmployeeFromTeam(node);
+            TeamToEdit.getEmployeeList().remove(node);
             
             System.out.println("Block to test " + TeamToEdit.getEmployeeList());
         }
@@ -206,34 +204,20 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
             emp.setHOnthisTeam("");
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
-        edit = false;
     }
     
     @FXML
     public void onTeamCreateAttempt()
     {
-        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty() & edit == false)
+        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty() & !edit)
         {
             newTeam = new Team(teamNameTBox.getText(), selectedEmployees, new Project(projectTextBox.getText()));
         }
-        else if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty())
+        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty())
         {
             TeamToEdit.setTeamName(teamNameTBox.getText());
             TeamToEdit.setProject(new Project(projectTextBox.getText()));
-            for(Employee empl : selectedEmployees)
-            {
-                if(!TeamToEdit.getEmployeeList().contains(empl))
-                {
-                    try{
-                        TeamToEdit.add(new MutablePair<Employee, Double>(empl, Double.parseDouble(empl.getHOnThisTeam())));
-                    }
-                    catch(Exception e)
-                    {
-                        TeamToEdit.add(new MutablePair<Employee, Double>(empl, 0d));
-                    }
-                    
-                }
-            }
+            //TeamToEdit.getEmployeeList() = selectedEmployees;
         }
         else return;
         
@@ -247,7 +231,6 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
             emp.setHOnthisTeam("");
         }
         ((Stage)teamNameTBox.getScene().getWindow()).close();
-        edit = false;
     }
     
     @FXML
