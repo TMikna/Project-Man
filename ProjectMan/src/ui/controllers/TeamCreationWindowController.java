@@ -65,7 +65,7 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     private List<Employee> changedCellEmployees = new ArrayList();
     private Team newTeam;
     private Team TeamToEdit;
-    private boolean edit;
+    private boolean edit = false;
     
     public TeamCreationWindowController(List<Employee> allEmployees)
     {
@@ -123,7 +123,8 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
             teamPersonelTW.setItems(listOfEmployees);
             for(Employee emp : selectedEmployees)
             {  
-                emp.setHOnthisTeam(emp.getworkHoursInTeams().get(emp.getPersonalTeams().lastIndexOf(TeamToEdit)).toString());
+                if(emp.getPersonalTeams().contains(TeamToEdit))
+                    emp.setHOnthisTeam(emp.getworkHoursInTeams().get(emp.getPersonalTeams().lastIndexOf(TeamToEdit)).toString());
                 tableInfo.remove(emp);
             }
         }
@@ -163,11 +164,16 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         if(node == null)
             return;
         if(edit)
+        {
             if(node.getPersonalTeams().contains(TeamToEdit))
             {
                 node.getworkHoursInTeams().remove(node.getPersonalTeams().indexOf(TeamToEdit));
                 node.getPersonalTeams().remove(TeamToEdit);
             }
+            TeamToEdit.getEmployeeList().remove(node);
+            
+            System.out.println("Block to test " + TeamToEdit.getEmployeeList());
+        }
         teamPersonelTW.getItems().remove(node);
         selectedEmployees.remove(node);
         employeeCatalog.getItems().add(node);
@@ -201,8 +207,15 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     @FXML
     public void onTeamCreateAttempt()
     {
-        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty()){
+        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty() & !edit)
+        {
             newTeam = new Team(teamNameTBox.getText(), selectedEmployees, new Project(projectTextBox.getText()));
+        }
+        if(!teamNameTBox.getText().isEmpty() & !projectTextBox.getText().isEmpty())
+        {
+            TeamToEdit.setTeamName(teamNameTBox.getText());
+            TeamToEdit.setProject(new Project(projectTextBox.getText()));
+            //TeamToEdit.getEmployeeList() = selectedEmployees;
         }
         else return;
         
