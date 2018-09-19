@@ -77,6 +77,24 @@ public class Employee {
         this.HOnThisTeam = new SimpleStringProperty("0");
     }
     
+    /*@author VM
+        A constructor, which takes a serializable version of employee as an argument.
+        Useful in case we will need to store serialized employees.
+    */
+    public Employee (SimpleEmployee emp)
+    {
+        this.Name = emp.getName();
+        this.LastName = emp.getLastName();
+        this.ID = emp.getID();
+        this.password = emp.getPassword();
+        this.position = emp.getPassword();
+        this.hourlyRate = emp.getHourlyRate();
+        this.dailyHours = emp.getDailyHours();
+        this.privileges = emp.getPrivileges();
+        this.email = emp.getEmail();
+        this.phoneNumber = emp.getPhoneNumber();
+    }
+    
     @Override
     public String toString()
     {
