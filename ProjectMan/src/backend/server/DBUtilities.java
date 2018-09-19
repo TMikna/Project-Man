@@ -11,7 +11,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -70,9 +72,9 @@ public class DBUtilities {
     
     private DBUtilities() //hardcoded argmenents, they probably will stay as they are
     {
-        this.url = "jdbc:derby://localhost:1527/ImonesDB";
-        this.user = "klientas";
-        this.password = "password";
+        this.url = "jdbc:derby://localhost:1527/ProjectManDB";
+        this.user = "psadmin";
+        this.password = "TOP2018";
         properties = new Properties();
         
         properties.put("url", this.url);
@@ -115,7 +117,7 @@ public class DBUtilities {
             
             statement = connection.createStatement();
             //String strSelect = "select * from projectman.employees";
-            results = statement.executeQuery("select * from projectman.employees");
+            results = statement.executeQuery("select * from APP.Staff");
             
             DataStatic.getEmployees().clear();
             
@@ -142,6 +144,8 @@ public class DBUtilities {
     //experimental add using serialization
     public void addObject (Employee newCommer) throws SQLException, FileNotFoundException, IOException 
     {
+//        Connection con2 = null;
+//        if (connection == null) System.out.println("NOT CONNECTING");
         connection = DriverManager.getConnection(url, user, password);
         File file = new File("students.txt");
         FileOutputStream fo = new FileOutputStream(file);
@@ -149,14 +153,26 @@ public class DBUtilities {
         output.writeObject(newCommer);
         output.close();
         fo.close();
-        String strUpdate = "INSERT INTO projectman.employees (ID, serialization) VALUES " + "(?, ?);";
+        String strUpdate = "INSERT INTO APP.Objects (ID, Binary) VALUES " + "(?, ?)";
         PreparedStatement stmt = connection.prepareStatement(strUpdate);
-        stmt.setInt(1, DataStatic.getEmployees().size()+1);
+        stmt.setInt(1, DataStatic.getEmployees().size());
         FileInputStream fi = new FileInputStream(file);
         stmt.setBlob(2, fi);
-        if (stmt.execute() == false) System.out.println("Employee was not added");
         connection.commit();
         fi.close();
+        connection.close();
+    }
+    public void listEmployees () throws SQLException, IOException, ClassNotFoundException {
+        connection = DriverManager.getConnection(url, user, password);
+        statement = connection.createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM APP.Objects");
+        while (results.next()) {
+            Blob blob = results.getBlob(2);
+            ObjectInputStream input = new ObjectInputStream(blob.getBinaryStream());
+            System.out.println(((Employee) input.readObject()).toString());
+            input.close();
+        }
+        connection.close();
         
     }
     //add employee to the database

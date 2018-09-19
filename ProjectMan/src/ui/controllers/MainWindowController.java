@@ -125,15 +125,15 @@ public class MainWindowController implements Initializable, SelfAwareController
     }
     
     @FXML
-    public void updateEmployeeList()
+    public void updateEmployeeList() throws IOException, ClassNotFoundException
     {
-        try {
+       /* try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("no driver");
             return;
         }
-        
+        */
         backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
         try {
             backend.server.DBUtilities.getInstance().connect();
@@ -146,7 +146,8 @@ public class MainWindowController implements Initializable, SelfAwareController
             //backend.server.DBUtilities.getInstance().getAllEmployees();
             employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
             employeesTable.refresh();
-        } catch (Exception e)
+            backend.server.DBUtilities.getInstance().listEmployees();
+        } catch (SQLException e)
         {
             System.out.println(e.getMessage());
         }
