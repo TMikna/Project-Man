@@ -6,6 +6,7 @@
 package backend.server;
 
 import backend.datatypes.Employee;
+import backend.datatypes.SimpleEmployee;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -142,34 +143,47 @@ public class DBUtilities {
             }
     }
     //experimental add using serialization
+    //Used to but doesn't work anymore???
     public void addObject (Employee newCommer) throws SQLException, FileNotFoundException, IOException 
     {
 //        Connection con2 = null;
 //        if (connection == null) System.out.println("NOT CONNECTING");
         connection = DriverManager.getConnection(url, user, password);
         File file = new File("students.txt");
+        file.deleteOnExit();
         FileOutputStream fo = new FileOutputStream(file);
         ObjectOutputStream output = new ObjectOutputStream(fo);
-        output.writeObject(newCommer);
+        SimpleEmployee semp = new SimpleEmployee(newCommer);
+        output.writeObject(semp);
         output.close();
         fo.close();
+          
         String strUpdate = "INSERT INTO APP.Objects (ID, Binary) VALUES " + "(?, ?)";
         PreparedStatement stmt = connection.prepareStatement(strUpdate);
-        stmt.setInt(1, DataStatic.getEmployees().size());
+        stmt.setInt(1, DataStatic.getEmployees().size() + 1);
         FileInputStream fi = new FileInputStream(file);
         stmt.setBlob(2, fi);
+        System.out.println("Tried to add employee: ");
+        System.out.println(newCommer);
+        stmt.execute();
         connection.commit();
         fi.close();
         connection.close();
     }
+    
     public void listEmployees () throws SQLException, IOException, ClassNotFoundException {
         connection = DriverManager.getConnection(url, user, password);
         statement = connection.createStatement();
         ResultSet results = statement.executeQuery("SELECT * FROM APP.Objects");
+        Employee emp;
+        System.out.println("Really trying to show you what we got");
+        SimpleEmployee employee;
         while (results.next()) {
             Blob blob = results.getBlob(2);
             ObjectInputStream input = new ObjectInputStream(blob.getBinaryStream());
-            System.out.println(((Employee) input.readObject()).toString());
+            employee = (SimpleEmployee) input.readObject();
+            //System.out.println(employee);
+            System.out.println(new backend.datatypes.Employee(employee));
             input.close();
         }
         connection.close();
