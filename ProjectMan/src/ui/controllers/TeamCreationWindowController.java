@@ -64,10 +64,20 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     private List<Employee> selectedEmployees = new ArrayList(); //Neliesti, vidinis listas
     private List<Employee> changedCellEmployees = new ArrayList();
     private Team newTeam;
+    private Team TeamToEdit;
+    private boolean edit;
     
     public TeamCreationWindowController(List<Employee> allEmployees)
     {
         this.allEmployees = allEmployees;
+    }
+    
+    public TeamCreationWindowController(List<Employee> allEmployees, boolean edit, Team TeamToEdit)
+    {
+        this.allEmployees = allEmployees;
+        this.edit = edit;
+        this.TeamToEdit = TeamToEdit;
+        
     }
     
     private Stage stage;
@@ -83,11 +93,6 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        allEmployees = DataStatic.getEmployees();
-        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
-        tableInfo.addAll(allEmployees);
-        employeeCatalog.setItems(tableInfo);
-        employeeCatalog.refresh();
         NameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
         PositionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
@@ -103,6 +108,29 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         teamPersonelTW.setOnMouseClicked(this::delTeamPersonel);
         
         teamPersonelColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        allEmployees = DataStatic.getEmployees();
+        
+        ObservableList<Employee> tableInfo = FXCollections.observableArrayList();
+        ObservableList<Employee> listOfEmployees = FXCollections.observableArrayList();
+        tableInfo.addAll(allEmployees);
+        if(edit == true)
+        {        
+            teamNameTBox.setText(TeamToEdit.getTeamName());
+            projectTextBox.setText(TeamToEdit.getProject().getProjectName());
+            selectedEmployees = TeamToEdit.getEmployeeList();
+            changedCellEmployees = TeamToEdit.getEmployeeList();
+            listOfEmployees.addAll(selectedEmployees);
+            teamPersonelTW.setItems(listOfEmployees);
+            for(Employee emp : selectedEmployees)
+            {  
+                emp.setHOnthisTeam(emp.getworkHoursInTeams().get(emp.getPersonalTeams().lastIndexOf(TeamToEdit)).toString());
+                tableInfo.remove(emp);
+            }
+        }
+        
+        employeeCatalog.setItems(tableInfo);
+        employeeCatalog.refresh();
+        
     }    
     
     @FXML
@@ -134,6 +162,12 @@ public class TeamCreationWindowController implements Initializable, SelfAwareCon
         Employee node = teamPersonelTW.getSelectionModel().getSelectedItem();
         if(node == null)
             return;
+        if(edit)
+            if(node.getPersonalTeams().contains(TeamToEdit))
+            {
+                node.getworkHoursInTeams().remove(node.getPersonalTeams().indexOf(TeamToEdit));
+                node.getPersonalTeams().remove(TeamToEdit);
+            }
         teamPersonelTW.getItems().remove(node);
         selectedEmployees.remove(node);
         employeeCatalog.getItems().add(node);
