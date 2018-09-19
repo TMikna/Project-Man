@@ -149,9 +149,10 @@ public class DBUtilities {
     }
     //add employee to the database and DataStatic class
     public void addEmployee (Employee newCommer) throws SQLException {
-            DataStatic.getEmployees().add(newCommer);
+            //DataStatic.getEmployees().add(newCommer);
             try {
                 statement = connection.createStatement();
+                System.out.println("boi "+newCommer.toUpdateString());
                 String strUpdate = "INSERT INTO projectman.employees VALUES " + newCommer.toUpdateString();
                 if (statement.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
             } finally {

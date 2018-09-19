@@ -190,7 +190,9 @@ public class MainWindowController implements Initializable, SelfAwareController
                     addNewEmployeeController);
         
         if (addNewEmployeeController.getEmployee() != null)
+        {
             DataStatic.add(addNewEmployeeController.getEmployee());
+        }
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
     }

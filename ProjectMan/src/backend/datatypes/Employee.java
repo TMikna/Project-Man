@@ -90,7 +90,18 @@ public class Employee {
     //concatenates object's fields' values into a string so that it can be added to a database
     public String toUpdateString()
     {
-        return "(" + format(Name) + format(LastName) + format(ID) + format(password) + format(hourlyRate) + format(getEmail()) + format(getPhoneNumber()) + format(workedHours) + privileges + ");";
+        return "(" + format(Name) +
+                format(LastName) +
+                format(getEmail()) +
+                format(getPhoneNumber()) +
+                format(ID) +
+                format(password) +
+                format(getPosition()) +
+                format(hourlyRate) +
+                format(dailyHours) +
+                format(workedHours)     + "'" +
+                privileges.toString()   + "'" +
+                ");";
     }
     //format fields for easier Update query String formation
     public String format(String value)
