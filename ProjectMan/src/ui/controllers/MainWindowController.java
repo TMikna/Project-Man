@@ -266,7 +266,21 @@ public class MainWindowController implements Initializable, SelfAwareController
         teamsProject.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProject() == null ? "No project assigned" : param.getValue().getProject().getProjectName()));    //TODO: remove project field from team
         teamsEmployeeCount.setCellValueFactory(param -> new SimpleStringProperty(Integer.toString(param.getValue().size())));
         teamsManpower.setCellValueFactory(new PropertyValueFactory<>("manpower"));
-        teamsEdit.setCellValueFactory(new PropertyValueFactory<>("EditButton"));
+        teamsEdit.setCellValueFactory(column -> new SimpleObjectProperty<>(new Button("Redaguoti")
+        {{
+            setOnAction(event -> {
+                Team TeamToEdit = null;
+                for(Team editT : DataStatic.getTeams())
+                    if(column.getValue() == editT)
+                    {
+                        TeamToEdit = editT;
+                        break;
+                    }
+                FxmlLoader<TeamCreationWindowController> teamCreationWindow = new FxmlLoader<>("/ui/fxml/TeamCreationWindow.fxml",
+                        "Edit Team", window, new TeamCreationWindowController(DataStatic.getEmployees(), true, TeamToEdit));
+                
+                });    
+        }}));
     }
     
     /*********************************************

@@ -46,6 +46,7 @@ public class Employee {
     
     private List<Team> personalTeams = new ArrayList();
     private List<Double> workHoursInTeams = new ArrayList();
+    
     //TODO find best data type
     private String[] Teams = new String[FIVE];
     //TODO implement and use this if will be spare time in later steps
@@ -73,7 +74,7 @@ public class Employee {
         this.privileges = privileges;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.HOnThisTeam = new SimpleStringProperty("");
+        this.HOnThisTeam = new SimpleStringProperty("0");
     }
     
     @Override
@@ -113,6 +114,10 @@ public class Employee {
         this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
+            if(getHOnThisTeam().toString().isEmpty())
+            {
+                workHoursInTeams.add(0d);
+            }
         }
         catch(NumberFormatException c){
             workHoursInTeams.add(0d);
@@ -123,6 +128,16 @@ public class Employee {
     public void setHOnthisTeam(String HOnThisTeam)
     {
         this.HOnThisTeam.set(HOnThisTeam);
+    }
+    
+    public void setworkHoursInTeams(List<Double> workHoursInTeams)
+    {
+        this.workHoursInTeams = workHoursInTeams;
+    }
+    
+    public List<Double> getworkHoursInTeams()
+    {
+        return workHoursInTeams;
     }
     
     public String getHOnThisTeam()

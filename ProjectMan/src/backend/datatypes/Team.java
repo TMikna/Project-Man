@@ -9,6 +9,7 @@ package backend.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -22,15 +23,10 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
     private double manpower;
     private Project project;
     
-    //Mygtukas redagavimui @Manfredas
-    @FXML
-    Button EditButton;
-    
     public Team(String teamName, List<Employee> employeeList)
     {
         super(employeeList.stream().map(employee -> new MutablePair<>(employee, 0.0)).collect(Collectors.toList()));
         this.teamName = teamName;
-        EditButton = new Button("Redaguoti");
     }
             
     public Team(String teamName, List<Employee> employeeList, Project project)
@@ -38,19 +34,7 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
         super(employeeList.stream().map(employee -> new MutablePair<>(employee, 0.0)).collect(Collectors.toList()));
         this.teamName = teamName;
         this.project = project;
-        EditButton = new Button("Redaguoti");
     }
-    
-    public void setEditButton(Button EditButton)
-    {
-        this.EditButton = EditButton;
-    }
-    
-    public Button getEditButton()
-    {
-        return EditButton;
-    }
-    
     
     public List<Employee> getEmployeeList()
     {
