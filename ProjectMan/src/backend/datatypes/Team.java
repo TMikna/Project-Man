@@ -26,7 +26,7 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
         this.teamName = teamName;
     }
             
-    public Team(String teamName, List<Employee> employeeList, Project project)
+    public Team(String teamName, List<MutablePair<Employee, Double>> employeeList, Project project)
     {
         super(employeeList);
         this.teamName = teamName;
