@@ -40,9 +40,7 @@ public class Employee {
     private String email;
     private String phoneNumber;
     
-    // @Auth Manfr. Kintamieji skirti lentelei
-    @FXML
-    private CheckBox MemberCB; // explain this pls
+    // @Auth Manfr. Kintamasis skirtas lentelei
     private SimpleStringProperty HOnThisTeam; 
     
     
@@ -75,7 +73,6 @@ public class Employee {
         this.privileges = privileges;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.MemberCB = new CheckBox();
         this.HOnThisTeam = new SimpleStringProperty("");
     }
     
