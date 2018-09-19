@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 //import javafx.beans.property.SimpleStringProperty;
 //import javafx.fxml.FXML;
 //import javafx.scene.control.Button;
@@ -42,9 +45,9 @@ public class Employee implements Serializable {
     private String phoneNumber;
     
     // @Auth Manfr. Kintamieji skirti lentelei
-    //@FXML
-    //private CheckBox MemberCB; 
-    //private SimpleStringProperty HOnThisTeam; 
+    @FXML
+    private CheckBox MemberCB; 
+    private SimpleStringProperty HOnThisTeam; 
     
     
     private List<Team> personalTeams = new ArrayList();
@@ -80,6 +83,19 @@ public class Employee implements Serializable {
         //this.HOnThisTeam = new SimpleStringProperty("");
     }
     
+    public Employee (SimpleEmployee emp)
+    {
+        this.Name = emp.getName();
+        this.LastName = emp.getLastName();
+        this.ID = emp.getID();
+        this.password = emp.getPassword();
+        this.position = emp.getPassword();
+        this.hourlyRate = emp.getHourlyRate();
+        this.dailyHours = emp.getDailyHours();
+        this.privileges = emp.getPrivileges();
+        this.email = emp.getEmail();
+        this.phoneNumber = emp.getPhoneNumber();
+    }
     @Override
     public String toString()
     {
@@ -114,17 +130,17 @@ public class Employee implements Serializable {
 
     public void addpersonalTeams(Team e)
     {
-        /*this.getPersonalTeams().add(e);
+        this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
         }
         catch(NumberFormatException c){
             workHoursInTeams.add(0d);
-        }*/
+        }
     }
 
     
-    /*public void setHOnthisTeam(String HOnThisTeam)
+    public void setHOnthisTeam(String HOnThisTeam)
     {
         this.HOnThisTeam.set(HOnThisTeam);
     }
@@ -133,7 +149,7 @@ public class Employee implements Serializable {
     {
         return HOnThisTeam.get();
     }
-    */
+    
     
     public String getName() 
     {
