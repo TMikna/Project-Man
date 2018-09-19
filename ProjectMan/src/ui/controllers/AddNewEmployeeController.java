@@ -182,7 +182,6 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
             } catch (SQLException e) {
                  System.out.println(e.getMessage());
             } finally {
-                 DataStatic.add(employee); // add the employee locally anyway
                  stage.close();
             }
          }
