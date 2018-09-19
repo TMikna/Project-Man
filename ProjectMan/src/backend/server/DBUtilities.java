@@ -111,10 +111,10 @@ public class DBUtilities {
             UUID id;
             double hourlyrate, dailyhours, workedhours;
             
+            try {
             statement = connection.createStatement();
             //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");
-            statement.close();
             DataStatic.getEmployees().clear();
             
             while(results.next())
@@ -142,6 +142,9 @@ public class DBUtilities {
                         phonenumber,
                         Employee.AccessRights.valueOf(privileges)
                 ));
+            }
+            } finally {
+                statement.close();
             }
     }
     //add employee to the database and DataStatic class

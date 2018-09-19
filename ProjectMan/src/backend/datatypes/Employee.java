@@ -42,7 +42,7 @@ public class Employee {
     
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
-    private CheckBox MemberCB; 
+    private CheckBox MemberCB; // explain this pls
     private SimpleStringProperty HOnThisTeam; 
     
     
