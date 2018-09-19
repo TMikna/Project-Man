@@ -58,7 +58,9 @@ public class SimpleEmployee implements Serializable{
         this.privileges = privileges;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        //this.MemberCB = new CheckBox();
+        
+        //Following 2 are not serializable. Might be if we create classes that extend them and implement serializable.
+        //this.MemberCB = new CheckBox(); 
         //this.HOnThisTeam = new SimpleStringProperty("");
     }
     
