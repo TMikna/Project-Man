@@ -40,6 +40,8 @@ public class Employee {
     private String email;
     private String phoneNumber;
     
+    private EmployeeTimes times = new EmployeeTimes();  //TODO: load this from DB for logged in user on login
+    
     // @Auth Manfr. Kintamieji skirti lentelei
     @FXML
     private CheckBox MemberCB; 
@@ -266,6 +268,16 @@ public class Employee {
 
     public void setPersonalTeams(List<Team> personalTeams) {
         this.personalTeams = personalTeams;
+    }
+    
+    public EmployeeTimes getTimes()
+    {
+        return times;
+    }
+    
+    public void setTimes(EmployeeTimes times)
+    {
+        this.times = times;
     }
     
     @Override

@@ -70,8 +70,6 @@ public class MainWindowController implements Initializable, SelfAwareController
     @FXML
     private TextField myTeamWeekHrs, myTeamTotalHrs;
     
-    private List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
-    
     private Stage stage;
     private Scene scene;
     private Window window;
@@ -280,8 +278,8 @@ public class MainWindowController implements Initializable, SelfAwareController
     private void myDayTab_SettingsTabInit()
     {
         List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
-                child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList());
-        settingsFrom = settingsShared.subList(0, 5);
+                child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList()),
+        settingsFrom = settingsShared.subList(0, 5),
         settingsTo = settingsShared.subList(5, 10);
         Button settingsChangeButton = (Button) userSettingsAnchor.getChildren().stream().filter(node ->
                 node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
@@ -311,7 +309,11 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
             if (!illegal)
             {
-                settingsHrsPerWeek.setText(Integer.toString(countSum)); //TODO: actually save the settings
+                settingsHrsPerWeek.setText(Integer.toString(countSum));
+                
+                loggedInUser.getTimes().setTotalPerWeek((char) countSum);
+                loggedInUser.getTimes().setStarts(settingsFrom.stream().mapToInt(setting -> setting.getSelectionModel().getSelectedItem()).toArray());
+                loggedInUser.getTimes().setEnds(settingsTo.stream().mapToInt(setting -> setting.getSelectionModel().getSelectedItem()).toArray());
             }
         });
         ObservableList<Integer> hrs = FXCollections.observableArrayList();
@@ -322,8 +324,8 @@ public class MainWindowController implements Initializable, SelfAwareController
         settingsShared.forEach(box -> box.setItems(hrs));
         for (int i = 0; i < 5; ++i)
         {
-            settingsFrom.get(i).getSelectionModel().select((Integer) 8);    //TODO: actually load the settings
-            settingsTo.get(i).getSelectionModel().select((Integer) 16);
+            settingsFrom.get(i).getSelectionModel().select((Integer) loggedInUser.getTimes().getStarts()[i]);
+            settingsTo.get(i).getSelectionModel().select((Integer) loggedInUser.getTimes().getEnds()[i]);
         }
         settingsHrsPerWeek.setText(Integer.toString(settingsTo.stream().mapToInt(integerChoiceBox ->
             integerChoiceBox.getSelectionModel().getSelectedItem()).sum() - settingsFrom.stream().mapToInt(integerChoiceBox ->
@@ -358,9 +360,9 @@ public class MainWindowController implements Initializable, SelfAwareController
             Button changeButton = buttons.get(0), checkButton = buttons.get(1), newEventButton = buttons.get(2);
         
             fromHr.setItems(hrs);
-            fromHr.getSelectionModel().select(settingsFrom.get(i).getSelectionModel().getSelectedItem());
+            fromHr.getSelectionModel().select(loggedInUser.getTimes().getStarts()[i]);
             toHr.setItems(hrs);
-            toHr.getSelectionModel().select(settingsTo.get(i).getSelectionModel().getSelectedItem());
+            toHr.getSelectionModel().select(loggedInUser.getTimes().getEnds()[i]);
             int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(),
                     hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
             Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table);
