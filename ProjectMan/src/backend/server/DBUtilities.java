@@ -7,8 +7,17 @@ package backend.server;
 
 import backend.datatypes.Employee;
 import backend.datatypes.Employee.AccessRights;
+import backend.datatypes.SimpleEmployee;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -147,6 +156,38 @@ public class DBUtilities {
                 statement.close();
             }
     }
+    /** Author vilius
+     * Experimental add using serialization;
+     * The destination table should have 2 columns of types: string for ID and Blob for bytes.
+     * @param newCommer
+     * @throws java.sql.SQLException
+     * @throws java.io.FileNotFoundException
+     */
+    public void addObject (Employee newCommer) throws SQLException, FileNotFoundException, IOException 
+    {
+        File file = new File("students.txt");
+        file.deleteOnExit(); //we don't want this file to stay, right?
+        FileOutputStream fo = new FileOutputStream(file);
+        ObjectOutputStream output = new ObjectOutputStream(fo);
+        SimpleEmployee semp = new SimpleEmployee(newCommer);
+        output.writeObject(semp);
+        output.close();
+        fo.close(); //Object stored into a file and ready to be transfered
+        
+        String strUpdate = "INSERT INTO APP.Objects (ID, Binary) VALUES " + "(?, ?)";
+        PreparedStatement stmt = connection.prepareStatement(strUpdate);
+        stmt.setInt(1, DataStatic.getEmployees().size() + 1);
+        FileInputStream fi = new FileInputStream(file);
+        stmt.setBlob(2, fi);
+        System.out.println("Tried to add employee: ");
+        System.out.println(newCommer);
+        stmt.execute();
+        //time to close resources
+        connection.commit(); //is it necessary? Rollback can be used to revert changes, but perhaps commit is a must for additions?
+        fi.close();
+        stmt.close();
+    }
+    
     //add employee to the database and DataStatic class
     public void addEmployee (Employee newCommer) throws SQLException {
             //DataStatic.getEmployees().add(newCommer);
