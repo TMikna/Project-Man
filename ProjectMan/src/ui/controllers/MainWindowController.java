@@ -94,6 +94,7 @@ public class MainWindowController implements Initializable, SelfAwareController
         myDayTab_WeekTabInit();     //
         
         myDayTab_MonthTabInit();
+        updateEmployeeList(); // populate employee list on init
     }
     
     @Override
@@ -131,22 +132,22 @@ public class MainWindowController implements Initializable, SelfAwareController
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("no driver");
+            System.out.println(e.getMessage() + " not found");
             return;
         }
         
-        backend.server.DBUtilities dbutil = backend.server.DBUtilities.getInstance();
         try {
             backend.server.DBUtilities.getInstance().connect();
         } catch (SQLException e)
         {
-            System.out.println("cant connect");
             System.out.println(e.getMessage());
+            return;
         }
         try {
             backend.server.DBUtilities.getInstance().getAllEmployees();
             employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
             employeesTable.refresh();
+            backend.server.DBUtilities.getInstance().disconnect();
         } catch (SQLException e)
         {
             System.out.println(e.getMessage());

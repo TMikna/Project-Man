@@ -6,6 +6,7 @@
 package backend.server;
 
 import backend.datatypes.Employee;
+import backend.datatypes.Employee.AccessRights;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -105,7 +106,7 @@ public class DBUtilities {
         dbutil = null;
     }
  
-    public void getAllEmployees() throws SQLException { // this uses DataStatic
+    public void getAllEmployees() throws SQLException { // this uses DataStatic, also clears out the list before writing to it
             String name, surname, password, occupation, privileges, email, phonenumber;
             UUID id;
             double hourlyrate, dailyhours, workedhours;
@@ -113,35 +114,147 @@ public class DBUtilities {
             statement = connection.createStatement();
             //String strSelect = "select * from projectman.employees";
             results = statement.executeQuery("select * from projectman.employees");
-            
+            statement.close();
             DataStatic.getEmployees().clear();
             
             while(results.next())
             {
                 name = results.getString("name");
                 surname = results.getString("surname");
-                //id = UUID.fromString(results.getString("UUID")); //TODO fix this
-                id = UUID.randomUUID();
+                id = UUID.fromString(results.getString("UUID"));
                 password = results.getString("password");
                 occupation = results.getString("occupation");
                 hourlyrate = results.getDouble("hourlyrate");
                 dailyhours = results.getDouble("dailyhours");
                 workedhours = results.getDouble("workedhours");
+                privileges = results.getString("privileges");
                 email = results.getString("email");
                 phonenumber = results.getString("phonenumber");
-                
-                
-                //privileges = results.getString("privileges");
-                privileges = "ADMIN";
-                DataStatic.getEmployees().add(new Employee(name, surname, id, password, occupation, hourlyrate, dailyhours, email, phonenumber, Employee.AccessRights.valueOf(privileges)));
+                DataStatic.getEmployees().add(new Employee(
+                        name,
+                        surname,
+                        id,
+                        password,
+                        occupation,
+                        hourlyrate,
+                        dailyhours,
+                        email,
+                        phonenumber,
+                        Employee.AccessRights.valueOf(privileges)
+                ));
             }
     }
-    //add employee to the database
-    void addEmployee (Employee newCommer) throws SQLException {
-            statement = connection.createStatement();
-            String strUpdate = "INSERT INTO projectman.employees VALUES " + newCommer.toUpdateString();
-            if (statement.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
+    //add employee to the database and DataStatic class
+    public void addEmployee (Employee newCommer) throws SQLException {
+            DataStatic.getEmployees().add(newCommer);
+            try {
+                statement = connection.createStatement();
+                String strUpdate = "INSERT INTO projectman.employees VALUES " + newCommer.toUpdateString();
+                if (statement.executeUpdate(strUpdate) == 0) System.out.println("Employee was not added");
+            } finally {
+                statement.close();
+            }
     }
+    
+    public void changeStringProperty(String propertyName, String newProperty, Employee employee) throws SQLException {
+        
+        switch(propertyName.toLowerCase()) // tried to implement this with an enum, but the compiler doesnt allow it (constant string expresion required)
+        {
+            case "name":
+            {
+                employee.setName(newProperty);
+            }
+            break;
+            
+            case "surname":
+            {
+                employee.setLastName(newProperty);
+            }
+            break;
+            
+            case "email":
+            {
+                employee.setEmail(newProperty);
+            }
+            break;
+            
+            case "phonenumber":
+            {
+                employee.setPhoneNumber(newProperty);
+            }
+            break;
+            
+            case "password":
+            {
+                employee.setPassword(newProperty);
+            }
+            break;
+            
+            case "occupation":
+            {
+                employee.setPosition(newProperty);
+            }
+            break;
+   
+            case "privileges":
+            {
+                employee.setPrivileges(AccessRights.valueOf(newProperty));
+            }
+            break;
+        }
+        try {
+            statement = connection.createStatement();
+            String strUpdate = "update employees set " + propertyName + " = '" + newProperty + "' where uuid = '" + employee.getID().toString() + "';";
+            if (statement.executeUpdate(strUpdate) == 0) System.out.println("Data field not updated");
+        } finally {
+            statement.close();
+        }
+    }
+    
+    public void changeDoubleProperty(String propertyName, Double newProperty, Employee employee) throws SQLException {
+        switch(propertyName.toLowerCase())
+        {
+            case "workedhours":
+            {
+                employee.setWorkedHours(newProperty);
+            }
+            break;
+            
+            case "hourlyrate":
+            {
+                employee.setHourlyRate(newProperty);
+            }
+            break;
+            
+            case "dailyhours":
+            {
+                employee.setDailyHours(newProperty);
+            }
+            break;
+        }
+        try {
+            statement = connection.createStatement();
+            String strUpdate = "update employees set " + propertyName + " = " + newProperty.toString() + " where uuid = '" + employee.getID().toString() + "';";
+            if (statement.executeUpdate(strUpdate) == 0) System.out.println("Data field not updated");
+        } finally {
+            statement.close();
+        }
+    }
+    
+    public void removeEmployee(Employee employee) throws SQLException {
+        DataStatic.getEmployees().remove(employee);
+        try {
+            statement = connection.createStatement();
+            String strUpdate = "delete from 'employees' where uuid = '" + employee.getID().toString() + "';";
+            if (statement.executeUpdate(strUpdate) == 0) System.out.println("Data field not updated");
+        } finally {
+            statement.close();
+        }
+ 
+    }
+
+   
+    
     /**
      * prints rows from a result set, until all or a specified amount is printed, 
      * @param rset - source,

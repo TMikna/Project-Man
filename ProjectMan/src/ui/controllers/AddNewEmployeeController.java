@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -174,8 +175,17 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
             );
             System.out.println("DEBUG:: Created new employee: " + employee);
             //DataStatic.add(employee);
-            stage.close();
-        }
+            try {
+                 backend.server.DBUtilities.getInstance().connect();
+                 backend.server.DBUtilities.getInstance().addEmployee(employee);
+                 backend.server.DBUtilities.getInstance().disconnect();
+            } catch (SQLException e) {
+                 DataStatic.add(employee); // add the employee locally in case of an DB error
+                 System.out.println(e.getMessage());
+            } finally {
+                 stage.close();
+            }
+         }
     }
     
     @FXML
