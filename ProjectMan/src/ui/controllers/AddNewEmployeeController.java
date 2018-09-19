@@ -180,9 +180,9 @@ public class AddNewEmployeeController implements Initializable, SelfAwareControl
                  backend.server.DBUtilities.getInstance().addEmployee(employee);
                  backend.server.DBUtilities.getInstance().disconnect();
             } catch (SQLException e) {
-                 DataStatic.add(employee); // add the employee locally in case of an DB error
                  System.out.println(e.getMessage());
             } finally {
+                 DataStatic.add(employee); // add the employee locally anyway
                  stage.close();
             }
          }
