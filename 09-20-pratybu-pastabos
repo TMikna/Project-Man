@@ -1,0 +1,21 @@
+Esminė pastaba:
+Trūksta bazės, neaišku, kokios yra bazinės, pagrindiniui agentui svarbiausios funkcijos.
+
+Baziniai trūkumai:
+a) Projekte trūksta:
+  1) Progreso sekimo. Įvykdoma darbuotojams žymint nudirbtą kiekį arba sekant, kas ir kada nedirbo.
+  2) Jei projektas atsilieka, trūksta galimybės pridėti naujų komandos narių, pratęsti projektą arba skirti kitą komandą.
+b) Darbuotojų tvarkaraščio sudarymas neaiškus. Reikia pasirinkti kurį nors modelį:
+  1) Personel Resources sudaro tvarkaraščius ir darbuotojai renkasi, ar keisti būsimos savaitės tvarkaraštį. Pakeitimai paremti prašymais.
+  2) Darbuotojai patys sudaro tvarkaraštį ir nustato būsimas savaites. Sudarytus tvarkaraščius turi patvirtinti PR.
+c) Reikia aiškios vaidmenų sistemos. Ką mato ir ką daro:
+  1) admin/įmonės vadovas;
+  2) project manager/projekto vadovas;
+  3) Human resources;
+  4) Employee;
+  
+Viliaus nuomonė:
+Siūlau koncentruotis ties project manager ir human resources.
+
+Papildomos pastabos:
+Dėstytoja gal paštu atsiųs.
