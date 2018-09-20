@@ -2,6 +2,17 @@
 
 Pagrindinės programos funkcijos
 
+Jei programa orientuota į project manager
+PM - project manager
+The Very Main Goal:
+  Projekto vadovui matyti ir valdyti komandos darbą
+    
+Extra goals:
+  PM matyti visų darbuotojų sąrašą ir galėti jį filtruoti, tam kad surasti tinkamus darbuotojus į komandą ->
+    Palengvinti komandos sudarymą / keitimą PM'ui
+
+
+Mūsų pirmų pratybų tikslai:
 Darbuotojo pridėjimas (must)
 Prisijungimas ir profilio pridėjimas (must)
 Formuoti komandą (must)
