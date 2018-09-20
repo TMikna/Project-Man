@@ -1,0 +1,18 @@
+Dokumentacijos to do:
+0. Rasti nuorodas į UML ir LaTeX informacijos centrus, pamokas;
+1. Sukurti Procesų diagramą;
+2. Use case (galimai po komponentų);
+3. Komponentai, moduliai;
+4. Klasės;
+5. Fizinis lygis.
+
+//Dokumentacija ir projektavimas yra esminės analitikų komandos sritis.
+
+Apsišviesti:
+1. Ištirti projektų valdymo realybę.
+
+
+Sutvarkyti projektą:
+0. PROJEKTUOTI;
+1. Sutarti dėl svarbiausių Agentų; (Admin, Project Manager, Human Resources, Employee)
+2. Nuspręsti, kurios funkcijos (be add/remove/alter employee/team) yra bazinės ir turi būti suplanuotos, implementuotos.
