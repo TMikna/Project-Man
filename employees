@@ -1,0 +1,10 @@
+CREATE TABLE employees (`name` CHAR(20), surname CHAR(20), email CHAR(30), phonenumber CHAR(15), UUID CHAR(50) NOT NULL, password CHAR(30), occupation CHAR(20), hourlyrate DOUBLE, dailyhours DOUBLE, workedhours DOUBLE, `privileges` CHAR(20), PRIMARY KEY (UUID));
+
+INSERT INTO projectman.employees (`name`, surname, email, phonenumber, `UUID`, password, occupation, hourlyrate, dailyhours, workedhours, `privileges`) 
+	VALUES ('Bobby', 'Lee', 'Bobby.Lee@projctman.com', '+37061337133', '02e4ea0b-b431-4ef0-afe0-7d50c852440f', 'UNoAimAFaneeGai', 'manager', 12.0, 32.0, 0.0, 'ADMIN');
+INSERT INTO projectman.employees (`name`, surname, email, phonenumber, `UUID`, password, occupation, hourlyrate, dailyhours, workedhours, `privileges`) 
+	VALUES ('Afro', 'Samurai', 'Afro.Samurai@projctman.com', '+37056969096', '2ce687a2-e87d-4f09-b6df-d49cf6c62457', 'WeAreNumberOne', 'QnA', 14.5, 40.0, 0.0, 'ADMIN');
+INSERT INTO projectman.employees (`name`, surname, email, phonenumber, `UUID`, password, occupation, hourlyrate, dailyhours, workedhours, `privileges`) 
+	VALUES ('daru', 'de', 'daru.de@projctman.com', '+37064204204', '759a6d24-3b37-452c-ac3d-326db5f52b4a', 'ddddd', 'programmer', 11.0, 40.0, 0.0, 'ADMIN');
+INSERT INTO projectman.employees (`name`, surname, email, phonenumber, `UUID`, password, occupation, hourlyrate, dailyhours, workedhours, `privileges`) 
+	VALUES ('Juozas', 'Erlickas', 'Juozas.Erlickas@projctman.com', '+37062097909', 'd7b787fa-8ffd-4d0d-9155-89e7d7759ea9', 'PeeEichDee Pajot', 'sysadmin', 17.0, 40.0, 0.0, 'ADMIN');
