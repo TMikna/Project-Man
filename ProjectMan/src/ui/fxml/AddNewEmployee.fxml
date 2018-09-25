@@ -16,7 +16,7 @@
       <Label layoutX="67.0" layoutY="183.0" text="Pargeigos" />
       <ChoiceBox fx:id="positionChoice" layoutX="345.0" layoutY="178.0" prefHeight="31.0" prefWidth="187.0" />
       <Button layoutX="68.0" layoutY="236.0" mnemonicParsing="false" onAction="#onGenerateID" text="Generuoti ID" />
-      <TextField fx:id="idField" editable="false" layoutX="345.0" layoutY="236.0" promptText="Naudotojo ID" />
+      <TextField fx:id="idField" editable="false" disable="true" layoutX="345.0" layoutY="236.0" promptText="Naudotojo ID" />
       <Label layoutX="69.0" layoutY="287.0" text="Laikinas darbuotojo slaptažodis" />
       <TextField fx:id="passwordField" layoutX="345.0" layoutY="282.0" />
       <Label layoutX="67.0" layoutY="337.0" text="Etatas" />

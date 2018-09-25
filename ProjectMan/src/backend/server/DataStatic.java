@@ -52,14 +52,14 @@ public class DataStatic {
         return teams;
     }
     public static void setTeams (List<Team> teams) {
-        //[Tomas] Not sure if works 
+        //[Tomas] Not sure if works
         DataStatic.teams = teams;
     }
     public static List<Employee> getEmployees() {
         return DataStatic.employees;
     }
     public static void setEmployees(List<Employee> employees) {
-        //[Tomas] Not sure if works 
+        //[Tomas] Not sure if works
         DataStatic.employees = employees;
     }
     

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -14,6 +15,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="739.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
@@ -36,7 +38,14 @@
                                                       <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0">
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                         </columnResizePolicy></TableView>
+                                                         </columnResizePolicy>
+                                                         <contextMenu>
+                                                            <ContextMenu>
+                                                              <items>
+                                                                <MenuItem mnemonicParsing="false" text="Atnaujinti" />
+                                                              </items>
+                                                            </ContextMenu>
+                                                         </contextMenu></TableView>
                                                       <Label layoutX="14.0" layoutY="14.0" text="Planuojamas darbo laikas šią dieną:    nuo:                        iki:" />
                                                       <ChoiceBox disable="true" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
                                                       <ChoiceBox disable="true" layoutX="335.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
@@ -51,7 +60,17 @@
                                           <content>
                                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                 <children>
-                                                    <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0" />
+                                                    <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0">
+                                                        <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                        </columnResizePolicy>
+                                                        <contextMenu>
+                                                            <ContextMenu>
+                                                                <items>
+                                                                    <MenuItem mnemonicParsing="false" text="Atnaujinti" />
+                                                                </items>
+                                                            </ContextMenu>
+                                                        </contextMenu></TableView>
                                                     <Label layoutX="14.0" layoutY="14.0" text="Planuojamas darbo laikas šią dieną:    nuo:                        iki:" />
                                                     <ChoiceBox disable="true" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
                                                     <ChoiceBox disable="true" layoutX="335.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
@@ -66,7 +85,17 @@
                                           <content>
                                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                 <children>
-                                                    <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0" />
+                                                    <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0">
+                                                        <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                        </columnResizePolicy>
+                                                        <contextMenu>
+                                                            <ContextMenu>
+                                                                <items>
+                                                                    <MenuItem mnemonicParsing="false" text="Atnaujinti" />
+                                                                </items>
+                                                            </ContextMenu>
+                                                        </contextMenu></TableView>
                                                     <Label layoutX="14.0" layoutY="14.0" text="Planuojamas darbo laikas šią dieną:    nuo:                        iki:" />
                                                     <ChoiceBox disable="true" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
                                                     <ChoiceBox disable="true" layoutX="335.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
@@ -81,7 +110,17 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                   <children>
-                                                      <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0" />
+                                                      <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0">
+                                                          <columnResizePolicy>
+                                                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                          </columnResizePolicy>
+                                                          <contextMenu>
+                                                              <ContextMenu>
+                                                                  <items>
+                                                                      <MenuItem mnemonicParsing="false" text="Atnaujinti" />
+                                                                  </items>
+                                                              </ContextMenu>
+                                                          </contextMenu></TableView>
                                                       <Label layoutX="14.0" layoutY="14.0" text="Planuojamas darbo laikas šią dieną:    nuo:                        iki:" />
                                                       <ChoiceBox disable="true" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
                                                       <ChoiceBox disable="true" layoutX="335.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
@@ -96,7 +135,17 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                   <children>
-                                                      <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0" />
+                                                      <TableView layoutY="46.0" prefHeight="200.0" prefWidth="737.0">
+                                                          <columnResizePolicy>
+                                                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                          </columnResizePolicy>
+                                                          <contextMenu>
+                                                              <ContextMenu>
+                                                                  <items>
+                                                                      <MenuItem mnemonicParsing="false" text="Atnaujinti" />
+                                                                  </items>
+                                                              </ContextMenu>
+                                                          </contextMenu></TableView>
                                                       <Label layoutX="14.0" layoutY="14.0" text="Planuojamas darbo laikas šią dieną:    nuo:                        iki:" />
                                                       <ChoiceBox disable="true" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
                                                       <ChoiceBox disable="true" layoutX="335.0" layoutY="10.0" prefHeight="25.0" prefWidth="45.0" />
@@ -143,6 +192,25 @@
                                     <TextField disable="true" layoutX="180.0" layoutY="160.0" prefHeight="25.0" prefWidth="45.0" />
                                     <Button layoutX="225.0" layoutY="160.0" mnemonicParsing="false" text="Perskaičiuoti" />
                                     <Label layoutX="15.0" layoutY="160.0" prefHeight="17.0" prefWidth="152.0" text="Iš viso valandu per savaitę:" textAlignment="CENTER" wrapText="true" />
+                                    <Separator layoutY="200.0" prefWidth="739.0" />
+                                    <Label layoutX="15.0" layoutY="220.0" text="Įvykių spalvos:" />
+                                    <Label layoutX="15.0" layoutY="270.0" text="Neprivalomi:" />
+                                    <Label layoutX="132.0" layoutY="220.0" text="Asmeniniai" />
+                                    <Label layoutX="247.0" layoutY="220.0" text="Komandiniai" />
+                                    <Label layoutX="371.0" layoutY="220.0" text="Projektiniai" />
+                                    <Label layoutX="501.0" layoutY="220.0" text="Įmonės" />
+                                    <Label layoutX="632.0" layoutY="220.0" text="Kiti" />
+                                    <ColorPicker fx:id="optionalPersonal" layoutX="120.0" layoutY="266.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="optionalTeam" layoutX="240.0" layoutY="266.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="optionalProject" layoutX="360.0" layoutY="266.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="optionalCompany" layoutX="480.0" layoutY="266.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="optionalOther" layoutX="600.0" layoutY="266.0" prefWidth="81.0" />
+                                    <Label layoutX="15.0" layoutY="320.0" text="Privalomi:" />
+                                    <ColorPicker fx:id="mandatoryPersonal" layoutX="120.0" layoutY="316.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="mandatoryTeam" layoutX="240.0" layoutY="316.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="mandatoryProject" layoutX="360.0" layoutY="316.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="mandatoryCompany" layoutX="480.0" layoutY="316.0" prefWidth="81.0" />
+                                    <ColorPicker fx:id="mandatoryOther" layoutX="600.0" layoutY="316.0" prefWidth="81.0" />
                                  </children></AnchorPane>
                         </content>
                       </Tab>
