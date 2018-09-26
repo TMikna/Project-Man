@@ -25,6 +25,7 @@ public class FxmlLoader<controllerClass>
             Parent root = loader.load();
             scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.setTitle(newWindowTitle);
             window = scene.getWindow();
             
@@ -50,6 +51,7 @@ public class FxmlLoader<controllerClass>
             Parent root = loader.load();
             scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.setTitle(newWindowTitle);
             window = scene.getWindow();
     
