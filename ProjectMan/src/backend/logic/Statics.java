@@ -116,7 +116,8 @@ public static final String COMPANYDOMAIN = "projctman.com"; //[Tomas] Not sure i
     {
         return DataStatic.getTeams()
                          .stream()
-                         .filter(team -> team.getEmployeeList().contains(employee))
+                         .filter(team -> team.getEmployeeStream()
+                                             .anyMatch(employee1 -> employee.equals(employee1)))
                          .collect(Collectors.toList());
     }
     

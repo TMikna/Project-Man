@@ -43,14 +43,13 @@ public class Employee {
     private EmployeeTimes times = new EmployeeTimes();  //TODO: load this from DB for logged in user on login
     private Color optionalPersonal, optionalTeam, optionalProject, optionalCompany, optionalOther, mandatoryPersonal, mandatoryTeam, mandatoryProject, mandatoryCompany, mandatoryOther;
     
-    // @Auth Manfr. Kintamieji skirti lentelei
-    @FXML
-    private CheckBox MemberCB; 
+    // @Auth Manfr. Kintamasis skirtas lentelei
     private SimpleStringProperty HOnThisTeam; 
     
     
     private List<Team> personalTeams = new ArrayList();
     private List<Double> workHoursInTeams = new ArrayList();
+    
     //TODO find best data type
     private String[] Teams = new String[FIVE];
     //TODO implement and use this if will be spare time in later steps
@@ -78,8 +77,7 @@ public class Employee {
         this.privileges = privileges;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.MemberCB = new CheckBox();
-        this.HOnThisTeam = new SimpleStringProperty("");
+        this.HOnThisTeam = new SimpleStringProperty("0");
     
         optionalPersonal = new Color(0, 1, 0.75, 1);
         optionalTeam = new Color(0, 1, 0, 1);
@@ -93,6 +91,24 @@ public class Employee {
         mandatoryOther = new Color(0.5, 0, 0.5, 1);
     }
     
+    /*@author VM
+        A constructor, which takes a serializable version of employee as an argument.
+        Useful in case we will need to store serialized employees.
+    */
+    public Employee (SimpleEmployee emp)
+    {
+        this.Name = emp.getName();
+        this.LastName = emp.getLastName();
+        this.ID = emp.getID();
+        this.password = emp.getPassword();
+        this.position = emp.getPassword();
+        this.hourlyRate = emp.getHourlyRate();
+        this.dailyHours = emp.getDailyHours();
+        this.privileges = emp.getPrivileges();
+        this.email = emp.getEmail();
+        this.phoneNumber = emp.getPhoneNumber();
+    }
+    
     @Override
     public String toString()
     {
@@ -104,7 +120,18 @@ public class Employee {
     //concatenates object's fields' values into a string so that it can be added to a database
     public String toUpdateString()
     {
-        return "(" + format(Name) + format(LastName) + format(ID) + format(password) + format(hourlyRate) + format(getEmail()) + format(getPhoneNumber()) + format(workedHours) + privileges + ");";
+        return "(" + format(Name) +
+                format(LastName) +
+                format(getEmail()) +
+                format(getPhoneNumber()) +
+                format(ID) +
+                format(password) +
+                format(getPosition()) +
+                format(hourlyRate) +
+                format(dailyHours) +
+                format(workedHours)     + "'" +
+                privileges.toString()   + "'" +
+                ");";
     }
     //format fields for easier Update query String formation
     public String format(String value)
@@ -130,6 +157,10 @@ public class Employee {
         this.getPersonalTeams().add(e);
         try{
             workHoursInTeams.add(Double.parseDouble(getHOnThisTeam()));
+            if(getHOnThisTeam().toString().isEmpty())
+            {
+                workHoursInTeams.add(0d);
+            }
         }
         catch(NumberFormatException c){
             workHoursInTeams.add(0d);
@@ -140,6 +171,16 @@ public class Employee {
     public void setHOnthisTeam(String HOnThisTeam)
     {
         this.HOnThisTeam.set(HOnThisTeam);
+    }
+    
+    public void setworkHoursInTeams(List<Double> workHoursInTeams)
+    {
+        this.workHoursInTeams = workHoursInTeams;
+    }
+    
+    public List<Double> getworkHoursInTeams()
+    {
+        return workHoursInTeams;
     }
     
     public String getHOnThisTeam()

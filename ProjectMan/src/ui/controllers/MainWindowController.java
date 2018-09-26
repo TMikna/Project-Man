@@ -192,7 +192,9 @@ public class MainWindowController implements Initializable, SelfAwareController
                     addNewEmployeeController);
         
         if (addNewEmployeeController.getEmployee() != null)
+        {
             DataStatic.add(addNewEmployeeController.getEmployee());
+        }
         employeesTable.setItems(FXCollections.observableArrayList(DataStatic.getEmployees()));
         employeesTable.refresh();
     }
@@ -270,7 +272,18 @@ public class MainWindowController implements Initializable, SelfAwareController
         teamsManpower.setCellValueFactory(new PropertyValueFactory<>("manpower"));
         teamsEdit.setCellValueFactory(column -> new SimpleObjectProperty<>(new Button("Redaguoti")
         {{
-            setOnAction(event -> System.out.println(column.getValue()));    //TODO: create a team editing window
+            setOnAction(event -> {
+                Team TeamToEdit = null;
+                for(Team editT : DataStatic.getTeams())
+                    if(column.getValue() == editT)
+                    {
+                        TeamToEdit = editT;
+                        break;
+                    }
+                FxmlLoader<TeamCreationWindowController> teamCreationWindow = new FxmlLoader<>("/ui/fxml/TeamCreationWindow.fxml",
+                        "Edit Team", window, new TeamCreationWindowController(DataStatic.getEmployees(), true, TeamToEdit));
+                
+                });    
         }}));
     }
     

@@ -2,6 +2,25 @@
 
 Pagrindinės programos funkcijos
 
+Jei programa orientuota į project manager
+PM - project manager
+The Very Main Goal:
+  Projekto vadovui matyti ir valdyti komandos darbą
+    
+Tikslai šiek tiek detaliau:
+  PM matyti visų darbuotojų sąrašą ir galėti jį filtruoti, tam kad surasti tinkamus darbuotojus į komandą ->
+    Palengvinti komandos sudarymą / keitimą PM'ui
+  Projekto progreso sekimas (Laiko atžvilgiu) (žr žemiau)
+  
+  
+Projekto progreso sekimas:
+  PM nustato tam tikrą valandų skaičių projektui
+  Darbuotojai daro ateinančios saveitės darbo planą ir kiekvieną dieną žymisi išdirbtą laiką,
+    pagal tai PM mato kiek darbuotojai iš tikro dirbo, kiek valandų ja išdirbta ir kiek dar liko
+  Nustatomas projekto Deadline ir projekto valandų skaičius, sekama ir skaičiuojama ar bus spėjama jas atlikti
+
+
+Mūsų pirmų pratybų tikslai:
 Darbuotojo pridėjimas (must)
 Prisijungimas ir profilio pridėjimas (must)
 Formuoti komandą (must)

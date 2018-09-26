@@ -4,6 +4,7 @@ import backend.datatypes.Employee;
 import backend.datatypes.Event;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
+import backend.logic.Statics;
 import backend.server.DataStatic;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -53,7 +54,7 @@ public class LoginWindowController
 			
 			new FxmlLoader<>(
 					"/ui/fxml/MainWindow.fxml",
-					"Sveiki, " + userName + "!" + "\uD83D\uDC51",
+					Statics.COMPANY,
 					new MainWindowController(loggedInUser));
 		}
 	}
