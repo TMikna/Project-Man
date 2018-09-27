@@ -7,15 +7,15 @@ package backend.datatypes;
  */
 
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 
 /**
  *
@@ -39,6 +39,9 @@ public class Employee {
     private AccessRights privileges;
     private String email;
     private String phoneNumber;
+    
+    private EmployeeTimes times = new EmployeeTimes();  //TODO: load this from DB for logged in user on login
+    private Color optionalPersonal, optionalTeam, optionalProject, optionalCompany, optionalOther, mandatoryPersonal, mandatoryTeam, mandatoryProject, mandatoryCompany, mandatoryOther;
     
     // @Auth Manfr. Kintamasis skirtas lentelei
     private SimpleStringProperty HOnThisTeam; 
@@ -75,6 +78,17 @@ public class Employee {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.HOnThisTeam = new SimpleStringProperty("0");
+    
+        optionalPersonal = new Color(0, 1, 0.75, 1);
+        optionalTeam = new Color(0, 1, 0, 1);
+        optionalProject = new Color(0.25, 0.5, 0, 1);
+        optionalCompany = new Color(0, 0.375, 0, 1);
+        optionalOther = new Color(0, 0, 1, 1);
+        mandatoryPersonal = new Color(1, 1, 0, 1);
+        mandatoryTeam = new Color(1, 0.5, 0, 1);
+        mandatoryProject = new Color(1, 0, 0, 1);
+        mandatoryCompany = new Color(0.5, 0, 0, 1);
+        mandatoryOther = new Color(0.5, 0, 0.5, 1);
     }
     
     /*@author VM
@@ -307,6 +321,116 @@ public class Employee {
 
     public void setPersonalTeams(List<Team> personalTeams) {
         this.personalTeams = personalTeams;
+    }
+    
+    public EmployeeTimes getTimes()
+    {
+        return times;
+    }
+    
+    public void setTimes(EmployeeTimes times)
+    {
+        this.times = times;
+    }
+    
+    public Color getOptionalPersonal()
+    {
+        return optionalPersonal;
+    }
+    
+    public void setOptionalPersonal(Color optionalPersonal)
+    {
+        this.optionalPersonal = optionalPersonal;
+    }
+    
+    public Color getOptionalTeam()
+    {
+        return optionalTeam;
+    }
+    
+    public void setOptionalTeam(Color optionalTeam)
+    {
+        this.optionalTeam = optionalTeam;
+    }
+    
+    public Color getOptionalProject()
+    {
+        return optionalProject;
+    }
+    
+    public void setOptionalProject(Color optionalProject)
+    {
+        this.optionalProject = optionalProject;
+    }
+    
+    public Color getOptionalCompany()
+    {
+        return optionalCompany;
+    }
+    
+    public void setOptionalCompany(Color optionalCompany)
+    {
+        this.optionalCompany = optionalCompany;
+    }
+    
+    public Color getOptionalOther()
+    {
+        return optionalOther;
+    }
+    
+    public void setOptionalOther(Color optionalOther)
+    {
+        this.optionalOther = optionalOther;
+    }
+    
+    public Color getMandatoryPersonal()
+    {
+        return mandatoryPersonal;
+    }
+    
+    public void setMandatoryPersonal(Color mandatoryPersonal)
+    {
+        this.mandatoryPersonal = mandatoryPersonal;
+    }
+    
+    public Color getMandatoryTeam()
+    {
+        return mandatoryTeam;
+    }
+    
+    public void setMandatoryTeam(Color mandatoryTeam)
+    {
+        this.mandatoryTeam = mandatoryTeam;
+    }
+    
+    public Color getMandatoryProject()
+    {
+        return mandatoryProject;
+    }
+    
+    public void setMandatoryProject(Color mandatoryProject)
+    {
+        this.mandatoryProject = mandatoryProject;
+    }
+    
+    public Color getMandatoryCompany()
+    {
+        return mandatoryCompany;
+    }
+    
+    public void setMandatoryCompany(Color mandatoryCompany)
+    {
+        this.mandatoryCompany = mandatoryCompany;
+    }
+    
+    public Color getMandatoryOther()
+    {
+        return mandatoryOther;
+    }
+    
+    public void setMandatoryOther(Color mandatoryOther)
+    {
+        this.mandatoryOther = mandatoryOther;
     }
     
     @Override

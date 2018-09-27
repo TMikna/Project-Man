@@ -26,6 +26,7 @@ public class Team extends ArrayList<MutablePair<Employee, Double>>  //now using 
     private String teamName;
     private double manpower;
     private Project project;
+    private Employee leader;
     
     public Team(String teamName, List<Employee> employeeList)
     {

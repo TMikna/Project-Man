@@ -6,6 +6,7 @@
 package ui.controllers;
 
 import backend.datatypes.Employee;
+import backend.datatypes.Event;
 import backend.datatypes.Project;
 import backend.datatypes.Team;
 import backend.logic.Statics;
@@ -32,6 +33,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +71,8 @@ public class MainWindowController implements Initializable, SelfAwareController
     private AnchorPane userSettingsAnchor, monthViewAnchor, testAnchor;
     @FXML
     private TextField myTeamWeekHrs, myTeamTotalHrs;
-    
-    private List<ChoiceBox<Integer>> settingsFrom, settingsTo;  //My Day Tab -> settings
+    @FXML
+    private ColorPicker optionalPersonal, optionalTeam, optionalProject, optionalCompany, optionalOther, mandatoryPersonal, mandatoryTeam, mandatoryProject, mandatoryCompany, mandatoryOther;
     
     private Stage stage;
     private Scene scene;
@@ -293,8 +295,8 @@ public class MainWindowController implements Initializable, SelfAwareController
     private void myDayTab_SettingsTabInit()
     {
         List<ChoiceBox<Integer>> settingsShared = userSettingsAnchor.getChildren().stream().filter(child ->
-                child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList());
-        settingsFrom = settingsShared.subList(0, 5);
+                child instanceof ChoiceBox).map(box -> (ChoiceBox<Integer>) box).collect(Collectors.toList()),
+        settingsFrom = settingsShared.subList(0, 5),
         settingsTo = settingsShared.subList(5, 10);
         Button settingsChangeButton = (Button) userSettingsAnchor.getChildren().stream().filter(node ->
                 node instanceof Button).collect(Collectors.toList()).get(0);    //doubt that these are needed outside of this function so I do this to avoid cluttering class-wide variables
@@ -324,7 +326,11 @@ public class MainWindowController implements Initializable, SelfAwareController
             }
             if (!illegal)
             {
-                settingsHrsPerWeek.setText(Integer.toString(countSum)); //TODO: actually save the settings
+                settingsHrsPerWeek.setText(Integer.toString(countSum));
+                
+                loggedInUser.getTimes().setTotalPerWeek(countSum);
+                loggedInUser.getTimes().setStarts(settingsFrom.stream().mapToInt(setting -> setting.getSelectionModel().getSelectedItem()).toArray());
+                loggedInUser.getTimes().setEnds(settingsTo.stream().mapToInt(setting -> setting.getSelectionModel().getSelectedItem()).toArray());
             }
         });
         ObservableList<Integer> hrs = FXCollections.observableArrayList();
@@ -335,12 +341,34 @@ public class MainWindowController implements Initializable, SelfAwareController
         settingsShared.forEach(box -> box.setItems(hrs));
         for (int i = 0; i < 5; ++i)
         {
-            settingsFrom.get(i).getSelectionModel().select((Integer) 8);    //TODO: actually load the settings
-            settingsTo.get(i).getSelectionModel().select((Integer) 16);
+            settingsFrom.get(i).getSelectionModel().select((Integer) loggedInUser.getTimes().getStarts()[i]);
+            settingsTo.get(i).getSelectionModel().select((Integer) loggedInUser.getTimes().getEnds()[i]);
         }
         settingsHrsPerWeek.setText(Integer.toString(settingsTo.stream().mapToInt(integerChoiceBox ->
             integerChoiceBox.getSelectionModel().getSelectedItem()).sum() - settingsFrom.stream().mapToInt(integerChoiceBox ->
                 integerChoiceBox.getSelectionModel().getSelectedItem()).sum()));
+    
+        optionalPersonal.setValue(loggedInUser.getOptionalPersonal());
+        optionalTeam.setValue(loggedInUser.getOptionalTeam());
+        optionalProject.setValue(loggedInUser.getOptionalProject());
+        optionalCompany.setValue(loggedInUser.getOptionalCompany());
+        optionalOther.setValue(loggedInUser.getOptionalOther());
+        mandatoryPersonal.setValue(loggedInUser.getMandatoryPersonal());
+        mandatoryTeam.setValue(loggedInUser.getMandatoryTeam());
+        mandatoryProject.setValue(loggedInUser.getMandatoryProject());
+        mandatoryCompany.setValue(loggedInUser.getMandatoryCompany());
+        mandatoryOther.setValue(loggedInUser.getMandatoryOther());
+    
+        optionalPersonal.setOnAction(event -> loggedInUser.setOptionalPersonal(optionalPersonal.getValue()));
+        optionalTeam.setOnAction(event -> loggedInUser.setOptionalTeam(optionalTeam.getValue()));
+        optionalProject.setOnAction(event -> loggedInUser.setOptionalProject(optionalProject.getValue()));
+        optionalCompany.setOnAction(event -> loggedInUser.setOptionalCompany(optionalCompany.getValue()));
+        optionalOther.setOnAction(event -> loggedInUser.setOptionalOther(optionalOther.getValue()));
+        mandatoryPersonal.setOnAction(event -> loggedInUser.setMandatoryPersonal(mandatoryPersonal.getValue()));
+        mandatoryTeam.setOnAction(event -> loggedInUser.setMandatoryTeam(mandatoryTeam.getValue()));
+        mandatoryProject.setOnAction(event -> loggedInUser.setMandatoryProject(mandatoryProject.getValue()));
+        mandatoryCompany.setOnAction(event -> loggedInUser.setMandatoryCompany(mandatoryCompany.getValue()));
+        mandatoryOther.setOnAction(event -> loggedInUser.setMandatoryOther(mandatoryOther.getValue()));
     }
     
     private void myDayTab_WeekTabInit()
@@ -352,17 +380,21 @@ public class MainWindowController implements Initializable, SelfAwareController
         }
         for (int i = 0; i < weekView.getPanes().size(); ++i)    //hacky way to avoid a lot of code copying since there are 5 identical panes with nodes and each of them need code
         {
+            int finalI = i;
             TitledPane pane = weekView.getPanes().get(i);
             int weekDay = DayOfWeek.from(LocalDate.now()).getValue() - 1;   //-1 because it starts at 1 and real programmers count from 0
-            pane.setText(pane.getText() + " (" + DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now().plusDays(i-weekDay)) + ")");  //adds numeric dates to each day and underlines current day
+            LocalDate date = LocalDate.now().plusDays(i-weekDay);
+            pane.setText(pane.getText() + " (" + DateTimeFormatter.ofPattern("yyyy-MM-dd").format(date) + ")");  //adds numeric dates to each day and underlines current day
             if (i == weekDay)
             {
                 pane.setUnderline(true);
+                pane.setExpanded(true);
+                weekView.setExpandedPane(pane);
             }
         
             AnchorPane anchorPane = ((AnchorPane)pane.getContent());
             //very professional variable assigning probably better not to touch
-            TableView<TableColumn<String, String>> table = (TableView) anchorPane.getChildren().get(0);    //very professional variable assigning probably better not to touch
+            TableView<Integer> table = (TableView) anchorPane.getChildren().get(0);    //very professional variable assigning probably better not to touch
             List<ChoiceBox<Integer>> choiceBoxes = anchorPane.getChildren().stream().filter(node -> 
                     node instanceof ChoiceBox).map(node -> (ChoiceBox<Integer>) node).collect(Collectors.toList());
             ChoiceBox<Integer> fromHr = choiceBoxes.get(0), toHr = choiceBoxes.get(1);
@@ -371,13 +403,17 @@ public class MainWindowController implements Initializable, SelfAwareController
             Button changeButton = buttons.get(0), checkButton = buttons.get(1), newEventButton = buttons.get(2);
         
             fromHr.setItems(hrs);
-            fromHr.getSelectionModel().select(settingsFrom.get(i).getSelectionModel().getSelectedItem());
+            fromHr.getSelectionModel().select(loggedInUser.getTimes().getStarts()[i]);
             toHr.setItems(hrs);
-            toHr.getSelectionModel().select(settingsTo.get(i).getSelectionModel().getSelectedItem());
+            toHr.getSelectionModel().select(loggedInUser.getTimes().getEnds()[i]);
             int fromInt = fromHr.getSelectionModel().getSelectedItem(), toInt = toHr.getSelectionModel().getSelectedItem(),
                     hrCountInt = (toInt - fromInt < 0 ? 24 + toInt - fromInt : toInt - fromInt);
-            Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table);
-        
+            table.setItems(FXCollections.observableArrayList(0, 15, 30, 45));
+            Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table, date, loggedInUser);
+            table.getContextMenu()
+                 .setOnAction(event -> Statics.updatePersonalDayTableColumns(fromInt, hrCountInt, table, date, loggedInUser));
+            
+    
             EventHandler<ActionEvent> normalChangeAction = action -> {
                 fromHr.setDisable(false);
                 toHr.setDisable(false);
@@ -424,17 +460,23 @@ public class MainWindowController implements Initializable, SelfAwareController
                     checkButton.setStyle(null);
                 
                     changeButton.setOnAction(normalChangeAction);
-                    Statics.updatePersonalDayTableColumns(fromInt1, hrCountInt1, table);
+                    loggedInUser.getTimes().getStartsOverride()[date.getDayOfMonth()-1] = fromInt1;
+                    loggedInUser.getTimes().getEndsOverride()[date.getDayOfMonth()-1] = toInt1;
+                    Statics.updatePersonalDayTableColumns(fromInt1, hrCountInt1, table, date, loggedInUser);
                 });
             });
-        
-            int finalI = i;
-            newEventButton.setOnAction(event -> new FxmlLoader<>(
-                    "/ui/fxml/ScheduleNewEvent.fxml",
-                    "Naujas ivykis",
-                    window,
-                    new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay))
-            ));
+            
+            newEventButton.setOnAction(event -> {
+                new FxmlLoader<>(
+                        "/ui/fxml/ScheduleNewEvent.fxml",
+                        "Naujas ivykis",
+                        window,
+                        new ScheduleNewEventController(loggedInUser, LocalDate.now().plusDays(finalI-weekDay))
+                );
+                int fromInt1 = fromHr.getSelectionModel().getSelectedItem(), toInt1 = toHr.getSelectionModel().getSelectedItem(),
+                        hrCountInt1 = (toInt1 - fromInt1 < 0 ? 24 + toInt1 - fromInt1 : toInt1 - fromInt1);
+                Statics.updatePersonalDayTableColumns(fromInt1, hrCountInt1, table, date, loggedInUser);
+            });
         }
     }
     
@@ -455,7 +497,7 @@ public class MainWindowController implements Initializable, SelfAwareController
                         new ScheduleNewEventController(loggedInUser, pickerObject.getValue()));
             }
         });
-    
+        
         monthViewAnchor.getChildren().add(dateView);
     }
 }

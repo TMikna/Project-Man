@@ -2,6 +2,9 @@ package ui.controllers;
 
 import backend.datatypes.Employee;
 import backend.datatypes.Event;
+import backend.datatypes.Team;
+import backend.logic.Statics;
+import backend.server.DataStatic;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,7 +31,9 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
     @FXML
     private DatePicker eventDate;
     @FXML
-    private ChoiceBox<Integer> fromHr, toHr, reminderHr;
+    private ChoiceBox<Integer> fromHr, toHr, reminderHr;    //TODO would look and feel way nicer if minutes could be selected but it might be quite a hassle for the user and also to code
+    @FXML
+    private ChoiceBox<Team> teamSelect;
     @FXML
     private CheckBox reminder;
     @FXML
@@ -78,6 +83,9 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
         eventDate.setOnAction(event -> {
             changeDate(eventDate.getValue());
         });
+        
+        teamSelect.setItems(FXCollections.observableArrayList(Statics.getAllTeamsOfAnEmployee(user)));
+        teamSelect.setOnAction(event -> teamSelect.setStyle(null));
     
         ObservableList<Integer> hrs = FXCollections.observableArrayList();
         for (int i = 0; i < 24; ++i)
@@ -134,7 +142,7 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
                 });
                 break;
             }
-            case TEAM_MANAGER:
+            case TEAM_MANAGER:  //TODO change to check if leader of selected team
             {
                 scaleTeam.setDisable(false);
                 scaleProject.setDisable(false);
@@ -261,18 +269,39 @@ public class ScheduleNewEventController implements Initializable, SelfAwareContr
         
         if (scalePersonal.isSelected())
         {
-            new Event(
+            DataStatic.getEvents().add(new Event(
+                importanceMandatory.isSelected(),
+                Event.Scale.PERSONAL,
+                reminder.isSelected(),
+                Arrays.asList(user),
+                startingDate,
+                fromHr.getValue(),
+                toHr.getValue(),
+                reminder.isSelected() ? reminderHr.getValue() : -1,
+                eventName.getText(),
+                eventDescription.getText())
+            );
+            stage.close();
+        } else if (scaleTeam.isSelected())
+        {
+            if (teamSelect.getSelectionModel().isEmpty())
+            {
+                teamSelect.setStyle("-fx-background-color: red");
+                return;
+            }
+            DataStatic.getEvents().add(new Event(
                     importanceMandatory.isSelected(),
+                    Event.Scale.TEAM,
                     reminder.isSelected(),
-                    Arrays.asList(user),    //List.of(user),    //java 10
+                    teamSelect.getSelectionModel().getSelectedItem().getEmployeeList(),
                     startingDate,
                     fromHr.getValue(),
                     toHr.getValue(),
                     reminder.isSelected() ? reminderHr.getValue() : -1,
                     eventName.getText(),
-                    eventDescription.getText());
-        } else if (scaleTeam.isSelected())
-        {
+                    eventDescription.getText())
+            );
+            stage.close();
             //same but with a list of teammates
         } else if (scaleProject.isSelected())
         {

@@ -12,6 +12,7 @@ public class ProjectMan extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/ui/fxml/LoginWindow.fxml"));
         primaryStage.setTitle("Login");
+        primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
