@@ -1,0 +1,25 @@
+Use case view:
+  UML use case
+  UML sqeuence
+  UML object
+
+Logical view:
+  UML class
+  UML packet
+  UML object
+  UML sequence
+  UML cooperation
+
+Process view:
+  UML activity
+  UML sequence
+  UML object
+  UML state
+
+Deployment view:
+  UML component
+  UML packet
+
+Physical view:
+  UML deployment
+  UML component
